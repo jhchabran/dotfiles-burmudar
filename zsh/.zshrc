@@ -48,8 +48,16 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git mercurial command-not-found mosh vi-mode)
 
 # User configuration
+export TOOLS="$HOME/programming/tools/"
+export GOROOT="$TOOLS/go/bin/"
+export GRADLE_HOME="$TOOLS/gradle/"
+export NODE_HOME="$TOOLS/nodejs/"
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
+export PATH="/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
+export PATH="$PATH:$GOROOT/bin"
+export PATH="$PATH:$GRADLE_HOME/bin"
+export PATH="$PATH:$NODE_HOME/bin"
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
