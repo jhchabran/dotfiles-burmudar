@@ -5,7 +5,7 @@ export ZSH=/home/william/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
+ZSH_THEME="bira"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -45,18 +45,20 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial command-not-found mosh vi-mode)
+plugins=(git mercurial command-not-found mosh vi-mode zsh-syntax-highlighting)
 
 # User configuration
 export TOOLS="$HOME/programming/tools/"
-export GOROOT="$TOOLS/go/bin/"
+export GOROOT="$TOOLS/go/"
 export GRADLE_HOME="$TOOLS/gradle/"
 export NODE_HOME="$TOOLS/nodejs/"
+export ANDROID_HOME="$TOOLS/android-sdk-linux/platform-tools/"
 
 export PATH="/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
 export PATH="$PATH:$GOROOT/bin"
 export PATH="$PATH:$GRADLE_HOME/bin"
 export PATH="$PATH:$NODE_HOME/bin"
+export PATH="$PATH:$ANDROID_HOME"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
