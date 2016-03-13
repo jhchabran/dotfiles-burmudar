@@ -43,13 +43,11 @@ let mapleader = ","
 
 nmap <F8> :TagbarToggle<CR>
 
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
 " TAB completion
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " <Space> or Backspace closes completion popup
 " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+let g:deoplete#enable_at_startup = 1
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
