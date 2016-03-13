@@ -1,6 +1,6 @@
 set nocompatible 
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
@@ -8,13 +8,16 @@ Plug 'sjl/badwolf'
 Plug 'kien/ctrlp.vim'
 Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
-Plug 'Shougo/neocomplete.vim'
+Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'klen/python-mode'
 Plug 'spf13/PIV'
 Plug 'scrooloose/syntastic'
 Plug 'elixir-lang/vim-elixir'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 colorscheme badwolf
