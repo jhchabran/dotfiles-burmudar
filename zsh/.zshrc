@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/william/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -45,21 +45,25 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mercurial command-not-found mosh vi-mode zsh-syntax-highlighting)
+plugins=(git osx mercurial command-not-found mosh vi-mode zsh-syntax-highlighting)
 
 # User configuration
-export TOOLS="$HOME/programming/tools/"
-export GOROOT="$TOOLS/go/"
-export GRADLE_HOME="$TOOLS/gradle/"
-export NODE_HOME="$TOOLS/nodejs/"
-export ANDROID_HOME="$TOOLS/android-sdk-linux/platform-tools/"
+if [[ $OSTYPE == "darwin"* ]]; then
+    export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+else
+    export TOOLS="$HOME/programming/tools/"
+    export GOROOT="$TOOLS/go/"
+    export NODE_HOME="$TOOLS/nodejs/"
+    export ANDROID_HOME="$TOOLS/android-sdk-linux/platform-tools/"
 
-export PATH="/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
-export PATH="$PATH:$GOROOT/bin"
-export PATH="$PATH:$GRADLE_HOME/bin"
-export PATH="$PATH:$NODE_HOME/bin"
-export PATH="$PATH:$ANDROID_HOME"
+    export PATH="/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
+    export PATH="$PATH:$GOROOT/bin"
+    export PATH="$PATH:$NODE_HOME/bin"
+    export PATH="$PATH:$ANDROID_HOME"
+fi
 
+    export GRADLE_HOME="$TOOLS/gradle/"
+    export PATH="$PATH:$GRADLE_HOME/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
