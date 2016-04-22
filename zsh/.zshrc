@@ -49,12 +49,15 @@ plugins=(git osx mercurial command-not-found mosh vi-mode zsh-syntax-highlightin
 
 # User configuration
 if [[ $OSTYPE == "darwin"* ]]; then
+    export TOOLS="$HOME/Programming/tools"
     export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    export GOROOT=/usr/local/opt/go/libexec
+    export PATH=$PATH:$GOROOT/bin
 else
-    export TOOLS="$HOME/programming/tools/"
-    export GOROOT="$TOOLS/go/"
-    export NODE_HOME="$TOOLS/nodejs/"
-    export ANDROID_HOME="$TOOLS/android-sdk-linux/platform-tools/"
+    export TOOLS="$HOME/programming/tools"
+    export GOROOT="$TOOLS/go"
+    export NODE_HOME="$TOOLS/nodejs"
+    export ANDROID_HOME="$TOOLS/android-sdk-linux/platform-tools"
 
     export PATH="/bin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
     export PATH="$PATH:$GOROOT/bin"
@@ -62,7 +65,7 @@ else
     export PATH="$PATH:$ANDROID_HOME"
 fi
 
-    export GRADLE_HOME="$TOOLS/gradle/"
+    export GRADLE_HOME="$TOOLS/gradle"
     export PATH="$PATH:$GRADLE_HOME/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
