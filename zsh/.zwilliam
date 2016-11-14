@@ -1,4 +1,5 @@
 # User configuration
+alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
     export TOOLS="$HOME/programming/tools"
     export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -31,3 +32,25 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs histor
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    export GRADLE_HOME="$TOOLS/gradle"
+    export PATH="$PATH:$GRADLE_HOME/bin"
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vi'
+else
+   export EDITOR='vi'
+fi
+
+export TERM=xterm-256color
+# Work config
+export CONTROLPLANE="$HOME/programming/compute-controlplane"
+export FARM="$HOME/programming/compute-farm"
+export PATH="$PATH:$FARM"
+export http_proxy=http://www-proxy-ukc1.uk.oracle.com:80
+export https_proxy=http://www-proxy-ukc1.uk.oracle.com:80
+export REVIEWERS="david.ellefsen@oracle.com,bryn.divey@oracle.com,ben.meier@oracle.com,david.maclay@oracle.com,ferdi.redelinghuys@oracle.com,vincent.geddes@oracle.com,william.bezuidenhout@oracle.com,atle.jorgensen@oracle.com"
+
+alias gtc='cd $CONTROLPLANE'
+alias gtf='cd $FARM'
+alias cf='compute-farm'
+source "$FARM/bash_completion"
