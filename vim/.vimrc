@@ -18,6 +18,7 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-pandoc/vim-pandoc'
 call plug#end()
 
 colorscheme badwolf

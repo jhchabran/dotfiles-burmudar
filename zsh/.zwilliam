@@ -43,14 +43,22 @@ fi
 
 export TERM=xterm-256color
 # Work config
+export RUNLOCAL_LOCATION='ZA'
 export CONTROLPLANE="$HOME/programming/compute-controlplane"
 export FARM="$HOME/programming/compute-farm"
 export PATH="$PATH:$FARM"
 export http_proxy=http://www-proxy-ukc1.uk.oracle.com:80
 export https_proxy=http://www-proxy-ukc1.uk.oracle.com:80
-export REVIEWERS="david.ellefsen@oracle.com,bryn.divey@oracle.com,ben.meier@oracle.com,david.maclay@oracle.com,ferdi.redelinghuys@oracle.com,vincent.geddes@oracle.com,william.bezuidenhout@oracle.com,atle.jorgensen@oracle.com"
+export REVIEWERS="david.ellefsen@oracle.com,bryn.divey@oracle.com,ben.meier@oracle.com,david.maclay@oracle.com,ferdi.redelinghuys@oracle.com,vincent.geddes@oracle.com,lucas.dreyer@oracle.com,atle.jorgensen@oracle.com"
 
 alias gtc='cd $CONTROLPLANE'
 alias gtf='cd $FARM'
 alias cf='compute-farm'
+alias aenv='source $(find . -name "activate")'
+alias denv='deactivate'
+
+if type "tmux-next" &> /dev/null; then
+    alias tmux='tmux-next' #tmux installed from ppa named its binary tmux-next
+fi
+
 source "$FARM/bash_completion"
