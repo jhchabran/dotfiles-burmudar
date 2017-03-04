@@ -47,8 +47,6 @@ export RUNLOCAL_LOCATION='ZA'
 export CONTROLPLANE="$HOME/programming/compute-controlplane"
 export FARM="$HOME/programming/compute-farm"
 export PATH="$PATH:$FARM"
-export http_proxy=http://www-proxy-ukc1.uk.oracle.com:80
-export https_proxy=http://www-proxy-ukc1.uk.oracle.com:80
 export no_proxy=".nimbula.org"
 export REVIEWERS="david.ellefsen@oracle.com,bryn.divey@oracle.com,ben.meier@oracle.com,david.maclay@oracle.com,ferdi.redelinghuys@oracle.com,vincent.geddes@oracle.com,lucas.dreyer@oracle.com,atle.jorgensen@oracle.com"
 
@@ -63,3 +61,24 @@ if type "tmux-next" &> /dev/null; then
 fi
 
 source "$FARM/bash_completion"
+
+uproxies () {
+    unset http_proxy
+    unset https_proxy
+}
+
+proxies () {
+    export http_proxy=http://www-proxy-ukc1.uk.oracle.com:80
+    export https_proxy=http://www-proxy-ukc1.uk.oracle.com:80
+}
+
+dockerize() {
+    docker-machine start default
+    eval $(docker-machine env default)
+}
+
+gvpn () {
+    cd ~/programming/vpn && aenv
+    dockerize
+}
+
