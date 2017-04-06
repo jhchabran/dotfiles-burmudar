@@ -14,12 +14,6 @@ else
     export PATH="$PATH:$GOBIN"
 fi
 
-# correct locale
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-# nice terminal colours
-export TERM=xterm-256color
-
 
 # aliases
 alias aenv='source $(find . -name "activate")'
@@ -29,27 +23,24 @@ alias denv='deactivate'
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-    export GRADLE_HOME="$TOOLS/gradle"
-    export PATH="$PATH:$GRADLE_HOME/bin"
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vi'
-else
-   export EDITOR='vi'
-fi
 
+# Preferred editor for local and remote sessions
+export EDITOR='vim'
+
+# correct locale
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+# nice terminal colours
 export TERM=xterm-256color
+
 # Work config
 export RUNLOCAL_LOCATION='ZA'
 export CONTROLPLANE="$HOME/programming/compute-controlplane"
 export FARM="$HOME/programming/compute-farm"
 export PATH="$PATH:$FARM"
 export no_proxy=".nimbula.org"
-export REVIEWERS="david.ellefsen@oracle.com,bryn.divey@oracle.com,ben.meier@oracle.com,david.maclay@oracle.com,ferdi.redelinghuys@oracle.com,vincent.geddes@oracle.com,lucas.dreyer@oracle.com,atle.jorgensen@oracle.com"
 
+# aliases
 alias gtc='cd $CONTROLPLANE'
 alias gtf='cd $FARM'
 alias cf='compute-farm'
@@ -57,7 +48,7 @@ alias aenv='source $(find . -name "activate")'
 alias denv='deactivate'
 
 if type "tmux-next" &> /dev/null; then
-    alias tmux='tmux-next' #tmux installed from ppa named its binary tmux-next
+    alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
 fi
 
 source "$FARM/bash_completion"
@@ -82,3 +73,6 @@ gvpn () {
     dockerize
 }
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -4,8 +4,11 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'altercation/vim-colors-solarized'
+Plug 'dracula/vim'
 Plug 'sjl/badwolf'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
@@ -21,7 +24,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-pandoc/vim-pandoc'
 call plug#end()
 
-colorscheme badwolf
+set background=dark
+colorscheme dracula
 
 " editing config
 filetype plugin indent on
@@ -56,6 +60,7 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
+map <C-n> :NERDTreeToggle<CR>
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
