@@ -1,7 +1,7 @@
 # User configuration
 alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
-    export TOOLS="$HOME/programming/tools"
+    export SRC="$HOME/programming/"
     export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     export GOROOT=/usr/local/opt/go/libexec
     export PATH=$PATH:$GOROOT/bin
@@ -19,11 +19,6 @@ fi
 alias aenv='source $(find . -name "activate")'
 alias denv='deactivate'
 
-# github.com/bhilburn/powerlevel9k
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
-
-
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
 
@@ -38,7 +33,7 @@ export RUNLOCAL_LOCATION='ZA'
 export CONTROLPLANE="$HOME/programming/compute-controlplane"
 export FARM="$HOME/programming/compute-farm"
 export PATH="$PATH:$FARM"
-export no_proxy=".nimbula.org"
+export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org"
 
 # aliases
 alias gtc='cd $CONTROLPLANE'
@@ -52,6 +47,7 @@ if type "tmux-next" &> /dev/null; then
 fi
 
 source "$FARM/bash_completion"
+source ~/.fonts/*.sh
 
 uproxies () {
     unset http_proxy
@@ -59,8 +55,8 @@ uproxies () {
 }
 
 proxies () {
-    export http_proxy=http://www-proxy-ukc1.uk.oracle.com:80
-    export https_proxy=http://www-proxy-ukc1.uk.oracle.com:80
+    export http_proxy=http://www-proxy-lon.uk.oracle.com:80
+    export https_proxy=http://www-proxy-lon.uk.oracle.com:80
 }
 
 dockerize() {
@@ -76,3 +72,8 @@ gvpn () {
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# github.com/bhilburn/powerlevel9k
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
