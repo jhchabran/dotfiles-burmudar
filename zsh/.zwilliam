@@ -12,6 +12,7 @@ else
 
     export PATH="$PATH:$GOROOT/bin"
     export PATH="$PATH:$GOBIN"
+<<<<<<< HEAD
 fi
 
 
@@ -22,6 +23,12 @@ alias denv='deactivate'
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
 
+=======
+    export PATH="$PATH:$NODE_HOME/bin"
+    export PATH="$PATH:$SRC/npm-global/bin"
+fi
+
+>>>>>>> e76bee5... update proxies and prompt
 # correct locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -34,6 +41,7 @@ export CONTROLPLANE="$HOME/programming/compute-controlplane"
 export FARM="$HOME/programming/compute-farm"
 export PATH="$PATH:$FARM"
 export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org"
+export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org"
 
 # aliases
 alias gtc='cd $CONTROLPLANE'
@@ -47,16 +55,19 @@ if type "tmux-next" &> /dev/null; then
 fi
 
 source "$FARM/bash_completion"
-source ~/.fonts/*.sh
 
 uproxies () {
     unset http_proxy
     unset https_proxy
+    unset HTTPS_PROXY
+    unset HTTPS_PROXY
 }
 
 proxies () {
     export http_proxy=http://www-proxy-lon.uk.oracle.com:80
     export https_proxy=http://www-proxy-lon.uk.oracle.com:80
+    export HTTP_PROXY=http://www-proxy-lon.uk.oracle.com:80
+    export HTTPS_PROXY=http://www-proxy-lon.uk.oracle.com:80
 }
 
 dockerize() {

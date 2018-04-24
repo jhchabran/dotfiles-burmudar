@@ -11,7 +11,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
-Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'klen/python-mode'
@@ -25,7 +24,7 @@ Plug 'vim-pandoc/vim-pandoc'
 call plug#end()
 
 set background=dark
-colorscheme dracula
+colorscheme badwolf
 
 " editing config
 filetype plugin indent on
