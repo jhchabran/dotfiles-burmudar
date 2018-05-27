@@ -69,6 +69,7 @@ proxies () {
     export HTTP_PROXY=http://www-proxy-lon.uk.oracle.com:80
     export HTTPS_PROXY=http://www-proxy-lon.uk.oracle.com:80
 }
+<<<<<<< HEAD
 
 dockerize() {
     docker-machine start default
@@ -85,6 +86,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
+=======
+#
+>>>>>>> b5527ef... add node env settings
 # github.com/bhilburn/powerlevel9k
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
