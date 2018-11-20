@@ -7,12 +7,12 @@ if [[ $OSTYPE == "darwin"* ]]; then
     export PATH=$PATH:$GOROOT/bin
 else
     export SRC="$HOME/programming"
+    export GOROOT="/usr/local/go"
     export GOPATH="$SRC/golang"
     export GOBIN="$GOPATH/bin"
 
     export PATH="$PATH:$GOROOT/bin"
     export PATH="$PATH:$GOBIN"
-<<<<<<< HEAD
 fi
 
 
@@ -23,12 +23,6 @@ alias denv='deactivate'
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
 
-=======
-    export PATH="$PATH:$NODE_HOME/bin"
-    export PATH="$PATH:$SRC/npm-global/bin"
-fi
-
->>>>>>> e76bee5... update proxies and prompt
 # correct locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -45,6 +39,7 @@ export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org"
 
 # aliases
 alias gtc='cd $CONTROLPLANE'
+alias gts='cd $SRC'
 alias gtf='cd $FARM'
 alias cf='compute-farm'
 alias aenv='source $(find . -name "activate")'
@@ -69,26 +64,15 @@ proxies () {
     export HTTP_PROXY=http://www-proxy-lon.uk.oracle.com:80
     export HTTPS_PROXY=http://www-proxy-lon.uk.oracle.com:80
 }
-<<<<<<< HEAD
 
-dockerize() {
-    docker-machine start default
-    eval $(docker-machine env default)
+fb () {
+    nim && fabush $1
 }
 
-gvpn () {
-    cd ~/programming/vpn && aenv
-    dockerize
+nim () {
+    gtc && aenv
 }
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-=======
-#
->>>>>>> b5527ef... add node env settings
 # github.com/bhilburn/powerlevel9k
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
@@ -96,3 +80,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs histor
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="/home/wbezuide/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"

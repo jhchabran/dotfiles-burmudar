@@ -128,7 +128,8 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # window classes - use 'xprop' to find a programs class
-assign [class="Firefox"] $workspace2
+assign [class="Firefox Developer Edition"] $workspace2
+for_window [class="Navigator"] move to workspace $workspace2
 
 assign [class="Spotify"] $workspace4
 for_window [class="Spotify"] move to workspace $workspace4
@@ -213,9 +214,10 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi
+bindsym $mod+d exec rofi -show run  -theme /home/wbezuide/.config/rofi/themes/Arc.rasi
+bindsym $mod+shift+s exec rofi -show ssh  -theme /home/wbezuide/.config/rofi/themes/Arc.rasi
 exec --no-startup-id spotify
-exec --no-startup-id firefox
+exec --no-startup-id firefox-dev
 exec --no-startup-id compton -f
 
 exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper.jpg
