@@ -73,6 +73,10 @@ nim () {
     gtc && aenv
 }
 
+pj () {
+    cd $SRC/$(ls $SRC | peco)
+}
+
 # github.com/bhilburn/powerlevel9k
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
