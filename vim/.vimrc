@@ -13,7 +13,6 @@ Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'klen/python-mode'
 Plug 'spf13/PIV'
 Plug 'benekastah/neomake'
 Plug 'elixir-lang/vim-elixir'
@@ -21,6 +20,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-pandoc/vim-pandoc'
+Plug 'klen/python-mode'
 call plug#end()
 
 set background=dark
@@ -64,14 +64,12 @@ let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+ let g:airline#extensions#syntastic#enabled = 1
 
 "golang config
 au FileType go nmap <leader>r <Plug>(go-run)
@@ -84,3 +82,5 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+
+silent! py3 pass

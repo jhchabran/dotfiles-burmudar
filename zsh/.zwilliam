@@ -3,7 +3,7 @@ alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
     export SRC="$HOME/programming/"
     export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-    export GOROOT=/usr/local/opt/go/libexec
+    export GOROOT=/usr/local/go
     export PATH=$PATH:$GOROOT/bin
 else
     export SRC="$HOME/programming"
@@ -15,6 +15,7 @@ else
     export PATH="$PATH:$GOBIN"
 fi
 
+export PATH="$PATH:$SRC/tools/bin"
 
 # aliases
 alias aenv='source $(find . -name "activate")'
@@ -38,6 +39,7 @@ export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org"
 export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org"
 
 # aliases
+alias gts='cd $HOME/programming'
 alias gtc='cd $CONTROLPLANE'
 alias gts='cd $SRC'
 alias gtf='cd $FARM'
@@ -48,8 +50,6 @@ alias denv='deactivate'
 if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
 fi
-
-source "$FARM/bash_completion"
 
 uproxies () {
     unset http_proxy
