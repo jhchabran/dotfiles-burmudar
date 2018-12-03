@@ -74,7 +74,15 @@ nim () {
 }
 
 pj () {
-    cd $SRC/$(ls $SRC | peco)
+    QUERY=${1:-''}
+
+    if [ ! -z ${QUERY} ]
+    then
+        echo $QUERY
+        cd $SRC/$(ls $SRC | peco --select-1 --query $QUERY --prompt 'project:')
+    else
+        cd $SRC/$(ls $SRC | peco --prompt 'project:')
+    fi
 }
 
 # github.com/bhilburn/powerlevel9k
@@ -84,7 +92,3 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs histor
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH="/home/wbezuide/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
