@@ -85,6 +85,19 @@ pj () {
     fi
 }
 
+gitb () {
+    QUERY=${1:-''}
+    PROMPT="branch:"
+
+    if [ ! -z ${QUERY} ]
+    then
+        echo $QUERY
+        git checkout $(git branch -a | peco --select-1 --query $QUERY --prompt ${PROMPT})
+    else
+        git checkout $(git branch -a | peco --prompt ${PROMPT})
+    fi
+}
+
 # github.com/bhilburn/powerlevel9k
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
