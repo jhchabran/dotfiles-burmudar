@@ -88,14 +88,19 @@ pj () {
 gitb () {
     QUERY=${1:-''}
     PROMPT="branch:"
+    BRANCH=""
+
+    BRANCHES=$(git branch -a | sed -n -e 's/remotes\/origin\///p')
 
     if [ ! -z ${QUERY} ]
     then
         echo $QUERY
-        git checkout $(git branch -a | peco --select-1 --query $QUERY --prompt ${PROMPT})
+        BRANCH=$(echo ${BRANCHES} | peco --select-1 --query ${QUERY} --prompt ${PROMPT})
     else
-        git checkout $(git branch -a | peco --prompt ${PROMPT})
+        BRANCH=$(echo ${BRANCHES} | peco --prompt ${PROMPT})
     fi
+
+    git checkout $(echo -e "${BRANCH}" | tr -d '[:space:]')
 }
 
 # github.com/bhilburn/powerlevel9k
