@@ -3,6 +3,7 @@ set nocompatible
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
 Plug 'tpope/vim-surround'
 Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim'
@@ -20,7 +21,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-pandoc/vim-pandoc'
-Plug 'klen/python-mode'
 call plug#end()
 
 set background=dark
@@ -82,5 +82,7 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+
+vmap <F2> "+y
 
 silent! py3 pass

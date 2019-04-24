@@ -7,6 +7,8 @@ if [[ $OSTYPE == "darwin"* ]]; then
     export PATH=$PATH:$GOROOT/bin
 else
     export SRC="$HOME/programming"
+    export GRADLE_HOME="$SRC/gradle/gradle-5.0"
+    export PATH="$PATH:$GRADLE_HOME/bin"
     export GOROOT="/usr/local/go"
     export GOPATH="$SRC/golang"
     export GOBIN="$GOPATH/bin"
