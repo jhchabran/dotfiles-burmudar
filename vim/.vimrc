@@ -3,23 +3,27 @@ set nocompatible
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
 Plug 'tpope/vim-surround'
+Plug 'altercation/vim-colors-solarized'
+Plug 'dracula/vim'
 Plug 'sjl/badwolf'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go'
 Plug 'majutsushi/tagbar'
-Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'klen/python-mode'
 Plug 'spf13/PIV'
 Plug 'benekastah/neomake'
 Plug 'elixir-lang/vim-elixir'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-pandoc/vim-pandoc'
 call plug#end()
 
+set background=dark
 colorscheme badwolf
 
 " editing config
@@ -55,18 +59,17 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
+map <C-n> :NERDTreeToggle<CR>
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+ let g:airline#extensions#syntastic#enabled = 1
 
 "golang config
 au FileType go nmap <leader>r <Plug>(go-run)
@@ -79,3 +82,7 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+
+vmap <F2> "+y
+
+silent! py3 pass
