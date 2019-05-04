@@ -6,7 +6,8 @@ if [[ $OSTYPE == "darwin"* ]]; then
     export PATH=$PATH:$GOROOT/bin
 else
     export SRC="$HOME/programming"
-    export GOPATH="$SRC/golang"
+    export GOROOT="/usr/local/go"
+    export GOPATH="$SRC/programming/golang"
     export GOBIN="$GOPATH/bin"
 
     export PATH="$PATH:$GOROOT/bin"
