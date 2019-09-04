@@ -17,7 +17,7 @@ else
     export PATH="$PATH:$GOBIN"
 fi
 
-export PATH="$PATH:$SRC/tools/bin"
+export PATH="$PATH:$SRC/bin"
 
 # aliases
 alias aenv='source $(find . -name "activate")'
@@ -37,8 +37,8 @@ export RUNLOCAL_LOCATION='ZA'
 export CONTROLPLANE="$HOME/programming/compute-controlplane"
 export FARM="$HOME/programming/compute-farm"
 export PATH="$PATH:$FARM"
-export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org"
-export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org"
+export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
+export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 
 # aliases
 alias gts='cd $HOME/programming'
