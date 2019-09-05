@@ -1,3 +1,6 @@
+autoload -Uz promptinit
+promptinit
+prompt powerlevel9k
 # User configuration
 alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
