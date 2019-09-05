@@ -7,7 +7,7 @@ print("Connecting to Oracle Mail")
 oracle = IMAP {
     server = "stbeehive.oracle.com",
     username = "william.bezuidenhout@oracle.com",
-    password = "2N.FuS!TBn)v",
+    password = "***REMOVED***",
     ssl = "auto"
 }
 
