@@ -1,6 +1,3 @@
-autoload -Uz promptinit
-promptinit
-prompt powerlevel9k
 # User configuration
 alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
@@ -18,6 +15,8 @@ else
 
     export PATH="$PATH:$GOROOT/bin"
     export PATH="$PATH:$GOBIN"
+    # snap
+    export PATH="$PATH:/snap/bin"
 fi
 
 export PATH="$PATH:$SRC/bin"
@@ -45,12 +44,9 @@ export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 
 # aliases
 alias gts='cd $HOME/programming'
-alias gtc='cd $CONTROLPLANE'
-alias gts='cd $SRC'
-alias gtf='cd $FARM'
-alias cf='compute-farm'
 alias aenv='source $(find . -name "activate")'
 alias denv='deactivate'
+alias cat='bat'
 
 if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
@@ -108,9 +104,19 @@ gitb () {
     git checkout $(echo -e "${BRANCH}" | tr -d '[:space:]')
 }
 
-# github.com/bhilburn/powerlevel9k
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time virtualenv)
+kubesw () {
+    QUERY=${1:-''}
+
+    if [ ! -z ${QUERY} ]
+    then
+        ln -s $(find $HOME/.kube/ -name "*-config" -type f | peco --select-1 --query $QUERY --prompt 'config:') $HOME/.kube/config
+    else
+        ln -s $(find $HOME/.kube/ -name "*-config" -type f | peco --prompt 'config:') $HOME/.kube/config
+    fi
+
+    ls -l $HOME/.kube/config
+}
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

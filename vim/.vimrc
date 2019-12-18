@@ -21,10 +21,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-pandoc/vim-pandoc'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 set background=dark
-colorscheme badwolf
+colorscheme gruvbox
 
 " editing config
 filetype plugin indent on
