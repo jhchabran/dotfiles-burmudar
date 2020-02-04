@@ -3,22 +3,19 @@ alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
     export SRC="$HOME/programming/"
     export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-    export GOROOT=/usr/local/go
-    export PATH=$PATH:$GOROOT/bin
 else
     export SRC="$HOME/programming"
     export GRADLE_HOME="$SRC/gradle/gradle-5.0"
     export PATH="$PATH:$GRADLE_HOME/bin"
     export GOROOT="/usr/local/go"
-    export GOPATH="$SRC/golang"
-    export GOBIN="$GOPATH/bin"
-
-    export PATH="$PATH:$GOROOT/bin"
-    export PATH="$PATH:$GOBIN"
     # snap
     export PATH="$PATH:/snap/bin"
 fi
 
+export SSH_KEY_FOLDER="$HOME/.ssh/keys"
+export GOPATH="$SRC/golang"
+export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
 export PATH="$PATH:$SRC/bin"
 
 # aliases
@@ -51,6 +48,16 @@ alias cat='bat'
 if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
 fi
+
+ssh_add_keys_from_folder () {
+    KEY_FOLDER=${1:-$HOME/.ssh/keys/}
+    
+    if !pgrep ssh-agent > /dev/null; then
+        echo "FAILED"
+    else
+        echo "SUCCESS"
+    fi
+}
 
 uproxies () {
     unset http_proxy
@@ -117,7 +124,32 @@ kubesw () {
     ls -l $HOME/.kube/config
 }
 
+_ensure_ssh_agent_running() {
+    if ! pgrep ssh-agent > /dev/null; then
+        ssh-agent -s
+    fi
+}
+
+load_keys () {
+    _ensure_ssh_agent_running
+    FOLDER=${1:-$SSH_KEY_FOLDER}
+
+    AUTH_SOCK=$(env | grep SSH_AUTH_SOCK | sed s/SSH_AUTH_SOCK=//)
+    AGENT_PID=$(env | grep SSH_AGENT_PID | sed s/SSH_AGENT_PID=//)
+
+    eval `SSH_AUTH_SOCK="${AUTH_SOCK}"`
+    eval `SSH_AGENT_PID="${AGENT_PID}"`
+
+
+    for k in ${FOLDER}/*.pvt
+    do
+        ssh-add "$k"
+    done
+}
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Setup environment by executing funcs
+load_keys
