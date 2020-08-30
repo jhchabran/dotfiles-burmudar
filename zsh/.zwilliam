@@ -2,7 +2,6 @@
 alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
     export SRC="$HOME/programming/"
-    export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 else
     export SRC="$HOME/programming"
     export GRADLE_HOME="$SRC/gradle/gradle-5.0"
@@ -32,17 +31,10 @@ export LANG=en_US.UTF-8
 export TERM=xterm-256color
 
 # Work config
-export RUNLOCAL_LOCATION='ZA'
-export CONTROLPLANE="$HOME/programming/compute-controlplane"
-export FARM="$HOME/programming/compute-farm"
-export PATH="$PATH:$FARM"
 export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 
 # aliases
-alias gts='cd $HOME/programming'
-alias aenv='source $(find . -name "activate")'
-alias denv='deactivate'
 alias cat='bat'
 
 if type "tmux-next" &> /dev/null; then
@@ -62,7 +54,7 @@ ssh_add_keys_from_folder () {
 uproxies () {
     unset http_proxy
     unset https_proxy
-    unset HTTPS_PROXY
+    unset HTTP_PROXY
     unset HTTPS_PROXY
 }
 
@@ -71,57 +63,6 @@ proxies () {
     export https_proxy=http://www-proxy-lon.uk.oracle.com:80
     export HTTP_PROXY=http://www-proxy-lon.uk.oracle.com:80
     export HTTPS_PROXY=http://www-proxy-lon.uk.oracle.com:80
-}
-
-fb () {
-    nim && fabush $1
-}
-
-nim () {
-    gtc && aenv
-}
-
-pj () {
-    QUERY=${1:-''}
-
-    if [ ! -z ${QUERY} ]
-    then
-        echo $QUERY
-        cd $SRC/$(ls $SRC | peco --select-1 --query $QUERY --prompt 'project:')
-    else
-        cd $SRC/$(ls $SRC | peco --prompt 'project:')
-    fi
-}
-
-gitb () {
-    QUERY=${1:-''}
-    PROMPT="branch:"
-    BRANCH=""
-
-    BRANCHES=$(git branch -a | sed -n -e 's/remotes\/origin\///p')
-
-    if [ ! -z ${QUERY} ]
-    then
-        echo $QUERY
-        BRANCH=$(echo ${BRANCHES} | peco --select-1 --query ${QUERY} --prompt ${PROMPT})
-    else
-        BRANCH=$(echo ${BRANCHES} | peco --prompt ${PROMPT})
-    fi
-
-    git checkout $(echo -e "${BRANCH}" | tr -d '[:space:]')
-}
-
-kubesw () {
-    QUERY=${1:-''}
-
-    if [ ! -z ${QUERY} ]
-    then
-        ln -s $(find $HOME/.kube/ -name "*-config" -type f | peco --select-1 --query $QUERY --prompt 'config:') $HOME/.kube/config
-    else
-        ln -s $(find $HOME/.kube/ -name "*-config" -type f | peco --prompt 'config:') $HOME/.kube/config
-    fi
-
-    ls -l $HOME/.kube/config
 }
 
 _ensure_ssh_agent_running() {
@@ -147,9 +88,6 @@ load_keys () {
     done
 }
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # Setup environment by executing funcs
+eval "$(starship init zsh)"
 load_keys
