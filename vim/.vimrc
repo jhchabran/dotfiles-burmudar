@@ -1,76 +1,105 @@
-set nocompatible 
-
-call plug#begin('~/.config/nvim/plugged')
-
-Plug 'tpope/vim-sensible'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins' }
-Plug 'tpope/vim-surround'
-Plug 'altercation/vim-colors-solarized'
-Plug 'dracula/vim'
-Plug 'sjl/badwolf'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'fatih/vim-go'
-Plug 'majutsushi/tagbar'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'spf13/PIV'
-Plug 'benekastah/neomake'
-Plug 'elixir-lang/vim-elixir'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'morhetz/gruvbox'
-call plug#end()
-
-set background=dark
-colorscheme gruvbox
-
-" editing config
-filetype plugin indent on
-syntax on
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set smarttab
-set expandtab
-
-"UI config
+set exrc
+set guicursor=
+set relativenumber
+set hidden
+set nohlsearch
 set number
 set cursorline
 set showmatch
-"sensible already sets incsearch
-set hlsearch "to clear hlsearch press <C-L>
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set nu
+set smartindent
+set nowrap
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
+set termguicolors
+set scrolloff=8
+set noshowmode
+set signcolumn=yes
+set colorcolumn=120
 
-"Keybinds
-let mapleader = ","
+set updatetime=50
 
-nmap <F8> :TagbarToggle<CR>
+call plug#begin('~/.config/nvim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'fatih/vim-go'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'gruvbox-community/gruvbox'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'neovim/nvim-lspconfig'
+call plug#end()
 
-" TAB completion
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" <Space> or Backspace closes completion popup
-" inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-let g:deoplete#enable_at_startup = 1
+lua <<EOF
+require('nvim-treesitter.configs').setup {
+    ignore_install = {},
+    highlight = true,
+    ident = true,
+}
 
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+require('telescope').setup {
+    defaults = {
+        file_sorter = require('telescope.sorters').get_fzy_sorter,
+        prompt_prefix = '> ',
+        color_devicons = true,
 
-map <C-n> :NERDTreeToggle<CR>
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+        file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+        grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+        qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+    },
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = false,
+            override_file_sorter = true,
+        }
+    }
+}
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+require'nvim-web-devicons'.setup {
+    default = true
+}
 
- let g:airline#extensions#syntastic#enabled = 1
+require('telescope').load_extension('fzy_native')
+EOF
+
+
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+set background=dark
+highlight Normal guibg=dark
+colorscheme gruvbox
+
+filetype plugin indent on
+syntax on
+
+let mapleader = " "
+
+" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fb <cmd>Telescope buffers<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "/Users/william/development", depth = 1 })<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+let g:airline#extensions#syntastic#enabled = 1
 
 "golang config
 au FileType go nmap <leader>r <Plug>(go-run)
@@ -83,7 +112,3 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-
-vmap <F2> "+y
-
-silent! py3 pass
