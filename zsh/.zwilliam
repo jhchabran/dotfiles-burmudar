@@ -3,24 +3,37 @@ alias h='cd $HOME'
 export SRC="$HOME/programming/"
 
 if [[ $OSTYPE == "darwin"* ]]; then
-    export PATH="/usr/local/share/python:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-    export GOROOT=/usr/local/go
-    export PATH=$PATH:$GOROOT/bin
+    export SRC="$HOME/development/"
 else
-    export GOROOT="/usr/local/go"  
+    export SRC="$HOME/programming"
+    export GRADLE_HOME="$SRC/gradle/gradle-5.0"
+    export PATH="$PATH:$GRADLE_HOME/bin"
+    export GOROOT="/usr/local/go"
+    # snap
+    export PATH="$PATH:/snap/bin"
 fi
 
+# pyenv exports
+export PYENV_ROOT=$HOME/.pyenv
+
+# fzf exports
+export FZF_DEFAULT_COMMAND='fd --type f'
+
+export SSH_KEY_FOLDER="$HOME/.ssh/keys"
 export GOPATH="$SRC/golang"
 export GOBIN="$GOPATH/bin"
-export PATH="$PATH:$GOROOT/bin"
+export PATH="$PATH:$GOBIN"
 export PATH="$PATH:$SRC/bin"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 # aliases
-alias aenv='source $(find . -name "activate")'
+alias aenv='source $(fd "activate")'
 alias denv='deactivate'
+alias opass='gopass show -C "$(gopass ls -f | fzf)"'
 
 # Preferred editor for local and remote sessions
-export EDITOR='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # correct locale
 export LC_ALL=en_US.UTF-8
@@ -28,40 +41,62 @@ export LANG=en_US.UTF-8
 # nice terminal colours
 export TERM=xterm-256color
 
-# starship.rs
-eval $(starship init zsh)
-
-
 # aliases
-alias aenv='source $(find . -name "activate")'
-alias denv='deactivate'
+alias cat='bat'
+alias pass=gopass
 
-pj () {
-    QUERY=${1:-''}
+if type "tmux-next" &> /dev/null; then
+    alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
+fi
 
-    if [ ! -z ${QUERY} ]
-    then
-        echo $QUERY
-        cd $SRC/$(ls $SRC | peco --select-1 --query $QUERY --prompt 'project:')
+ssh_add_keys_from_folder () {
+    KEY_FOLDER=${1:-$HOME/.ssh/keys/}
+    
+    if !pgrep ssh-agent > /dev/null; then
+        echo "FAILED"
     else
-        cd $SRC/$(ls $SRC | peco --prompt 'project:')
+        echo "SUCCESS"
     fi
 }
 
-gitb () {
-    QUERY=${1:-''}
-    PROMPT="branch:"
-    BRANCH=""
-
-    BRANCHES=$(git branch -a | sed -n -e 's/remotes\/origin\///p')
-
-    if [ ! -z ${QUERY} ]
-    then
-        echo $QUERY
-        BRANCH=$(echo ${BRANCHES} | peco --select-1 --query ${QUERY} --prompt ${PROMPT})
-    else
-        BRANCH=$(echo ${BRANCHES} | peco --prompt ${PROMPT})
+_ensure_ssh_agent_running() {
+    if ! pgrep ssh-agent > /dev/null; then
+        eval `ssh-agent -s`
     fi
-
-    git checkout $(echo -e "${BRANCH}" | tr -d '[:space:]')
 }
+
+load_keys () {
+    _ensure_ssh_agent_running
+    local FOLDER=${1:-$SSH_KEY_FOLDER}
+
+    local AUTH_SOCK=$(env | grep SSH_AUTH_SOCK | sed s/SSH_AUTH_SOCK=//)
+    local AGENT_PID=$(env | grep SSH_AGENT_PID | sed s/SSH_AGENT_PID=//)
+
+    eval `SSH_AUTH_SOCK="${AUTH_SOCK}"`
+    eval `SSH_AGENT_PID="${AGENT_PID}"`
+
+
+    for k in ${FOLDER}/*.pvt
+    do
+        ssh-add "$k"
+    done
+}
+
+oreload_agent () {
+    echo "Killing all instance of ssh-agent"
+    pkill -9 -f ssh-agent
+    _ensure_ssh_agent_running
+}
+
+pyenv_init () {
+    if command -v pyenv 1>/dev/null 2>&1; then
+        eval "$(pyenv init -)" 
+    fi
+}
+
+
+# Setup environment by executing funcs
+eval "$(starship init zsh)"
+source "/Users/william/.sdkman/bin/sdkman-init.sh"
+#load_keys
+pyenv_init
