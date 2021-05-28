@@ -1,9 +1,9 @@
 # User configuration
 alias h='cd $HOME'
 if [[ $OSTYPE == "darwin"* ]]; then
-    export SRC="$HOME/programming/"
+    export SRC="$HOME/development/"
 else
-    export SRC="$HOME/programming"
+    export SRC="$HOME/development"
     export GRADLE_HOME="$SRC/gradle/gradle-5.0"
     export PATH="$PATH:$GRADLE_HOME/bin"
     export GOROOT="/usr/local/go"
@@ -11,18 +11,27 @@ else
     export PATH="$PATH:/snap/bin"
 fi
 
+# pyenv exports
+export PYENV_ROOT=$HOME/.pyenv
+
+# fzf exports
+export FZF_DEFAULT_COMMAND='fd --type f'
+
 export SSH_KEY_FOLDER="$HOME/.ssh/keys"
 export GOPATH="$SRC/golang"
 export GOBIN="$GOPATH/bin"
 export PATH="$PATH:$GOBIN"
 export PATH="$PATH:$SRC/bin"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 # aliases
-alias aenv='source $(find . -name "activate")'
+alias aenv='source $(fd "activate")'
 alias denv='deactivate'
+alias opass='gopass show -C "$(gopass ls -f | fzf)"'
 
 # Preferred editor for local and remote sessions
-export EDITOR='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # correct locale
 export LC_ALL=en_US.UTF-8
@@ -36,6 +45,7 @@ export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 
 # aliases
 alias cat='bat'
+alias pass=gopass
 
 if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
@@ -52,6 +62,7 @@ ssh_add_keys_from_folder () {
 }
 
 uproxies () {
+    unset PROXY_ENV
     unset http_proxy
     unset https_proxy
     unset HTTP_PROXY
@@ -59,6 +70,7 @@ uproxies () {
 }
 
 proxies () {
+    export PROXY_ENV="📡"
     export http_proxy=http://www-proxy-lon.uk.oracle.com:80
     export https_proxy=http://www-proxy-lon.uk.oracle.com:80
     export HTTP_PROXY=http://www-proxy-lon.uk.oracle.com:80
@@ -67,16 +79,16 @@ proxies () {
 
 _ensure_ssh_agent_running() {
     if ! pgrep ssh-agent > /dev/null; then
-        ssh-agent -s
+        eval `ssh-agent -s`
     fi
 }
 
 load_keys () {
     _ensure_ssh_agent_running
-    FOLDER=${1:-$SSH_KEY_FOLDER}
+    local FOLDER=${1:-$SSH_KEY_FOLDER}
 
-    AUTH_SOCK=$(env | grep SSH_AUTH_SOCK | sed s/SSH_AUTH_SOCK=//)
-    AGENT_PID=$(env | grep SSH_AGENT_PID | sed s/SSH_AGENT_PID=//)
+    local AUTH_SOCK=$(env | grep SSH_AUTH_SOCK | sed s/SSH_AUTH_SOCK=//)
+    local AGENT_PID=$(env | grep SSH_AGENT_PID | sed s/SSH_AGENT_PID=//)
 
     eval `SSH_AUTH_SOCK="${AUTH_SOCK}"`
     eval `SSH_AGENT_PID="${AGENT_PID}"`
@@ -88,6 +100,54 @@ load_keys () {
     done
 }
 
+oreload_agent () {
+    echo "Killing all instance of ssh-agent"
+    pkill -9 -f ssh-agent
+    _ensure_ssh_agent_running
+}
+
+oyubi () {
+    _ensure_ssh_agent_running
+    local AUTH_SOCK=$(env | grep SSH_AUTH_SOCK | sed s/SSH_AUTH_SOCK=//)
+    local AGENT_PID=$(env | grep SSH_AGENT_PID | sed s/SSH_AGENT_PID=//)
+
+    eval `SSH_AGENT_PID=${AGENT_PID} SSH_AUTH_SOCK="${AUTH_SOCK}" ssh-add -s /usr/local/lib/opensc-pkcs11.so`
+}
+
+oenv () {
+    local RESULT="$(cat ~/.oci/tenancies | fzf --height 5)"
+    export TENANCY_NAME="$(echo ${RESULT} | cut -d ':' -f 1)"
+    export COMPARTMENT_ID=$(echo ${RESULT} | awk -F '"' '{ print $2 }')
+    export REGION="$(cat ~/.oci/regions | fzf --height 12)"
+    ostatus
+}
+
+ostatus ()  {
+    local bold=$(tput bold)
+    local normal=$(tput sgr0)
+    echo "${normal}Tenancy:${bold} ${TENANCY_NAME} ${normal}Region:${bold} ${REGION}${normal}"
+}
+
+ossh () {
+    local host=$(grep -h -i -E "Host [[:alnum:]_\-]+$" ~/.ssh/ams-configs/*.config | awk '{print $2;}' | fzf)
+    echo "ssh to host: ${host}"
+    ssh ${host}
+}
+
+unoenv() {
+    unset COMPARTMENT_ID
+    unset REGION
+}
+
+pyenv_init () {
+    if command -v pyenv 1>/dev/null 2>&1; then
+        eval "$(pyenv init -)" 
+    fi
+}
+
+
 # Setup environment by executing funcs
 eval "$(starship init zsh)"
-load_keys
+source "/Users/william/.sdkman/bin/sdkman-init.sh"
+#load_keys
+pyenv_init
