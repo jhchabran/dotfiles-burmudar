@@ -1,10 +1,10 @@
 # vim: set filetype=bash : */ ~
 # User configuration
 alias h='cd $HOME'
-export SRC="$HOME/programming/"
+export SRC="$HOME/programming"
 
 if [[ $OSTYPE == "darwin"* ]]; then
-    export SRC="$HOME/development/"
+    export SRC="$HOME/development"
 fi
 
 # pyenv exports
@@ -44,5 +44,7 @@ fi
 # Setup environment by executing funcs
 eval "$(starship init zsh)"
 
-source $SRC/dotfiles/scripts.d/*.bash
+for file in "${SRC}/dotfiles/scripts.d/*.bash"; do
+    source $file
+done
 pyenv_init
