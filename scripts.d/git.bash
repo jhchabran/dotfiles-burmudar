@@ -1,0 +1,14 @@
+# gb - checkout git branch
+gb () {
+  branches=$(git --no-pager branch -vv) &&
+  branch=$(echo "$branches" | fzf +m --height=15) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+# gbr - checkout git branch (including remote branches)
+gbr () {
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}

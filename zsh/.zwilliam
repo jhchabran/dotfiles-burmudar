@@ -44,7 +44,7 @@ fi
 # Setup environment by executing funcs
 eval "$(starship init zsh)"
 
-for file in "${SRC}/dotfiles/scripts.d/*.bash"; do
+for file in "${SRC}/dotfiles/scripts.d"/*.bash; do
     source $file
 done
 pyenv_init
