@@ -1,4 +1,7 @@
+
 # gb - checkout git branch
+unalias gb 2>/dev/null
+unalias gbr 2>/dev/null
 gb () {
   branches=$(git --no-pager branch -vv) &&
   branch=$(echo "$branches" | fzf +m --height=15) &&
