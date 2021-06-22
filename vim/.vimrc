@@ -174,12 +174,15 @@ let mapleader = " "
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <leader>cwd :lcd %:p:h<CR>
+nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
-nnoremap <leader>ff :lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>ff <cmd>:lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>fc <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
+" LSP Telescope
+nnoremap <leader>fs <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
 
 let g:airline#extensions#syntastic#enabled = 1
 

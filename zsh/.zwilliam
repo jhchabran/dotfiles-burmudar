@@ -35,7 +35,6 @@ alias cat='bat'
 alias pass=gopass
 alias aenv='source $(fd -s "activate")'
 alias denv='deactivate'
-alias lpass='gopass show -C "$(gopass ls -f | fzf)"'
 
 if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
