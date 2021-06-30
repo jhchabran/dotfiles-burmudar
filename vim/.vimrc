@@ -49,7 +49,7 @@ call plug#end()
 
 lua <<EOF
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "java", "kotlin", "go", "javascript", "typescript" },
+    ensure_install = { "html", "java", "kotlin", "go", "javascript", "typescript" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -174,7 +174,9 @@ let mapleader = " "
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <leader>cwd :lcd %:p:h<CR>
+nnoremap <leader>cd :lcd %:p:h<CR>
+" Telescope shortcuts
+nnoremap <leader>fr <cmd>lua require('telescope.builtin').grep_string( { search_dirs = {"~/.config/nvim/"} })<cr>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
 nnoremap <leader>ff :lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
