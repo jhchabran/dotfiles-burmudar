@@ -26,14 +26,13 @@ set colorcolumn=120
 "silent pattern not found in compe
 set shortmess+=c
 set completeopt=menuone,noselect
-let g:completetion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+let g:completetion_matching_strategy_list = ['fuzzy', 'substring', 'exact']
 
 set updatetime=50
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'fatih/vim-go'
 Plug 'itchyny/lightline.vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'gruvbox-community/gruvbox'
@@ -45,6 +44,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
+Plug 'rhysd/committia.vim'
 call plug#end()
 
 lua <<EOF
@@ -176,27 +176,15 @@ let mapleader = " "
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
-nnoremap <leader>ff <cmd>:lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>ff <cmd>:lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({previewer=false, layout_config={width=0.65}}))<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-nnoremap <leader>fc <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
+nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
 " LSP Telescope
-nnoremap <leader>fs <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
+nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
 
 let g:airline#extensions#syntastic#enabled = 1
-
-"golang config
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 
 "compe mappings
 inoremap <silent><expr> <C-Space> compe#complete()
