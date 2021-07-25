@@ -49,7 +49,7 @@ call plug#end()
 
 lua <<EOF
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "java", "kotlin", "go", "javascript", "typescript" },
+    ensure_install = { "html", "java", "kotlin", "go", "javascript", "typescript" },
     ignore_install = {},
     highlight = {
         enable = true,
