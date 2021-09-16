@@ -23,6 +23,7 @@ set scrolloff=8
 set noshowmode
 set signcolumn=yes
 set colorcolumn=120
+set splitbelow
 "silent pattern not found in compe
 set shortmess+=c
 set completeopt=menuone,noselect
@@ -37,6 +38,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'gruvbox-community/gruvbox'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -48,12 +50,36 @@ Plug 'rhysd/committia.vim'
 call plug#end()
 
 lua <<EOF
+
+local M = {}
+M.term_id = nil
+
+function QuickTerm()
+    if not M.term_id then
+        vim.cmd [[10new]]
+        cwd = vim.fn.getcwd()
+        M.term_id = vim.fn.termopen("/bin/zsh")
+    else
+        -- does this work ?
+        vim.fn.win_execute(M.term_id, "close")
+    end
+
+    vim.wait(100, function() return false end)
+end
+
+require'nvim-web-devicons'.setup {
+    default = true
+}
+
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "html", "java", "kotlin", "go", "javascript", "typescript" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript" },
     ignore_install = {},
     highlight = {
         enable = true,
         ident = true
+    },
+    playground = {
+        enable = true
     }
 }
 
@@ -75,9 +101,6 @@ require('telescope').setup {
     }
 }
 
-require'nvim-web-devicons'.setup {
-    default = true
-}
 
 require('telescope').load_extension('fzy_native')
 
@@ -116,7 +139,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-local servers = { "pyright", "gopls", "tsserver" }
+local servers = { "pyright", "gopls","clangd","tsserver" }
 for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup { capabilities = capabilities, on_attach = on_attach }
 end
@@ -168,11 +191,6 @@ syntax on
 
 let mapleader = " "
 
-" nnoremap <leader>ff <cmd>Telescope find_files<cr>
-" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-" nnoremap <leader>fb <cmd>Telescope buffers<cr>
-" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
@@ -183,6 +201,10 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
 " LSP Telescope
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
+
+" Terminal mappings
+nnoremap <C-T> <cmd>lua QuickTerm()<cr>
+tnoremap <ESC> <C-\><C-n>
 
 let g:airline#extensions#syntastic#enabled = 1
 
