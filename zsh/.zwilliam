@@ -15,6 +15,8 @@ export FZF_DEFAULT_COMMAND='fd --type f'
 export SSH_KEY_FOLDER="$HOME/.ssh/keys"
 export GOPATH="$SRC/golang"
 export GOBIN="$GOPATH/bin"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PATH:$GOBIN"
 export PATH="$PATH:$SRC/bin"
 
@@ -46,4 +48,6 @@ eval "$(starship init zsh)"
 for file in "${SRC}/dotfiles/scripts.d"/*.bash; do
     source $file
 done
-pyenv_init
+
+eval "$(pyenv init --path)"
+eval "$(direnv hook zsh)"
