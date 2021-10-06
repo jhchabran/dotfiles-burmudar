@@ -26,7 +26,7 @@
     border-color:                @foreground;
     spacing:                     8;
     separatorcolor:              @foreground;
-    urgent-background:           rgba ( 255, 255, 255, 100 % );
+    urgent-background:           rgba ( 0, 255, 255, 100 % );
     selected-urgent-background:  rgba ( 82, 148, 226, 100 % );
     alternate-urgent-foreground: @urgent-foreground;
     background-color:            rgba ( 0, 0, 0, 0 % );
@@ -39,7 +39,7 @@
     fullscreen:	      true;
     opacity:	      0.8;
     padding:          5;
-    font: "System San Francisco Display 12";
+    font: "Source Code Pro Variable 12";
 }
 #mainbox {
     border:  0;

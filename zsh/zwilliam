@@ -42,12 +42,46 @@ if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
 fi
 
-# Setup environment by executing funcs
-eval "$(starship init zsh)"
 
-for file in "${SRC}/dotfiles/scripts.d"/*.bash; do
+function cond_source() {
+    file=$1
+
+    if [[ -a $file ]]; then
+        source $file
+    fi
+}
+
+function cond_eval() {
+    cmd=$1
+    expresion=$2
+
+    if type $cmd &> /dev/null; then
+        eval "$($expression)"
+    fi
+}
+
+cond_source /usr/share/fzf/completion.zsh
+cond_source /usr/share/fzf/key-bindings.zsh
+cond_source /usr/share/nvm/init-nvm.sh
+
+cond_eval "pyenv" "pyenv init --path"
+cond_eval "direnv" "direnv hook zsh"
+
+# Setup environment by executing funcs
+cond_eval "starship" "starship init zsh"
+
+# if we're in our work environment then load work scripts
+# otherwise just load normal scripts
+if [[ -a ~/.work ]]; then
+    scripts=$SRC/dotfiles/scripts.d/*.bash
+else
+    scripts=$SRC/dotfiles/scripts.d/^work*.bash
+fi
+
+# in zsh =~ means:
+# = -> perform word splitting
+# ~ -> perform globbing
+for file in $=~scripts; do
     source $file
 done
 
-eval "$(pyenv init --path)"
-eval "$(direnv hook zsh)"
