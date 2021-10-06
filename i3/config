@@ -19,7 +19,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:system San Francisco Display 8
+font pango:Source Code Pro Variable 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -35,7 +35,12 @@ font pango:system San Francisco Display 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# gaps
+#gaps inner 5
+#gaps outer 0
+
 # start a terminal
+set $TERMINAL kitty
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
@@ -49,10 +54,10 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+Alt+h focus left
+bindsym $mod+Alt+j focus down
+bindsym $mod+Alt+k focus up
+bindsym $mod+Alt+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -61,10 +66,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -76,7 +81,7 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+| split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -214,10 +219,10 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+d exec rofi -show run  -theme /home/wbezuide/.config/rofi/themes/Arc.rasi
-bindsym $mod+shift+s exec rofi -show ssh  -theme /home/wbezuide/.config/rofi/themes/Arc.rasi
+bindsym $mod+d exec rofi -show run  -theme /home/william/.config/rofi/themes/Arc.rasi
+bindsym $mod+shift+s exec rofi -show ssh  -theme /home/william/.config/rofi/themes/Arc.rasi
 exec --no-startup-id spotify
-exec --no-startup-id firefox-dev
+exec --no-startup-id firefox
 exec --no-startup-id compton -f
 
 exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper.jpg

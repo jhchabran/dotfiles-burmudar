@@ -45,6 +45,18 @@ fi
 # Setup environment by executing funcs
 eval "$(starship init zsh)"
 
+function cond_source() {
+    file=$1
+
+    if [[ -a $file ]]; then
+        source $file
+    fi
+}
+
+cond_source /usr/share/fzf/completion.zsh
+cond_source /usr/share/fzf/key-bindings.zsh
+cond_source /usr/share/nvm/init-nvm.sh
+
 for file in "${SRC}/dotfiles/scripts.d"/*.bash; do
     source $file
 done
