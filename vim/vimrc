@@ -51,9 +51,9 @@ Plug 'rhysd/committia.vim'
 call plug#end()
 
 lua <<EOF
-require('william')
+--- require('william')
 
-W.test()
+--- W.test()
 
 local M = {}
 M.term_id = nil

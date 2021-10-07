@@ -3,7 +3,7 @@
 alias h='cd $HOME'
 export SRC="$HOME/programming"
 
-if [[ $OSTYPE == "darwin"* ]]; then
+if [[ $OSTYPE == "darwin"* || -a ~/.work ]]; then
     export SRC="$HOME/development"
 fi
 
