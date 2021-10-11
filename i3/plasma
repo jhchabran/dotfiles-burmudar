@@ -36,19 +36,17 @@ font pango:font-awesome 8
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
-for_window [class="Cisco AnyConnect Secure Mobility Client"] float enable
-for_window [class="yakuake"] floating enable
+for_window [class="Cisco"] floating enable
 for_window [class="systemsettings"] floating enable
-for_window [class="plasmashell"] floating enable;
-for_window [class="Plasma"] floating enable; border none
-for_window [title="plasma-desktop"] floating enable; border none
-for_window [title="win7"] floating enable; border none
-for_window [class="krunner"] floating enable; border none
-for_window [class="Kmix"] floating enable; border none
-for_window [class="Klipper"] floating enable; border none
-for_window [class="Plasmoidviewer"] floating enable; border none
-for_window [class="plasmashell" window_type="notification"] border none, move right 700px, move down 450px
+# Don’t treat Plasma pop-ups as full-sized windows
+for_window [class="plasmashell"] floating enable
+
+# Don’t spawn an empty window for the Plasma Desktop
+for_window [title="Desktop — Plasma"] kill, floating enable, border none
+
+# Don’t let notifications and non-interactive pop-up windows steal focus
 no_focus [class="plasmashell" window_type="notification"]
+no_focus [class="plasmashell" window_type="on_screen_display"]
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -119,42 +117,57 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace1 ""
-set $workspace2 ""
-set $workspace3 ""
-set $workspace4 ""
+set $terminal "1 "
+set $ide "2 "
+set $chat "3 "
+set $browser "4 "
+set $other "8 "
+set $spotify "9 "
+
+set $left_screen HDMI-0
+set $right_screen DP-4
+
+workspace $terminal output $left_screen
+workspace $browser output $right_screen
+workspace $chat output $right_screen
+workspace $spotify output $right_screen
+workspace $ide output $left_screen
 
 # switch to workspace
-bindsym $mod+1 workspace $workspace1
-bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
+bindsym $mod+1 workspace $terminal
+bindsym $mod+2 workspace $ide
+bindsym $mod+3 workspace $chat
+bindsym $mod+4 workspace $browser
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+9 workspace $spotify
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
+bindsym $mod+Shift+1 move container to workspace $terminal
+bindsym $mod+Shift+2 move container to workspace $ide
+bindsym $mod+Shift+3 move container to workspace $chat
+bindsym $mod+Shift+4 move container to workspace $browser
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+9 move container to workspace $spotify
 bindsym $mod+Shift+0 move container to workspace 10
 
 # window classes - use 'xprop' to find a programs class
-assign [class="Firefox"] $workspace2
-for_window [class="Navigator"] move to workspace $workspace2
+assign [class="Firefox"] $browser
+for_window [class="Navigator"] move to workspace $browser
 
-assign [class="Spotify"] $workspace4
-for_window [class="Spotify"] move to workspace $workspace4
+assign [class="Spotify"] $spotify
+for_window [class="Spotify"] move to workspace $spotify
 
+assign [class="Slack"] $chat
+for_window [class="slack"] move to workspace $chat
+assign [class="telegram-desktop"] $chat
+for_window [class="telegram-desktop"] move to workspace $chat
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -239,9 +252,12 @@ bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi
 bindsym $mod+shift+s exec rofi -show ssh  -theme ~/.config/rofi/themes/Arc.rasi
+
 exec --no-startup-id spotify
 exec --no-startup-id firefox
 exec --no-startup-id compton
+exec --no-startup-id slack
+exec --no-startup-id telegram-desktop
 
 exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper.jpg
 
