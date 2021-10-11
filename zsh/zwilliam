@@ -38,6 +38,10 @@ alias pass=gopass
 alias aenv='source $(fd -s "activate")'
 alias denv='deactivate'
 
+if type "fdfind" &> /dev/null; then
+    alias fd='fdfind'
+fi
+
 if type "tmux-next" &> /dev/null; then
     alias tmux='tmux-next -2' #tmux installed from ppa named its binary tmux-next
 fi
