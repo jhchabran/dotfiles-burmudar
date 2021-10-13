@@ -54,6 +54,9 @@ floating_modifier $mod
 #gaps inner 5
 #gaps outer 0
 
+# screenshot support
+bindsym $mod+Print exec flameshot gui
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
@@ -166,8 +169,8 @@ for_window [class="Spotify"] move to workspace $spotify
 
 assign [class="Slack"] $chat
 for_window [class="slack"] move to workspace $chat
-assign [class="telegram-desktop"] $chat
-for_window [class="telegram-desktop"] move to workspace $chat
+assign [class="TelegramDesktop"] $chat
+for_window [class="TelegramDesktop"] move to workspace $chat
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

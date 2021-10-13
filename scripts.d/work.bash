@@ -1,6 +1,13 @@
 export no_proxy=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 export NO_PROXY=".oraclecorp.com,.oracle.com,.nimbula.org,localhost,127.0.0.1"
 
+fix_ocna() {
+    sudo find /opt/cisco/anyconnect/profile\
+        -type f\
+        -name '*.xml'\
+        -exec xmlstarlet edit -L -N w=http://schemas.xmlsoap.org/encoding/ --update "//w:EnableAutomaticServerSelection" --value 'false' '{}' \;
+}
+
 uproxies () {
     unset PROXY_ENV
     unset http_proxy
