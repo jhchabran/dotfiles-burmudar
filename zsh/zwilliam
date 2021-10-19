@@ -10,7 +10,7 @@ fi
 # pyenv exports
 
 # fzf exports
-export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_COMMAND='fd -t f'
 
 export SSH_KEY_FOLDER="$HOME/.ssh/keys"
 export GOPATH="$SRC/golang"

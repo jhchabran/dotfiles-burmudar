@@ -19,7 +19,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Source Code Pro Variable 8
+font pango:font-awesome 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -103,42 +103,59 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace1 "1: "
-set $workspace2 "2: "
-set $workspace3 "3: "
-set $workspace4 "4: "
+set $terminal "1 "
+set $ide "2 "
+set $chat "3 "
+set $browser "4 "
+set $other "8 "
+set $spotify "9 "
+set $left_screen HDMI-0
+set $right_screen DP-4
+
+workspace $terminal output $left_screen
+workspace $browser output $right_screen
+workspace $chat output $right_screen
+workspace $spotify output $right_screen
+workspace $ide output $left_screen
 
 # switch to workspace
-bindsym $mod+1 workspace $workspace1
-bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
+bindsym $mod+1 workspace $terminal
+bindsym $mod+2 workspace $ide
+bindsym $mod+3 workspace $chat
+bindsym $mod+4 workspace $browser
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+9 workspace $spotify
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
+bindsym $mod+Shift+1 move container to workspace $terminal
+bindsym $mod+Shift+2 move container to workspace $ide
+bindsym $mod+Shift+3 move container to workspace $chat
+bindsym $mod+Shift+4 move container to workspace $browser
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+9 move container to workspace $spotify
 bindsym $mod+Shift+0 move container to workspace 10
 
 # window classes - use 'xprop' to find a programs class
-assign [class="Firefox Developer Edition"] $workspace2
-for_window [class="Navigator"] move to workspace $workspace2
+assign [class="firefox"] $browser
+for_window [class="firefox"] border none, move to workspace $browser
 
-assign [class="Spotify"] $workspace4
-for_window [class="Spotify"] move to workspace $workspace4
+assign [class="Spotify"] $spotify
+for_window [class="Spotify"] border none, move to workspace $spotify
 
+assign [class="Slack"] $chat
+for_window [class="slack"] move to workspace $chat
+assign [class="TelegramDesktop"] $chat
+for_window [class="TelegramDesktop"] move to workspace $chat, border none
+
+assign [class="idea"] $ide
+for_window [class="idea"] border none, move to workspace $ide
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

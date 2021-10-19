@@ -26,7 +26,7 @@ set colorcolumn=120
 set splitbelow
 "silent pattern not found in compe
 set shortmess+=c
-set completeopt=menuone,noselect
+set completeopt=menu,menuone,noselect
 let g:completetion_matching_strategy_list = ['fuzzy', 'substring', 'exact']
 set splitbelow
 
@@ -46,7 +46,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
 Plug 'rhysd/committia.vim'
 call plug#end()
 
@@ -76,7 +78,7 @@ require'nvim-web-devicons'.setup {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -143,47 +145,31 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+
+local cmp = require'cmp'
+cmp.setup({
+    mapping = {
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+    }
+})
+
 local servers = { "pyright", "gopls","clangd","tsserver" }
 for _, lsp in ipairs(servers) do
-    require('lspconfig')[lsp].setup { capabilities = capabilities, on_attach = on_attach }
+    require('lspconfig')[lsp].setup(
+    {
+            capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+            on_attach = on_attach }
+    )
 end
 
-require('compe').setup {
-    enabled = true;
-    autocomplete = true;
-    debug = false;
-    min_length = 1;
-    preselect = 'enable';
-    throttle_time = 80;
-    source_timeout = 200;
-    incomplete_delay = 400;
-    max_abbr_width = 100;
-    max_kind_width = 100;
-    max_menu_width = 100;
-    documentation = true;
-
-    source = {
-        path = true;
-        buffer = true;
-        calc = true;
-        nvim_lsp = true;
-        nvim_lua = true;
-        ultisnips = true;
-    };
-}
-
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.get_line('.'):sub(col, col):match('%%s') then
-        return true
-    else
-        return false
-    end
-end
 EOF
 
 set background=dark
@@ -212,14 +198,6 @@ nnoremap <C-T> <cmd>lua QuickTerm()<cr>
 tnoremap <ESC> <C-\><C-n>
 
 let g:airline#extensions#syntastic#enabled = 1
-
-"compe mappings
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR> compe#confirm('<CR>')
-inoremap <silent><expr> <C-e> compe#close('<C-e>')
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <C-Space> compe#complete()
 
 augroup BURMUDAR
     autocmd!
