@@ -143,8 +143,8 @@ bindsym $mod+Shift+9 move container to workspace $spotify
 bindsym $mod+Shift+0 move container to workspace 10
 
 # window classes - use 'xprop' to find a programs class
-assign [class="firefox"] $browser
-for_window [class="firefox"] border none, move to workspace $browser
+assign [class="[fF]irefox"] $browser
+for_window [class="[fF]irefox"] border none, move to workspace $browser
 
 assign [class="Spotify"] $spotify
 for_window [class="Spotify"] border none, move to workspace $spotify

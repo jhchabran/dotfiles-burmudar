@@ -32,7 +32,18 @@ set splitbelow
 
 set updatetime=50
 
+let mapleader = " "
+
+set background=dark
+highlight Normal guibg=dark
+colorscheme gruvbox
+
+filetype plugin indent on
+syntax on
+
 call plug#begin('~/.config/nvim/plugged')
+Plug 'nvim-lua/plenary.nvim'
+Plug 'dstein64/vim-startuptime'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
@@ -42,9 +53,10 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'onsails/lspkind-nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -53,6 +65,7 @@ Plug 'rhysd/committia.vim'
 call plug#end()
 
 lua <<EOF
+
 --- require('william')
 
 --- W.test()
@@ -73,6 +86,9 @@ function QuickTerm()
     vim.wait(100, function() return false end)
 end
 
+--- Do all the plugin setup here
+require('gitsigns').setup()
+
 require'nvim-web-devicons'.setup {
     default = true
 }
@@ -88,6 +104,7 @@ require('nvim-treesitter.configs').setup {
         enable = true
     }
 }
+
 
 require('telescope').setup {
     defaults = {
@@ -145,7 +162,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-
+local lspkind = require('lspkind')
 local cmp = require'cmp'
 cmp.setup({
     mapping = {
@@ -154,6 +171,9 @@ cmp.setup({
         ['<C-space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    formatting = {
+        format = lspkind.cmp_format({with_text = false, maxwidth = 50})
     },
     sources = {
         { name = 'nvim_lsp' },
@@ -172,14 +192,7 @@ end
 
 EOF
 
-set background=dark
-highlight Normal guibg=dark
-colorscheme gruvbox
 
-filetype plugin indent on
-syntax on
-
-let mapleader = " "
 
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
