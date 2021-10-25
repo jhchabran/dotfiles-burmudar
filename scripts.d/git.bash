@@ -15,3 +15,8 @@ gbr () {
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
+
+gnb () {
+    local branch_name=$1
+    git switch -c $branch_name
+}

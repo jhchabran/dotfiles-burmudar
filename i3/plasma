@@ -135,6 +135,7 @@ workspace $browser output $right_screen
 workspace $chat output $right_screen
 workspace $spotify output $right_screen
 workspace $ide output $left_screen
+workspace $other output $right_screen
 
 # switch to workspace
 bindsym $mod+1 workspace $terminal
@@ -144,7 +145,7 @@ bindsym $mod+4 workspace $browser
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
+bindsym $mod+8 workspace $other
 bindsym $mod+9 workspace $spotify
 bindsym $mod+0 workspace 10
 
@@ -156,7 +157,7 @@ bindsym $mod+Shift+4 move container to workspace $browser
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+8 move container to workspace $other
 bindsym $mod+Shift+9 move container to workspace $spotify
 bindsym $mod+Shift+0 move container to workspace 10
 
@@ -171,6 +172,12 @@ assign [class="Slack"] $chat
 for_window [class="slack"] move to workspace $chat
 assign [class="TelegramDesktop"] $chat
 for_window [class="TelegramDesktop"] move to workspace $chat
+
+assign [class="jetbrains-idea"] $ide
+for_window [class="jetbrains-idea"] move to workspace $ide
+
+assign [class="Cisco"] $other
+for_window [class="Cisco"] move to workspace $other
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -261,6 +268,7 @@ exec --no-startup-id firefox
 exec --no-startup-id compton
 exec --no-startup-id slack
 exec --no-startup-id telegram-desktop
+exec --no-startup-id cisco
 
 exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper.jpg
 

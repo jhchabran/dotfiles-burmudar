@@ -36,7 +36,6 @@ let mapleader = " "
 
 set background=dark
 highlight Normal guibg=dark
-colorscheme gruvbox
 
 filetype plugin indent on
 syntax on
@@ -63,6 +62,8 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'rhysd/committia.vim'
 call plug#end()
+
+colorscheme gruvbox
 
 lua <<EOF
 
