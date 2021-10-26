@@ -45,7 +45,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'dstein64/vim-startuptime'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'gruvbox-community/gruvbox'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -93,6 +93,15 @@ require('gitsigns').setup()
 require'nvim-web-devicons'.setup {
     default = true
 }
+
+local function current_file()
+    return vim.fn.expand("%")
+end
+
+require('lualine').setup {
+    options = { theme = 'gruvbox' },
+    sections = { lualine_c = { current_file } }
+    }
 
 require('nvim-treesitter.configs').setup {
     ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python" },
