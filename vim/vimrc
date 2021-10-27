@@ -72,7 +72,6 @@ Plug 'numToStr/comment.nvim'
 call plug#end()
 
 colorscheme gruvbox
-
 lua <<EOF
 
 --- require('william')
