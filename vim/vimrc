@@ -64,7 +64,6 @@ Plug 'rhysd/committia.vim'
 call plug#end()
 
 colorscheme gruvbox
-
 lua <<EOF
 
 --- require('william')

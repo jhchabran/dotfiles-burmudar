@@ -114,7 +114,7 @@ set $right_screen DP-4
 
 workspace $terminal output $left_screen
 workspace $browser output $right_screen
-workspace $chat output $right_screen
+workspace $chat output $right_screen workspace_layout tabbed
 workspace $spotify output $right_screen
 workspace $ide output $left_screen
 
@@ -165,7 +165,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # custom bindings
-bindsym $mod+Shift+x exec "i3lock -c 000000"
+bindsym $mod+Shift+x exec "~/programming/dotfiles/i3/i3lock.sh"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
