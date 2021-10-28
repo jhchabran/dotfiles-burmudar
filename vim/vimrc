@@ -61,6 +61,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'rhysd/committia.vim'
+Plug 'nvim-neorg/neorg'
 call plug#end()
 
 colorscheme gruvbox
@@ -98,13 +99,25 @@ local function current_file()
     return vim.fn.expand("%")
 end
 
+--- Lualine setup
 require('lualine').setup {
     options = { theme = 'gruvbox' },
     sections = { lualine_c = { current_file } }
-    }
+}
+
+--- Treesitter config
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+parser_configs.norg = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg",
+        files = { "src/parser.c", "src/scanner.cc" },
+        branch = "main"
+    },
+}
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -115,7 +128,7 @@ require('nvim-treesitter.configs').setup {
     }
 }
 
-
+--- Telescope setup
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
@@ -172,6 +185,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+--- nvim-cmp setup
 local lspkind = require('lspkind')
 local cmp = require'cmp'
 cmp.setup({
@@ -187,10 +201,13 @@ cmp.setup({
     },
     sources = {
         { name = 'nvim_lsp' },
+        { name = "neorg" },
+        { name = "path" },
         { name = 'buffer' },
     }
 })
 
+--- LSP setup
 local servers = { "pyright", "gopls","clangd","tsserver" }
 for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(
@@ -199,6 +216,26 @@ for _, lsp in ipairs(servers) do
             on_attach = on_attach }
     )
 end
+
+--- Neorg setup
+require('neorg').setup {
+    load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.norg.completion"] = {
+            config = {
+                engine = "nvim-cmp"
+            }
+        },
+        ["core.norg.dirman"] = {
+            config = {
+                workspaces = {
+                    my_workspace = "$SRC/neorg"
+                },
+            },
+        },
+    }
+}
 
 EOF
 
