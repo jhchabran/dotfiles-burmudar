@@ -1,3 +1,4 @@
+# curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 source ~/.zplug/init.zsh
 
 zplug "zsh-users/zsh-history-substring-search"
@@ -6,8 +7,10 @@ zplug "zsh-users/zsh-syntax-highlighting"
 if ! zplug check --verbose; then
     printf "Install ? [yN]: "
     if read -q; then
-        echo; zplug Install
+        echo; zplug install
     fi
 fi
 
 zplug load
+
+source ~/.zwilliam
