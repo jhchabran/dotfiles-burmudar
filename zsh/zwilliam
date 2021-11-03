@@ -1,6 +1,5 @@
 # vim: set filetype=bash : */ ~
 # User configuration
-alias h='cd $HOME'
 export SRC="$HOME/programming"
 
 if [[ $OSTYPE == "darwin"* || -a ~/.work ]]; then
@@ -34,14 +33,7 @@ export LANG=en_US.UTF-8
 export TERM=xterm-256color
 
 # aliases
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias cat='batcat'
-alias pass=gopass
-alias aenv='source $(fd -s "activate")'
-alias denv='deactivate'
+source $SRC/dotfiles/scripts.d/aliases.bash
 
 if type "fdfind" &> /dev/null; then
     alias fd='fdfind'
@@ -73,8 +65,8 @@ function cond_eval() {
     fi
 }
 
-cond_source /usr/share/fzf/completion.zsh /usr/share/doc/fzf/examples/completion.zsh
-cond_source /usr/share/fzf/key-bindings.zsh /usr/share/doc/fzf/examples/key-bindings.zsh
+cond_source /usr/local/opt/fzf/shell/completion.zsh /usr/share/doc/fzf/examples/completion.zsh
+cond_source /usr/local/opt/fzf/shell/key-bindings.zsh /usr/share/doc/fzf/examples/key-bindings.zsh
 cond_source /usr/share/nvm/init-nvm.sh
 
 cond_eval "pyenv" "pyenv init --path"
