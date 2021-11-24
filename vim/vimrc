@@ -29,6 +29,7 @@ set shortmess+=c
 set completeopt=menu,menuone,noselect
 let g:completetion_matching_strategy_list = ['fuzzy', 'substring', 'exact']
 set splitbelow
+set splitright
 
 set updatetime=50
 
@@ -41,6 +42,7 @@ filetype plugin indent on
 syntax on
 
 call plug#begin('~/.config/nvim/plugged')
+Plug 'ziglang/zig.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'dstein64/vim-startuptime'
 Plug 'tpope/vim-sensible'
@@ -117,7 +119,7 @@ parser_configs.norg = {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -194,21 +196,21 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-k>'] = cmp.mapping.confirm({ select = true }),
     },
     formatting = {
         format = lspkind.cmp_format({with_text = false, maxwidth = 50})
     },
     sources = {
         { name = 'nvim_lsp' },
-        { name = "neorg" },
         { name = "path" },
+        { name = "neorg" },
         { name = 'buffer' },
     }
 })
 
 --- LSP setup
-local servers = { "pyright", "gopls","clangd","tsserver" }
+local servers = { "pyright", "gopls","clangd","tsserver", "zls" }
 for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(
     {
@@ -241,6 +243,8 @@ EOF
 
 
 
+nnoremap <TAB> :tabn<CR>
+nnoremap <S-TAB> :tabp<CR>
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
@@ -250,6 +254,7 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
+vnoremap <leader>y "+y
 " LSP Telescope
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
 
