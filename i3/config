@@ -126,7 +126,7 @@ bindsym $mod+4 workspace $browser
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
+bindsym $mod+8 workspace $other
 bindsym $mod+9 workspace $spotify
 bindsym $mod+0 workspace 10
 
