@@ -30,6 +30,8 @@ set completeopt=menu,menuone,noselect
 let g:completetion_matching_strategy_list = ['fuzzy', 'substring', 'exact']
 set splitbelow
 set splitright
+set list
+set listchars=tab:»·,eol:↲,nbsp:␣,space:·
 
 set updatetime=50
 
