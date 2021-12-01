@@ -54,7 +54,6 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'gruvbox-community/gruvbox'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/popup.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -66,6 +65,8 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'rhysd/committia.vim'
 Plug 'nvim-neorg/neorg'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
 
 colorscheme gruvbox
@@ -102,6 +103,9 @@ require'nvim-web-devicons'.setup {
 local function current_file()
     return vim.fn.expand("%")
 end
+
+--- Lua tree
+require('nvim-tree').setup {}
 
 --- Lualine setup
 require('lualine').setup {
@@ -256,10 +260,13 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
+" Yank into clipboard
 vnoremap <leader>y "+y
 " LSP Telescope
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
-
+" Nvim Tree Lua
+nnoremap <C-n> :NvimTreeToggle<cr>
+nnoremap <leader>r :NvimTreeRefresh<cr>
 " Terminal mappings
 nnoremap <C-T> <cmd>lua QuickTerm()<cr>
 tnoremap <ESC> <C-\><C-n>
