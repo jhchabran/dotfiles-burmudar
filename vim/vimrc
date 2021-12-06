@@ -67,6 +67,7 @@ Plug 'rhysd/committia.vim'
 Plug 'nvim-neorg/neorg'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'numToStr/comment.nvim'
 call plug#end()
 
 colorscheme gruvbox
@@ -103,6 +104,27 @@ require'nvim-web-devicons'.setup {
 local function current_file()
     return vim.fn.expand("%")
 end
+
+--- comment.nvim
+
+--[[ Mappings for Comment
+`gcc` - Toggles the current line using linewise comment
+`gbc` - Toggles the current line using blockwise comment
+`[count]gcc` - Toggles the number of line given as a prefix-count
+`gc[count]{motion}` - (Op-pending) Toggles the region using linewise comment
+`gb[count]{motion}` - (Op-pending) Toggles the region using linewise comment
+
+VISUAL Mode
+`gc` - Toggles the region using linewise comment
+`gb` - Toggles the region using blockwise comment
+
+NORMAL Mode
+`gco` - Insert comment to the next line and enters INSERT mode
+`gcO` - Insert comment to the previous line and enters INSERT mode
+`gcA` - Insert comment to end of the current line and enters INSERT mode
+
+]]--
+require('Comment').setup {}
 
 --- Lua tree
 require('nvim-tree').setup {}
@@ -277,3 +299,6 @@ augroup BURMUDAR
     autocmd!
     autocmd BufWritePre * %s/\s\+$//e
 augroup END
+
+augroup PYTHON
+    autocmd BufNewFile,BufRead *.py set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent
