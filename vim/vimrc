@@ -29,6 +29,9 @@ set shortmess+=c
 set completeopt=menu,menuone,noselect
 let g:completetion_matching_strategy_list = ['fuzzy', 'substring', 'exact']
 set splitbelow
+set splitright
+set list
+set listchars=tab:»·,eol:↲,nbsp:␣,space:·
 
 set updatetime=50
 
@@ -41,6 +44,7 @@ filetype plugin indent on
 syntax on
 
 call plug#begin('~/.config/nvim/plugged')
+Plug 'ziglang/zig.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'dstein64/vim-startuptime'
 Plug 'tpope/vim-sensible'
@@ -50,7 +54,6 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'gruvbox-community/gruvbox'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/popup.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -61,6 +64,10 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'rhysd/committia.vim'
+Plug 'nvim-neorg/neorg'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'numToStr/comment.nvim'
 call plug#end()
 
 colorscheme gruvbox
@@ -97,13 +104,49 @@ local function current_file()
     return vim.fn.expand("%")
 end
 
+--- comment.nvim
+
+--[[ Mappings for Comment
+`gcc` - Toggles the current line using linewise comment
+`gbc` - Toggles the current line using blockwise comment
+`[count]gcc` - Toggles the number of line given as a prefix-count
+`gc[count]{motion}` - (Op-pending) Toggles the region using linewise comment
+`gb[count]{motion}` - (Op-pending) Toggles the region using linewise comment
+
+VISUAL Mode
+`gc` - Toggles the region using linewise comment
+`gb` - Toggles the region using blockwise comment
+
+NORMAL Mode
+`gco` - Insert comment to the next line and enters INSERT mode
+`gcO` - Insert comment to the previous line and enters INSERT mode
+`gcA` - Insert comment to end of the current line and enters INSERT mode
+
+]]--
+require('Comment').setup {}
+
+--- Lua tree
+require('nvim-tree').setup {}
+
+--- Lualine setup
 require('lualine').setup {
     options = { theme = 'gruvbox' },
     sections = { lualine_c = { current_file } }
-    }
+}
+
+--- Treesitter config
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+parser_configs.norg = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg",
+        files = { "src/parser.c", "src/scanner.cc" },
+        branch = "main"
+    },
+}
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -114,7 +157,7 @@ require('nvim-treesitter.configs').setup {
     }
 }
 
-
+--- Telescope setup
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
@@ -171,6 +214,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
+--- nvim-cmp setup
 local lspkind = require('lspkind')
 local cmp = require'cmp'
 cmp.setup({
@@ -179,18 +223,21 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-k>'] = cmp.mapping.confirm({ select = true }),
     },
     formatting = {
         format = lspkind.cmp_format({with_text = false, maxwidth = 50})
     },
     sources = {
         { name = 'nvim_lsp' },
+        { name = "path" },
+        { name = "neorg" },
         { name = 'buffer' },
     }
 })
 
-local servers = { "pyright", "gopls","clangd","tsserver" }
+--- LSP setup
+local servers = { "pyright", "gopls","clangd","tsserver", "zls" }
 for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(
     {
@@ -199,10 +246,32 @@ for _, lsp in ipairs(servers) do
     )
 end
 
+--- Neorg setup
+require('neorg').setup {
+    load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.norg.completion"] = {
+            config = {
+                engine = "nvim-cmp"
+            }
+        },
+        ["core.norg.dirman"] = {
+            config = {
+                workspaces = {
+                    my_workspace = "$SRC/neorg"
+                },
+            },
+        },
+    }
+}
+
 EOF
 
 
 
+nnoremap <TAB> :tabn<CR>
+nnoremap <S-TAB> :tabp<CR>
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
@@ -212,9 +281,13 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
+" Yank into clipboard
+vnoremap <leader>y "+y
 " LSP Telescope
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
-
+" Nvim Tree Lua
+nnoremap <C-n> :NvimTreeToggle<cr>
+nnoremap <leader>r :NvimTreeRefresh<cr>
 " Terminal mappings
 nnoremap <C-T> <cmd>lua QuickTerm()<cr>
 tnoremap <ESC> <C-\><C-n>
@@ -225,3 +298,6 @@ augroup BURMUDAR
     autocmd!
     autocmd BufWritePre * %s/\s\+$//e
 augroup END
+
+augroup PYTHON
+    autocmd BufNewFile,BufRead *.py set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent

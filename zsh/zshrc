@@ -1,0 +1,26 @@
+# curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+source ~/.zplug/init.zsh
+
+export HISTFILE=~/.histfile
+export HISTSIZE=1000000 # internal number for history list items
+export SAVEHIST=1000000 # maximum number of items for history file
+
+setopt HIST_IGNORE_ALL_DUPS # do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS  # do not save duplicated commands
+setopt HIST_REDUCE_BLANKS # remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME # append command to history file immediately after execution
+setopt EXTENDED_HISTORY # record command start time
+
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-syntax-highlighting"
+
+if ! zplug check --verbose; then
+    printf "Install ? [yN]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load
+
+source ~/.zwilliam

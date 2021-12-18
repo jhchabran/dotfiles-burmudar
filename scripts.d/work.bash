@@ -29,7 +29,13 @@ oyubi () {
     local AUTH_SOCK=$(env | grep SSH_AUTH_SOCK | sed s/SSH_AUTH_SOCK=//)
     local AGENT_PID=$(env | grep SSH_AGENT_PID | sed s/SSH_AGENT_PID=//)
 
-    eval `SSH_AGENT_PID=${AGENT_PID} SSH_AUTH_SOCK="${AUTH_SOCK}" ssh-add -s /usr/local/lib/opensc-pkcs11.so`
+    if [[ -a /usr/local/lib/opensc-pkcs11.so ]] then
+        lib_path=/usr/local/lib/opensc-pkcs11.so
+    elif [[ -a /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so ]] then
+        lib_path=/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so
+    fi
+
+    eval `SSH_AGENT_PID=${AGENT_PID} SSH_AUTH_SOCK="${AUTH_SOCK}" ssh-add -s $lib_path`
 }
 
 oenv () {
@@ -55,6 +61,21 @@ ossh () {
 unoenv() {
     unset COMPARTMENT_ID
     unset REGION
+}
+
+ccat() {
+    if [[ -z $1 ]] then
+        echo "ccat: missing argument"
+        return 1
+    fi
+
+    if ! command -v pbcopy &> /dev/null; then
+        cat $1 | pbcopy
+    else
+        cat $1 | xclip -selection clipboard
+    fi
+
+    echo "$1 copied to clipboard!"
 }
 
 cond_source $HOME/.sdkman/bin/sdkman-init.sh

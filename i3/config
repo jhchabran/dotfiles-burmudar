@@ -126,7 +126,7 @@ bindsym $mod+4 workspace $browser
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
+bindsym $mod+8 workspace $other
 bindsym $mod+9 workspace $spotify
 bindsym $mod+0 workspace 10
 
@@ -149,8 +149,8 @@ for_window [class="[fF]irefox"] border none, move to workspace $browser
 assign [class="Spotify"] $spotify
 for_window [class="Spotify"] border none, move to workspace $spotify
 
-assign [class="Slack"] $chat
-for_window [class="slack"] move to workspace $chat
+assign [class="[sS]lack"] $chat
+for_window [class="[sS]lack"] move to workspace $chat
 assign [class="TelegramDesktop"] $chat
 for_window [class="TelegramDesktop"] move to workspace $chat, border none
 
@@ -236,8 +236,8 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+d exec rofi -show run  -theme /home/william/.config/rofi/themes/Arc.rasi
-bindsym $mod+shift+s exec rofi -show ssh  -theme /home/william/.config/rofi/themes/Arc.rasi
+bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi
+bindsym $mod+shift+s exec rofi -show ssh  -theme ~/.config/rofi/themes/Arc.rasi
 exec --no-startup-id spotify
 exec --no-startup-id firefox
 exec --no-startup-id compton -f

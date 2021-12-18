@@ -131,7 +131,7 @@ set $left_screen HDMI-0
 set $right_screen DP-4
 
 workspace $terminal output $left_screen
-workspace $browser output $right_screen
+workspace $browser output $left_screen
 workspace $chat output $right_screen
 workspace $spotify output $right_screen
 workspace $ide output $left_screen
