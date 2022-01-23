@@ -46,7 +46,6 @@ syntax on
 call plug#begin('~/.config/nvim/plugged')
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'rust-lang/rust.vim'
-Plug 'simrat39/rust-tools.nvim'
 Plug 'ziglang/zig.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'dstein64/vim-startuptime'
@@ -221,42 +220,46 @@ local on_attach = function(client, bufnr)
 end
 
 --- nvim-cmp setup
+local ls = require"luasnip"
 local lspkind = require('lspkind')
+lspkind.init()
 local cmp = require'cmp'
 cmp.setup({
     mapping = {
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-e>'] = cmp.mapping.close(),
+        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+            }),
         ['<tab>'] = cmp.config.disable,
         ['<C-y>'] = cmp.mapping (
-            cmp.mapping.confirm {
+            cmp.mapping.confirm({
                 behavior = cmp.ConfirmBehavior.Insert,
                 select = true
-            },
+            }),
             { "i", "c" }
         ),
-        ['<C-q>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        },
-        ['<C-space>'] = cmp.mapping.confirm {
-            i = cmp.mapping.complete(),
-            c = function(
-            _ --[[fallback]]
-            )
-            if cmp.visible() then
-                if not cmp.confirm { select = true } then
-                    return
-                end
-            else
-                cmp.complete()
-            end
-        end,
-        },
+        ['<C-q>'] = cmp.mapping(
+            cmp.mapping.confirm( {
+                behavior = cmp.ConfirmBehavior.Replace,
+                select = true,
+            }),
+            { 'i', 'c' }
+            ),
+        ['<C-space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     },
     formatting = {
-        format = lspkind.cmp_format({with_text = false, maxwidth = 50})
+        format = lspkind.cmp_format({
+        with_text = true, maxwidth = 50,
+        menu = {
+            buffer = "[buf]",
+            nvim_lsp = "[LSP]",
+            path = "[path]",
+            luasnip = "[snip]",
+            neorg = "[neorg]",
+            }
+        })
     },
     sources = {
         { name = 'nvim_lsp' },
@@ -267,8 +270,8 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-        end,
+            ls.lsp_expand(args.body)
+        end
     },
     experimental = {
         native_menu = false,
@@ -287,9 +290,6 @@ for _, lsp in ipairs(servers) do
 end
 
 --- Luasnip
-
-local ls = require"luasnip"
-
 ls.config.set_config {
     history = true,
     enable_autosnippets = true
