@@ -9,7 +9,7 @@ fi
 # pyenv exports
 
 # fzf exports
-export FZF_DEFAULT_COMMAND='fd -t f'
+export FZF_DEFAULT_COMMAND="fdfind -t f"
 
 export SSH_KEY_FOLDER="$HOME/.ssh/keys"
 export GOPATH="$SRC/golang"
@@ -60,6 +60,7 @@ function cond_eval() {
     expression="$2"
 
     if type $cmd &> /dev/null; then
+        echo "Running $cmd"
         result=$(eval $expression)
         eval $result
     fi

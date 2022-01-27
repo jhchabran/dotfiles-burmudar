@@ -44,6 +44,7 @@ filetype plugin indent on
 syntax on
 
 call plug#begin('~/.config/nvim/plugged')
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'ziglang/zig.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'dstein64/vim-startuptime'
@@ -147,7 +148,7 @@ parser_configs.norg = {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "norg_meta", "norg_table", "zig" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -260,10 +261,15 @@ require('neorg').setup {
         ["core.norg.dirman"] = {
             config = {
                 workspaces = {
-                    my_workspace = "$SRC/neorg"
+                    my_workspace = "$SRC/notes"
                 },
             },
         },
+        ["core.norg.journal"] = {
+            config = {
+                journal_folder = "journal"
+            }
+        }
     }
 }
 
@@ -273,6 +279,7 @@ EOF
 
 nnoremap <TAB> :tabn<CR>
 nnoremap <S-TAB> :tabp<CR>
+nnoremap <leader>t :tabnew<CR>
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap <leader>fp <cmd>lua require('telescope.builtin').file_browser({ cwd = "$SRC", depth = 1 })<cr>
@@ -282,6 +289,7 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
+nnoremap <leader>j :Neorg journal today<cr>
 " Yank into clipboard
 vnoremap <leader>y "+y
 " LSP Telescope
