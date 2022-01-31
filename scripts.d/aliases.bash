@@ -10,7 +10,7 @@ alias egrep='egrep --color=auto'
 
 if [[ $OSTYPE == "darwin"* ]]; then
 	alias ls='ls -G'
-	alias cat='batcat'
+	alias cat='bat'
 else
 	alias ls='ls --color=auto'
 	alias cat='batcat'
