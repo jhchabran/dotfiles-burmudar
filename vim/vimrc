@@ -71,6 +71,9 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rhysd/committia.vim'
 Plug 'nvim-neorg/neorg'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'numToStr/comment.nvim'
 call plug#end()
 
 colorscheme gruvbox
