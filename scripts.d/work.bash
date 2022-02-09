@@ -53,7 +53,7 @@ ostatus ()  {
 }
 
 ossh () {
-    local host=$(grep -h -i -E "Host [[:alnum:]_\-]+$" ~/.ssh/ams-configs/*.config | awk '{print $2;}' | fzf)
+    local host=$(grep -h -i -E "Host [[:alnum:]_\-]+$" $SRC/ociccp-ssh-config/*.config | awk '{print $2;}' | fzf)
     echo "ssh to host: ${host}"
     ssh ${host}
 }

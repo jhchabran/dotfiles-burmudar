@@ -1,19 +1,6 @@
 
-local M = {}
-M.term_id = nil
+local BumFuns = require('burm_funs')
 
-function QuickTerm()
-    if not M.term_id then
-        vim.cmd [[10new]]
-        cwd = vim.fn.getcwd()
-        M.term_id = vim.fn.termopen("/bin/zsh")
-    else
-        -- does this work ?
-        vim.fn.win_execute(M.term_id, "close")
-    end
-
-    vim.wait(100, function() return false end)
-end
 
 --- Do all the plugin setup here
 require('gitsigns').setup()
@@ -22,9 +9,6 @@ require'nvim-web-devicons'.setup {
     default = true
 }
 
-local function current_file()
-    return vim.fn.expand("%")
-end
 
 --- comment.nvim
 
@@ -53,7 +37,7 @@ require('nvim-tree').setup {}
 --- Lualine setup
 require('lualine').setup {
     options = { theme = 'gruvbox' },
-    sections = { lualine_c = { current_file } }
+    sections = { lualine_c = { BumFuns.current_file } }
 }
 
 --- Treesitter config
@@ -68,7 +52,7 @@ parser_configs.norg = {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig", "rust" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig", "rust", "sumneko_lua"},
     ignore_install = {},
     highlight = {
         enable = true,
@@ -111,30 +95,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     }
 }
 
--- LSPConfig setup
-local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    -- Enable completion triggered by <C-x><C-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    local opts = { noremap=true, silent=true }
-
-    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-s>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', 'dr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<space>r', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<space>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<space>q', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-end
 
 --- nvim-cmp setup
 local ls = require"luasnip"
@@ -197,13 +159,78 @@ cmp.setup({
 })
 
 --- LSP setup
-local servers = { "pyright", "gopls","clangd","tsserver", "zls", "rust_analyzer"}
-for _, lsp in ipairs(servers) do
-    require('lspconfig')[lsp].setup(
-    {
+-- LSPConfig setup
+local on_attach = function(client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    -- Enable completion triggered by <C-x><C-o>
+    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    local opts = { noremap=true, silent=true }
+
+    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<C-s>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', 'dr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<space>r', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<space>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<space>q', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
+local servers = { "pyright", "gopls","clangd","tsserver", "zls", "rust_analyzer", "sumneko_lua" }
+
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+local configs = {
+    default = {
             capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-            on_attach = on_attach }
-    )
+            on_attach = on_attach
+    },
+    sumneko_lua = {
+            capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+            on_attach = on_attach,
+            settings = {
+                Lua = {
+                    runtime = {
+                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                        version = 'LuaJIT',
+                        -- Setup your lua path
+                        path = runtime_path,
+                    },
+                    diagnostics = {
+                        -- Get the language server to recognize the `vim` global
+                        globals = {'vim'},
+                    },
+                    workspace = {
+                        library = vim.api.nvim_get_runtime_file("", true),
+                    },
+                    -- Do not send telemetry data containing a randomized but unique identifier
+                    telemetry = {
+                        enable = false,
+                    },
+                },
+            },
+    }
+}
+
+
+
+for _, lsp in ipairs(servers) do
+    local c = configs.default
+    if configs[lsp] ~= nil then
+        c = configs[lsp]
+    end
+
+    require('lspconfig')[lsp].setup(c)
 end
 
 --- Luasnip
@@ -226,6 +253,7 @@ UTIL = {
         end
     },
 }
+
 --- Expand using C-k or got to the next one
 vim.api.nvim_set_keymap("i", "<C-k>", '<cmd>lua UTIL.luasnips.expand_or_jump()<CR>', { silent = true })
 vim.api.nvim_set_keymap("s", "<C-k>", '<cmd>lua UTIL.luasnips.expand_or_jump()<CR>', { silent = true })
