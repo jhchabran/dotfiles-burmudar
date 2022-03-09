@@ -85,9 +85,9 @@ nnoremap <S-TAB> :tabp<CR>
 nnoremap <leader>t :tabnew<CR>
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
-nnoremap <C-q> <cmd>lua require('burm_funs').toggle_quickfix()<CR>
 nnoremap ]p :cnext<CR>
 nnoremap [p :cprev<CR>
+nnoremap <C-q> <cmd>lua require('burm_funs').toggle_quickfix()<CR>
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({previewer=false, layout_config={width=0.65}}))<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown({layout_config={width=0.80}}), {bufnr=0})<cr>
@@ -95,7 +95,7 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$SRC/dotfiles" } )<cr>
-nnoremap <leader>j <cmd>Neorg journal today<cr>
+nnoremap <leader>j <cmd>lua require('burm.custom.neorg').journal_today()<cr>
 " Yank into clipboard
 vnoremap <leader>y "+y
 " LSP Telescope

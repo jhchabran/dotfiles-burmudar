@@ -1,5 +1,5 @@
 
-local BumFuns = require('burm_funs')
+local BumFuns = require('burm.funcs')
 
 
 --- Do all the plugin setup here
@@ -276,11 +276,16 @@ require('neorg').setup {
         ["core.norg.dirman"] = {
             config = {
                 workspaces = {
-                    my_workspace = "$SRC/neorg"
+                    notes = "/Users/william/development/notes"
                 },
             },
         },
+        ["core.norg.journal"] = {
+            config = {
+                workspace = "notes",
+            }
+        }
     }
 }
 
-
+print("burm.config loaded")
