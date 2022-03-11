@@ -267,6 +267,7 @@ vim.api.nvim_set_keymap("s", "<C-j>", '<cmd>lua UTIL.luasnips.jump_back()<CR>', 
 require('neorg').setup {
     load = {
         ["core.defaults"] = {},
+        ["core.keybinds"] = {},
         ["core.norg.concealer"] = {},
         ["core.norg.completion"] = {
             config = {
@@ -276,7 +277,7 @@ require('neorg').setup {
         ["core.norg.dirman"] = {
             config = {
                 workspaces = {
-                    notes = "/Users/william/development/notes"
+                    notes = "~/development/notes"
                 },
             },
         },

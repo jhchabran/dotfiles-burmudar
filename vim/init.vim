@@ -87,7 +87,7 @@ nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <leader>cd :lcd %:p:h<CR>
 nnoremap ]p :cnext<CR>
 nnoremap [p :cprev<CR>
-nnoremap <C-q> <cmd>lua require('burm_funs').toggle_quickfix()<CR>
+nnoremap <C-q> <cmd>lua require('burm.funcs').toggle_quickfix()<CR>
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({previewer=false, layout_config={width=0.65}}))<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown({layout_config={width=0.80}}), {bufnr=0})<cr>
@@ -98,6 +98,7 @@ nnoremap <leader>df <cmd>lua require('telescope.builtin').git_files( { cwd = "$S
 nnoremap <leader>j <cmd>lua require('burm.custom.neorg').journal_today()<cr>
 " Yank into clipboard
 vnoremap <leader>y "+y
+nnoremap <leader>p "+p
 " LSP Telescope
 nnoremap <leader>ds <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
 " Nvim Tree Lua
