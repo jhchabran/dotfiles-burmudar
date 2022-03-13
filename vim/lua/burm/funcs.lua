@@ -3,12 +3,25 @@ PP = function(v)
     return v
 end
 
+local pathlib = require("plenary.path")
+
+
 local M = {}
-M.term_id = nil
+ M.env_for_key = function(key, default)
+    local env = vim.fn.environ()
 
-local F = {}
+    for k, v in pairs(env) do
+        if k == key then
+            return v
+        end
+    end
 
-F.quick_term = function()
+    return default
+end
+
+M.src_dir = M.env_for_key("SRC", nil)
+
+M.quick_term = function()
     if not M.term_id then
         vim.cmd [[10new]]
         local cwd = vim.fn.getcwd()
@@ -21,7 +34,7 @@ F.quick_term = function()
     vim.wait(100, function() return false end)
 end
 
-F.current_file = function()
+M.current_file = function()
     return vim.fn.expand("%")
 end
 
@@ -37,8 +50,13 @@ local function toggle_list_window(key, open_cmd, close_cmd)
     end
 end
 
-F.toggle_quickfix = function() toggle_list_window("quickfix", "copen", "cclose") end
-F.toggle_loclist = function() toggle_list_window("loclist", "lopen", "lclose") end
+M.toggle_quickfix = function() toggle_list_window("quickfix", "copen", "cclose") end
+M.toggle_loclist = function() toggle_list_window("loclist", "lopen", "lclose") end
+
+M.relative_src_dir = function (path)
+    local p = pathlib.new(M.src_dir)
+    return pathlib.joinpath(p, path).filename
+end
 
 --- export these funcs as the module
-return F
+return M

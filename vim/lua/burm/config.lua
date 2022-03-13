@@ -1,5 +1,5 @@
 
-local BumFuns = require('burm.funcs')
+local BurmFuncs = require('burm.funcs')
 
 
 --- Do all the plugin setup here
@@ -37,7 +37,7 @@ require('nvim-tree').setup {}
 --- Lualine setup
 require('lualine').setup {
     options = { theme = 'gruvbox' },
-    sections = { lualine_c = { BumFuns.current_file } }
+    sections = { lualine_c = { BurmFuncs.current_file } }
 }
 
 --- Treesitter config
@@ -277,7 +277,7 @@ require('neorg').setup {
         ["core.norg.dirman"] = {
             config = {
                 workspaces = {
-                    notes = "~/development/notes"
+                    notes = BurmFuncs.relative_src_dir("notes")
                 },
             },
         },
