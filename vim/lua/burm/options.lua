@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocaleader = " "
-vim.keymap.set("n", "<leader>R", "<cmd>lua RELOAD_CONFIG()<cr>")
+vim.g.rustfmt_autosave = 1
 
 vim.opt.exrc = true
 vim.opt.guicursor = ""
