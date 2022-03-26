@@ -12,7 +12,6 @@ end
 
 local pathlib = require("plenary.path")
 
-
 local M = {}
  M.env_for_key = function(key, default)
     local env = vim.fn.environ()
@@ -67,7 +66,7 @@ end
 M.reload_current = function()
     local current_file = M.current_file()
     local _, e_idx = current_file:find("lua%p", 0)
-    P(current_file)
+
     if e_idx ~= nil then
         local package_name = current_file:sub(e_idx+1, #current_file):gsub("/", "."):gsub(".lua", "")
         R(package_name)
