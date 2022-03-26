@@ -27,6 +27,7 @@ local PLUGINS = {
     { name = 'kyazdani42/nvim-web-devicons' },
     { name = 'kyazdani42/nvim-tree.lua' },
     { name = 'numToStr/comment.nvim' },
+    { name = 'j-hui/fidget.nvim'},
 }
 
 local function plug_all(plugins)

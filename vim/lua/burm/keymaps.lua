@@ -26,6 +26,11 @@ km("n", "<leader>p", "+p")
 km("n", "<C-n>", ":NvimTreeToggle<cr>")
 km("n", "<leader>r", ":NvimTreeRefresh<cr>")
 
+km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>', { silent = true })
+km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>', { silent = true })
+
+km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
+km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
 local M = {
     setup = function(cbs)
         for _, cb in ipairs(cbs) do
@@ -35,4 +40,3 @@ local M = {
 }
 
 return M
-
