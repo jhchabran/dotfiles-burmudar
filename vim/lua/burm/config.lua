@@ -1,6 +1,7 @@
 
 local BurmFuncs = require('burm.funcs')
 
+require"fidget".setup{}
 
 --- Do all the plugin setup here
 require('gitsigns').setup()
