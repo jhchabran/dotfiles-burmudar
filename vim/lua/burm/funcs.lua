@@ -1,6 +1,13 @@
-PP = function(v)
+--- Print the internal representation of the thing
+P = function(v)
     print(vim.inspect(v))
     return v
+end
+
+--- Reload a module
+R = function(...)
+    print("reloading " .. ...)
+    return require("plenary.reload").reload_module(...)
 end
 
 local pathlib = require("plenary.path")
@@ -24,7 +31,6 @@ M.src_dir = M.env_for_key("SRC", nil)
 M.quick_term = function()
     if not M.term_id then
         vim.cmd [[10new]]
-        local cwd = vim.fn.getcwd()
         M.term_id = vim.fn.termopen("/bin/zsh")
     else
         -- does this work ?
@@ -57,6 +63,17 @@ M.relative_src_dir = function (path)
     local p = pathlib.new(M.src_dir)
     return pathlib.joinpath(p, path).filename
 end
+
+M.reload_current = function()
+    local current_file = M.current_file()
+    local _, e_idx = current_file:find("lua%p", 0)
+    P(current_file)
+    if e_idx ~= nil then
+        local package_name = current_file:sub(e_idx+1, #current_file):gsub("/", "."):gsub(".lua", "")
+        R(package_name)
+    end
+end
+
 
 --- export these funcs as the module
 return M

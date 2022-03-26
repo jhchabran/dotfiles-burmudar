@@ -96,10 +96,15 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 
+--- Luasnip
+local ls = require("luasnip")
+ls.config.set_config {
+    history = true,
+    enable_autosnippets = true
+}
 
 
 --- nvim-cmp setup
-local ls = require"luasnip"
 local lspkind = require('lspkind')
 lspkind.init()
 local cmp = require'cmp'
@@ -175,7 +180,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', '<C-s>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('n', 'dr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<space>r', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<space>re', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<space>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', '<space>e', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     buf_set_keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
@@ -234,35 +239,6 @@ for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(c)
 end
 
---- Luasnip
-ls.config.set_config {
-    history = true,
-    enable_autosnippets = true
-    }
-
-UTIL = {
-    luasnips = {
-        expand_or_jump = function()
-            if ls.expand_or_jumpable() then
-                ls.expand_or_jump()
-            end
-        end,
-        jump_back = function()
-            if ls.jumpable(-1) then
-                ls.jump(-1)
-            end
-        end
-    },
-}
-
---- Expand using C-k or got to the next one
-vim.api.nvim_set_keymap("i", "<C-k>", '<cmd>lua UTIL.luasnips.expand_or_jump()<CR>', { silent = true })
-vim.api.nvim_set_keymap("s", "<C-k>", '<cmd>lua UTIL.luasnips.expand_or_jump()<CR>', { silent = true })
-
-vim.api.nvim_set_keymap("i", "<C-j>", '<cmd>lua UTIL.luasnips.jump_back()<CR>', { silent = true})
-vim.api.nvim_set_keymap("s", "<C-j>", '<cmd>lua UTIL.luasnips.jump_back()<CR>', { silent = true})
-
-
 --- Neorg setup
 require('neorg').setup {
     load = {
@@ -288,5 +264,3 @@ require('neorg').setup {
         }
     }
 }
-
-print("burm.config loaded")
