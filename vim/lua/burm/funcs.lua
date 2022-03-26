@@ -64,20 +64,13 @@ M.relative_src_dir = function (path)
     return pathlib.joinpath(p, path).filename
 end
 
-M.reload_all = function(items)
-    for _, name in ipairs(items) do
-        R(name)
-    end
-    print("reloaded items")
-end
-
 M.reload_current = function()
     local current_file = M.current_file()
     local _, e_idx = current_file:find("lua%p", 0)
     P(current_file)
     if e_idx ~= nil then
-        local updated = current_file:sub(e_idx+1, #current_file):gsub("/", "."):gsub(".lua", "")
-        R(updated)
+        local package_name = current_file:sub(e_idx+1, #current_file):gsub("/", "."):gsub(".lua", "")
+        R(package_name)
     end
 end
 

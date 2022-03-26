@@ -1,15 +1,19 @@
-local modules = {
-    'burm.options',
-    'burm.plugins',
-    'burm.colorscheme',
-    'burm.config',
-    'burm.keymaps',
-    'burm.funcs',
-}
+require('burm.plugins')
+require('burm.funcs')
+require('burm.options')
+require('burm.colorscheme')
+require('burm.config')
+require('burm.keymaps')
 
-for _, module in ipairs(modules) do
-	require(module)
+function reload_all()
+    R('burm.funcs')
+    R('burm.options')
+    R('burm.plugins')
+    R('burm.colorscheme')
+    R('burm.config')
+    R('burm.keymaps')
+    print("reloaded all")
 end
 
-require('burm.keymaps').setup( { function() vim.keymap.set("n", "<leader>R", function() require('burm.funcs').reload_all(modules) end) end } )
+require('burm.keymaps').setup( { function() vim.keymap.set("n", "<leader>R", reload_all) end } )
 
