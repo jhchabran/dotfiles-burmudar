@@ -7,7 +7,15 @@ if [[ -z $win_idx ]]; then
 fi
 
 session=$(tmux display-message -p '#S')
-
 target="$session:$win_idx"
-tmux send -t $target "lpass" C-m
-tmux select-window -t $target
+
+curr_win=$(tmux display-message -p '#I')
+current="$session:$curr_win"
+
+
+if [[ "$target" == "$current" ]]; then
+    tmux last-window
+else
+    tmux send -t $target "lpass" C-m
+    tmux select-window -t $target
+fi
