@@ -1,4 +1,5 @@
 #!/bin/bash
+PASS=$1
 NAME="password"
 win_idx=$(tmux list-windows -F '#I #W' | awk "\$2 ~ /$NAME/ { print \$1 }" | head -n 1)
 
@@ -16,6 +17,6 @@ current="$session:$curr_win"
 if [[ "$target" == "$current" ]]; then
     tmux last-window
 else
-    tmux send -t $target "lpass" C-m
+    tmux send -t $target "lpass $PASS" C-m
     tmux select-window -t $target
 fi

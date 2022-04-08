@@ -20,9 +20,9 @@ km("n", "<leader>df", "<cmd>lua require('telescope.builtin').git_files( { cwd = 
 km("n", "<leader>ds", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
 km("n", "<leader>j", "<cmd>lua require('burm.custom.neorg').journal_today()<cr>")
 -- Yank into clipboard
-km("v", "<leader>y", "+y")
-km("n", "<leader>p", "+p")
---- Nvim Tree Lua
+km("v", "<leader>y", "\"+y")
+km("n", "<leader>p", "\"+p")
+-- Nvim Tree Lua
 km("n", "<C-n>", ":NvimTreeToggle<cr>")
 km("n", "<leader>r", ":NvimTreeRefresh<cr>")
 
@@ -31,6 +31,11 @@ km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>'
 
 km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
 km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
+
+--- Press CTRL-ESC to exit terminal mode
+km ("t", "<Esc>", '<C-\\><C-n>', { noremap = true })
+--vim.cmd("tnoremap <Esc> <C-\\><C-n>")
+
 local M = {
     setup = function(cbs)
         for _, cb in ipairs(cbs) do

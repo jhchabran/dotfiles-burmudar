@@ -31,6 +31,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "120"
 vim.opt.splitbelow = true
 vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.clipboard = "unnamedplus"
 -- silent pattern not found in compe
 vim.opt.shortmess:append("c")
 vim.g.completetion_matching_strategy_list = "fuzzy, substring, exact"
@@ -42,3 +43,4 @@ vim.opt.listchars = "tab:»·,eol:↲,nbsp:␣"
 
 vim.opt.updatetime = 50
 vim.opt.syntax = "enable"
+
