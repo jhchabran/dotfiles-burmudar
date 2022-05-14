@@ -5,7 +5,7 @@ km("n", "<tab>", ":tabn<cr>")
 km("n", "<s-tab>", ":tabp<cr>")
 km("n", "<leader>t", ":tabnew<cr>")
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
---- this should probably a auto command in lua files
+--- this should probably be a auto command in lua files
 km("n", "<c-r>", "<cmd>lua require('burm.funcs').reload_current()<cr>")
 km("n", "]p", ":cnext<cr>")
 km("n", "[p", ":cprev<cr>")

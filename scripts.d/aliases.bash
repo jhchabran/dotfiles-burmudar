@@ -6,7 +6,7 @@ alias denv='deactivate'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias cat='bat'
+alias cat='batcat'
 
 
 if [[ $OSTYPE == "darwin"* ]]; then
