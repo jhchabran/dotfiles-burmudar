@@ -234,11 +234,12 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi
-bindsym $mod+shift+s exec rofi -show ssh  -theme ~/.config/rofi/themes/Arc.rasi
+bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi -show-icons -font 'JetBrainsMono Nerd Font 12'
+bindsym $mod+m exec --no-startup-id rofimoji --skin-tone light --action clipboard --clipboarder xclip --selector-args '-theme ~/.config/rofi/themes/Arc.rasi'
+
 exec --no-startup-id spotify
 exec --no-startup-id firefox
-exec --no-startup-id compton -f
+exec --no-startup-id picom -b
 
 exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper.jpg
 

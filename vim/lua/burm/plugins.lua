@@ -28,6 +28,9 @@ local PLUGINS = {
     { name = 'kyazdani42/nvim-tree.lua' },
     { name = 'numToStr/comment.nvim' },
     { name = 'j-hui/fidget.nvim'},
+    { name = 'mfussenegger/nvim-dap' },
+    { name = 'leoluz/nvim-dap-go' },
+    { name = 'folke/which-key.nvim' },
 }
 
 local function plug_all(plugins)

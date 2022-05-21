@@ -33,13 +33,14 @@
     alternate-active-foreground: @active-foreground;
     active-background:           rgba ( 255, 0, 255, 100 % );
     selected-active-background:  rgba ( 255, 0, 0, 100 % );
+    font:                        "JetBrainsMonoNL Nerd Font 12";
 }
 #window {
     background-color: @background;
     fullscreen:	      true;
     opacity:	      0.8;
     padding:          5;
-    font: "Source Code Pro Variable 12";
+    font: @font;
 }
 #mainbox {
     border:  0;

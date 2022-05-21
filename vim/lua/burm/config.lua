@@ -1,12 +1,11 @@
-
 local BurmFuncs = require('burm.funcs')
 
-require"fidget".setup{}
+require "fidget".setup {}
 
 --- Do all the plugin setup here
 require('gitsigns').setup()
 
-require'nvim-web-devicons'.setup {
+require 'nvim-web-devicons'.setup {
     default = true
 }
 
@@ -29,7 +28,7 @@ NORMAL Mode
 `gcO` - Insert comment to the previous line and enters INSERT mode
 `gcA` - Insert comment to end of the current line and enters INSERT mode
 
-]]--
+]] --
 require('Comment').setup {}
 
 --- Lua tree
@@ -40,6 +39,7 @@ require('lualine').setup {
     options = { theme = 'gruvbox' },
     sections = { lualine_c = { BurmFuncs.current_file } }
 }
+
 
 --- Treesitter config
 local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
@@ -53,7 +53,7 @@ parser_configs.norg = {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig", "rust", "sumneko_lua"},
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig", "rust", "sumneko_lua" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -108,19 +108,19 @@ ls.config.set_config {
 --- nvim-cmp setup
 local lspkind = require('lspkind')
 lspkind.init()
-local cmp = require'cmp'
+local cmp = require 'cmp'
 cmp.setup({
     mapping = {
-        ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 'c' }),
-        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 'c' }),
-        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
+        ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
         ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
-            }),
+        }),
         ['<tab>'] = cmp.config.disable,
-        ['<C-y>'] = cmp.mapping (
+        ['<C-y>'] = cmp.mapping(
             cmp.mapping.confirm({
                 behavior = cmp.ConfirmBehavior.Insert,
                 select = true
@@ -128,23 +128,23 @@ cmp.setup({
             { "i", "c" }
         ),
         ['<C-q>'] = cmp.mapping(
-            cmp.mapping.confirm( {
+            cmp.mapping.confirm({
                 behavior = cmp.ConfirmBehavior.Replace,
                 select = true,
             }),
             { 'i', 'c' }
-            ),
+        ),
         ['<C-space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     },
     formatting = {
         format = lspkind.cmp_format({
-        with_text = true, maxwidth = 50,
-        menu = {
-            buffer = "[buf]",
-            nvim_lsp = "[LSP]",
-            path = "[path]",
-            luasnip = "[snip]",
-            neorg = "[neorg]",
+            with_text = true, maxwidth = 50,
+            menu = {
+                buffer = "[buf]",
+                nvim_lsp = "[LSP]",
+                path = "[path]",
+                luasnip = "[snip]",
+                neorg = "[neorg]",
             }
         })
     },
@@ -170,12 +170,13 @@ cmp.setup({
 -- LSPConfig setup
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     -- Enable completion triggered by <C-x><C-o>
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    local opts = { noremap=true, silent=true }
+    local opts = { noremap = true, silent = true }
 
     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -190,10 +191,10 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<space>l', '<Cmd>lua vim.diagnostic.setloclist()<CR>', opts)
     buf_set_keymap('n', '<space>q', '<Cmd>lua vim.diagnostic.setqflist()<CR>', opts)
-    buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 end
 
-local servers = { "pyright", "gopls","clangd","tsserver", "zls", "rust_analyzer", "sumneko_lua" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "sumneko_lua" }
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
@@ -201,33 +202,33 @@ table.insert(runtime_path, "lua/?/init.lua")
 
 local configs = {
     default = {
-            capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-            on_attach = on_attach
+        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        on_attach = on_attach
     },
     sumneko_lua = {
-            capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-            on_attach = on_attach,
-            settings = {
-                Lua = {
-                    runtime = {
-                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                        version = 'LuaJIT',
-                        -- Setup your lua path
-                        path = runtime_path,
-                    },
-                    diagnostics = {
-                        -- Get the language server to recognize the `vim` global
-                        globals = {'vim'},
-                    },
-                    workspace = {
-                        library = vim.api.nvim_get_runtime_file("", true),
-                    },
-                    -- Do not send telemetry data containing a randomized but unique identifier
-                    telemetry = {
-                        enable = false,
-                    },
+        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        on_attach = on_attach,
+        settings = {
+            Lua = {
+                runtime = {
+                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                    version = 'LuaJIT',
+                    -- Setup your lua path
+                    path = runtime_path,
+                },
+                diagnostics = {
+                    -- Get the language server to recognize the `vim` global
+                    globals = { 'vim' },
+                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                },
+                -- Do not send telemetry data containing a randomized but unique identifier
+                telemetry = {
+                    enable = false,
                 },
             },
+        },
     }
 }
 
@@ -267,3 +268,13 @@ require('neorg').setup {
         }
     }
 }
+
+---local D = require('dap')
+---D.set_log_level("TRACE")
+vim.fn.sign_define('DapBreakpoint', {text='🧪', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointCondition', {text='🔍', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='🛑', texthl='', linehl='', numhl=''})
+require('dap-go').setup()
+
+require("which-key").setup({})

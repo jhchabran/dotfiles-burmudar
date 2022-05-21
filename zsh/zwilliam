@@ -58,7 +58,6 @@ function cond_eval() {
     expression="$2"
 
     if type $cmd &> /dev/null; then
-        echo "Running $cmd"
         result=$(eval $expression)
         eval $result
     fi

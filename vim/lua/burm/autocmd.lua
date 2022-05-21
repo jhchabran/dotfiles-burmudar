@@ -7,6 +7,12 @@ vim.cmd([[
     ]])
 
 vim.cmd([[
+    augroup FORMATTING
+        autocmd BufWritePre * :lua vim.lsp.buf.format()
+    augroup END
+    ]])
+
+vim.cmd([[
     augroup PYTHON
         autocmd BufNewFile,BufRead *.py set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent
     augroup END

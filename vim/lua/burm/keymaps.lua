@@ -1,8 +1,10 @@
 --- KEYMAPS HERE
 local km = vim.keymap.set
 
-km("n", "<tab>", ":tabn<cr>")
-km("n", "<s-tab>", ":tabp<cr>")
+km("n", "<C-tab>", ":tabn<cr>")
+km("n", "<C-S-tab>", ":tabp<cr>")
+km("i", "<C-tab>", ":tabn<cr>")
+km("i", "<C-S-tab>", ":tabp<cr>")
 km("n", "<leader>t", ":tabnew<cr>")
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
 --- this should probably be a auto command in lua files
@@ -18,6 +20,7 @@ km("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>")
 km("n", "<leader>gf", "<cmd>lua require('telescope.builtin').git_files()<cr>")
 km("n", "<leader>df", "<cmd>lua require('telescope.builtin').git_files( { cwd = '$SRC/dotfiles' } )<cr>")
 km("n", "<leader>ds", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
+km("n", "<leader>gs", "<cmd>lua require('telescope.builtin').git_status()<cr>")
 km("n", "<leader>j", "<cmd>lua require('burm.custom.neorg').journal_today()<cr>")
 -- Yank into clipboard
 km("v", "<leader>y", "\"+y")
@@ -29,11 +32,17 @@ km("n", "<leader>r", ":NvimTreeRefresh<cr>")
 km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>', { silent = true })
 km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>', { silent = true })
 
-km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
-km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
-
+km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true })
+km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true })
+--- Debugging
+km('n', "<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
+km('n', "<leader>B", "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+km('n', "<F5>", "<cmd>lua require('dap').continue()<CR>")
+km('n', "<F10>", "<cmd>lua require('dap').step_over()<CR>")
+km('n', "<F11>", "<cmd>lua require('dap').step_into()<CR>")
+km('n', "<F12>", "<cmd>lua require('dap').step_out()<CR>")
 --- Press CTRL-ESC to exit terminal mode
-km ("t", "<Esc>", '<C-\\><C-n>', { noremap = true })
+km("t", "<Esc>", '<C-\\><C-n>', { noremap = true })
 --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
 
 local M = {
