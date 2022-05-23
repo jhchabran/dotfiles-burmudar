@@ -10,7 +10,7 @@ local PLUGINS = {
     { name = 'nvim-lualine/lualine.nvim' },
     { name = 'vim-pandoc/vim-pandoc' },
     { name = 'gruvbox-community/gruvbox' },
-    { name = 'nvim-treesitter/nvim-treesitter', opts = {['do'] = ':TSUpdate'}},
+    { name = 'nvim-treesitter/nvim-treesitter', opts = { ['do'] = ':TSUpdate' } },
     { name = 'nvim-treesitter/playground' },
     { name = 'lewis6991/gitsigns.nvim' },
     { name = 'nvim-telescope/telescope.nvim' },
@@ -27,10 +27,11 @@ local PLUGINS = {
     { name = 'kyazdani42/nvim-web-devicons' },
     { name = 'kyazdani42/nvim-tree.lua' },
     { name = 'numToStr/comment.nvim' },
-    { name = 'j-hui/fidget.nvim'},
+    { name = 'j-hui/fidget.nvim' },
     { name = 'mfussenegger/nvim-dap' },
     { name = 'leoluz/nvim-dap-go' },
     { name = 'folke/which-key.nvim' },
+    { name = 'tpope/vim-fugitive' },
 }
 
 local function plug_all(plugins)
@@ -47,7 +48,7 @@ local function plug_all(plugins)
     vim.call("plug#end")
 end
 
-local ran, errorMsg = pcall( plug_all, PLUGINS )
+local ran, errorMsg = pcall(plug_all, PLUGINS)
 if not ran then
     error("Function errored on run " .. "\n" .. errorMsg)
 end
