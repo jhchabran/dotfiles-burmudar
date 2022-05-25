@@ -10,6 +10,7 @@ setopt HIST_SAVE_NO_DUPS  # do not save duplicated commands
 setopt HIST_REDUCE_BLANKS # remove unnecessary blanks
 setopt INC_APPEND_HISTORY_TIME # append command to history file immediately after execution
 setopt EXTENDED_HISTORY # record command start time
+setopt EXTENDED_GLOB
 
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-syntax-highlighting"
@@ -23,7 +24,14 @@ fi
 
 zplug load
 
-. $HOME/.asdf/asdf.sh
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+  fi
+
+. /usr/local/opt/asdf/libexec/asdf.sh
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit

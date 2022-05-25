@@ -1,13 +1,7 @@
+#!/bin/zsh
 # vim: set filetype=bash : */ ~
-setopt EXTENDED_GLOB
 # User configuration
 export SRC="$HOME/programming"
-
-if [[ $OSTYPE == "darwin"* || -a ~/.work ]]; then
-    export SRC="$HOME/development"
-fi
-
-# pyenv exports
 
 # fzf exports
 export FZF_DEFAULT_COMMAND="fdfind -t f"
@@ -29,9 +23,6 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 # nice terminal colours
 export TERM=xterm-256color
-
-# aliases
-source $SRC/dotfiles/scripts.d/aliases.bash
 
 if type "fdfind" &> /dev/null; then
     alias fd='fdfind'
@@ -80,6 +71,8 @@ if [[ -a ~/.work ]]; then
 else
     scripts=$SRC/dotfiles/scripts.d/^work*.bash
 fi
+
+
 
 # in zsh =~ means:
 # = -> perform word splitting
