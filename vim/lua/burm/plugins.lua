@@ -12,6 +12,7 @@ local PLUGINS = {
     { name = 'gruvbox-community/gruvbox' },
     { name = 'nvim-treesitter/nvim-treesitter', opts = { ['do'] = ':TSUpdate' } },
     { name = 'nvim-treesitter/playground' },
+    { name = 'nvim-treesitter/nvim-treesitter-context' },
     { name = 'lewis6991/gitsigns.nvim' },
     { name = 'nvim-telescope/telescope.nvim' },
     { name = 'nvim-telescope/telescope-fzy-native.nvim' },
