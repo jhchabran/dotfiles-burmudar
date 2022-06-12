@@ -1,7 +1,7 @@
 #!/bin/zsh
 # vim: set filetype=bash : */ ~
 # User configuration
-export SRC="$HOME/programming"
+export SRC="$HOME/code"
 
 # fzf exports
 export FZF_DEFAULT_COMMAND="fdfind -t f"
@@ -60,6 +60,7 @@ cond_source /usr/share/nvm/init-nvm.sh
 
 cond_eval "pyenv" "pyenv init --path"
 cond_eval "direnv" "direnv hook zsh"
+cond_eval "zoxide" "zoxide init zsh"
 
 # Setup environment by executing funcs
 cond_eval "starship" "starship init zsh"

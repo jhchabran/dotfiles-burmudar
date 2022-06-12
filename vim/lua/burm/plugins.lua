@@ -10,12 +10,13 @@ local PLUGINS = {
     { name = 'nvim-lualine/lualine.nvim' },
     { name = 'vim-pandoc/vim-pandoc' },
     { name = 'gruvbox-community/gruvbox' },
+    { name = 'sainnhe/everforest' },
     { name = 'nvim-treesitter/nvim-treesitter', opts = { ['do'] = ':TSUpdate' } },
     { name = 'nvim-treesitter/playground' },
     { name = 'nvim-treesitter/nvim-treesitter-context' },
     { name = 'lewis6991/gitsigns.nvim' },
     { name = 'nvim-telescope/telescope.nvim' },
-    { name = 'nvim-telescope/telescope-fzy-native.nvim' },
+    { name = 'nvim-telescope/telescope-fzf-native.nvim', opts = { ['do'] = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } },
     { name = 'onsails/lspkind-nvim' },
     { name = 'neovim/nvim-lspconfig' },
     { name = 'hrsh7th/cmp-nvim-lsp' },
@@ -32,6 +33,7 @@ local PLUGINS = {
     { name = 'mfussenegger/nvim-dap' },
     { name = 'leoluz/nvim-dap-go' },
     { name = 'folke/which-key.nvim' },
+    { name = 'folke/lsp-colors.nvim' },
     { name = 'tpope/vim-fugitive' },
 }
 

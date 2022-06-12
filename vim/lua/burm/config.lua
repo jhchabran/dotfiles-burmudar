@@ -88,7 +88,7 @@ require('telescope').setup {
 }
 
 
-require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('fzf')
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -170,33 +170,47 @@ cmp.setup({
     }
 })
 
+local doc_highlight = function()
+    local highlighted = false
+
+    return function()
+        if highlighted == false then
+            vim.lsp.buf.document_highlight()
+            highlighted = true
+        else
+            vim.lsp.buf.clear_references()
+            highlighted = false
+        end
+
+    end
+
+end
+
 --- LSP setup
 -- LSPConfig setup
-local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+local on_attach = function(_, bufnr)
+    local opts = { buffer = bufnr, noremap = true, silent = true }
 
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-    -- Enable completion triggered by <C-x><C-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    local opts = { noremap = true, silent = true }
-
-    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-s>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', 'dr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', 'td', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<space>re', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<space>ca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts)
-    buf_set_keymap('n', '[d', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<Cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<space>l', '<Cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-    buf_set_keymap('n', '<space>q', '<Cmd>lua vim.diagnostic.setqflist()<CR>', opts)
-    buf_set_keymap('n', '<space>f', '<Cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', 'gh', doc_highlight(), opts)
+    vim.keymap.set('n', 'ws', vim.lsp.buf.list_workspace_folders, opts)
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>re', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<space>ci', vim.lsp.buf.incoming_calls, opts)
+    vim.keymap.set('n', '<space>co', vim.lsp.buf.outgoing_calls, opts)
+    vim.keymap.set('n', '<space>l', vim.diagnostic.setloclist, opts)
+    vim.keymap.set('n', '<space>q', vim.diagnostic.setqflist, opts)
+    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
 end
 
 local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "sumneko_lua" }
