@@ -9,8 +9,13 @@ gp() {
     git push
 }
 gb () {
+# if we have a query string, start with it
+if [ -n "${1}" ]; then
+    FZF_ARGS+=( -q ${1} )
+fi
+project=$(fd . "${SRC}" -t d -d 1 | awk -F '/' '{ print $5}' | fzf "${FZF_ARGS[@]}")
   branches=$(git --no-pager branch -vv) &&
-  branch=$(echo "$branches" | fzf +m --height=15) &&
+  branch=$(echo "$branches" | fzf +m --height=15 "${FZF_ARGS[@]}") &&
   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 

@@ -190,6 +190,7 @@ end
 -- LSPConfig setup
 local on_attach = function(_, bufnr)
     local opts = { buffer = bufnr, noremap = true, silent = true }
+    require('lsp_signature').on_attach()
 
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -199,7 +200,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<leader>h', doc_highlight(), opts)
     vim.keymap.set('n', '<leader>ws', vim.lsp.buf.list_workspace_folders, opts)
-    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float( { focusable = false } ) end, opts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
     vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
@@ -211,6 +212,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<space>l', vim.diagnostic.setloclist, opts)
     vim.keymap.set('n', '<space>q', vim.diagnostic.setqflist, opts)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
+
 end
 
 local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "sumneko_lua" }
@@ -297,3 +299,6 @@ vim.fn.sign_define('DapBreakpointRejected', { text = '🛑', texthl = '', linehl
 require('dap-go').setup()
 
 require("which-key").setup({})
+
+--- Highlights
+vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]

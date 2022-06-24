@@ -35,6 +35,7 @@ local PLUGINS = {
     { name = 'folke/which-key.nvim' },
     { name = 'folke/lsp-colors.nvim' },
     { name = 'tpope/vim-fugitive' },
+    { name = 'ray-x/lsp_signature.nvim' },
 }
 
 local function plug_all(plugins)
