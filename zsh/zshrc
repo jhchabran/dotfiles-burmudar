@@ -41,10 +41,13 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
+
+if [ -f "$HOME/.sourcegraph/sg.zsh_autocomplete" ]; then
+    PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/william/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/william/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/william/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/william/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
