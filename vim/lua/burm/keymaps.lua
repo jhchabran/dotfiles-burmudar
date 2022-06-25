@@ -8,21 +8,47 @@ km("i", "<C-S-tab>", ":tabp<cr>")
 km("n", "<leader>tt", ":tabnew<cr>")
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
 --- this should probably be a auto command in lua files
-km("n", "<c-r>", "<cmd>lua require('burm.funcs').reload_current()<cr>")
+km("n", "<c-r>", require('burm.funcs').reload_current)
 km("n", "]p", ":cnext<cr>")
 km("n", "[p", ":cprev<cr>")
-km("n", "<c-q>", "<cmd>lua require('burm.funcs').toggle_quickfix()<cr>")
-km("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({previewer=false, layout_config={width=0.65}}))<cr>")
-km("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>")
-km("n", "<leader>fz", "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>")
-km("n", "<leader>dd", "<cmd>lua require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown({layout_config={width=0.80}}), {bufnr=0})<cr>")
-km("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>")
-km("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>")
-km("n", "<leader>gf", "<cmd>lua require('telescope.builtin').git_files()<cr>")
-km("n", "<leader>df", "<cmd>lua require('telescope.builtin').git_files( { cwd = '$SRC/dotfiles' } )<cr>")
-km("n", "<leader>ds", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
-km("n", "<leader>gs", "<cmd>lua require('telescope.builtin').git_status()<cr>")
-km("n", "<leader>j", "<cmd>lua require('burm.custom.neorg').journal_today()<cr>")
+km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
+km("n", "<leader>.", function()
+    local dir = require('burm.funcs').current_dir()
+    require('nvim-tree.actions.change-dir').fn(dir, {})
+    vim.api.nvim_cmd({ cmd = "cd", args = { dir } }, {})
+    P("current dir: " .. dir)
+end)
+km("n", "<leader>?", require('telescope.builtin').oldfiles, { desc = "[?] Find recently opened files" })
+km("n", "<leader>/", function()
+    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        previewer = false,
+        winblend = 10,
+    })
+end, { desc = "[/] Fuzzy search in current buffer" })
+km("n", "<leader>sf", function()
+    require('telescope.builtin').find_files(
+        require('telescope.themes').get_dropdown(
+            { previewer = false, layout_config = { width = 0.65 }
+            })
+    )
+end, { desc = "[S]search [F] files" })
+km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
+km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch by [G]rep" })
+km("n", "<leader>sd", function()
+    require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
+        {
+            layout_config = { width = 0.80 },
+            bufnr = 0
+        }
+    )
+end, { desc = "[S]search [D]iagnostics" })
+km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
+km("n", "<leader>sh", require('telescope.builtin').help_tags, { desc = "[S]earch [H]elp" })
+km("n", "<leader>df", function()
+    require('telescope.builtin').git_files { cwd = '$SRC/dotfiles' }
+end, { desc = "Search [D]ot[F]iles" })
+km("n", "<leader>ss", require('telescope.builtin').lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
+km("n", "<leader>j", require('burm.custom.neorg').journal_today)
 -- Yank into clipboard
 km("v", "<leader>y", "\"+y")
 km("n", "<leader>p", "\"+p")
@@ -30,18 +56,20 @@ km("n", "<leader>p", "\"+p")
 km("n", "<C-n>", ":NvimTreeToggle<cr>")
 km("n", "<leader>r", ":NvimTreeRefresh<cr>")
 
-km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>', { silent = true })
-km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>', { silent = true })
+km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
+km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
 
-km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true })
-km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true })
+km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back<CR>', { silent = true })
+km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back<CR>', { silent = true })
 --- Debugging
-km('n', "<leader>b", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
-km('n', "<leader>B", "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-km('n', "<F5>", "<cmd>lua require('dap').continue()<CR>")
-km('n', "<F10>", "<cmd>lua require('dap').step_over()<CR>")
-km('n', "<F11>", "<cmd>lua require('dap').step_into()<CR>")
-km('n', "<F12>", "<cmd>lua require('dap').step_out()<CR>")
+km('n', "<leader>b", require('dap').toggle_breakpoint)
+km('n', "<leader>B", function()
+    require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
+end)
+km('n', "<F5>", require('dap').continue)
+km('n', "<F10>", require('dap').step_over)
+km('n', "<F11>", require('dap').step_into)
+km('n', "<F12>", require('dap').step_out)
 --- Press CTRL-ESC to exit terminal mode
 km("t", "<Esc>", '<C-\\><C-n>', { noremap = true })
 --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
@@ -51,7 +79,8 @@ local M = {
         for _, cb in ipairs(cbs) do
             cb()
         end
-    end
+    end,
+
 }
 
 return M
