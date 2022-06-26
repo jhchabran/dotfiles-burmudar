@@ -17,6 +17,6 @@ function RELOAD_ALL()
     print("reloaded all")
 end
 
-require('burm.keymaps').setup( { function() vim.keymap.set("n", "<leader>R", RELOAD_ALL) end } )
+require('burm.keymaps').setup({ function() vim.keymap.set("n", "<leader>R", RELOAD_ALL) end })
 
 print("config loaded")

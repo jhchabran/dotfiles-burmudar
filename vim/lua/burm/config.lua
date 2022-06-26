@@ -72,7 +72,57 @@ require('nvim-treesitter.configs').setup {
     },
     playground = {
         enable = true
-    }
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = '<c-space>',
+            node_incremental = '<c-space>',
+            scope_incremental = '<c-s>',
+            node_decremental = '<c-backspace>',
+        }
+    },
+    textobjects = {
+        select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+                ['af'] = '@function.outer',
+                ['if'] = '@function.inner',
+                ['ac'] = '@class.outer',
+                ['ic'] = '@class.inner',
+            }
+        },
+        move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+                [']m'] = '@function.outer',
+                [']]'] = '@class.outer',
+            },
+            goto_next_end = {
+                [']M'] = '@function.outer',
+                [']['] = '@class.outer',
+            },
+            goto_previous_start = {
+                ['[m'] = '@function.outer',
+                ['[['] = '@class.outer',
+            },
+            goto_previous_end = {
+                ['[M'] = '@function.outer',
+                ['[]'] = '@class.outer',
+            },
+        },
+        swap = {
+            enable = true,
+            swap_next = {
+                ['<leader>a'] = '@parameter.inner',
+            },
+            swap_previous = {
+                ['<leader>A'] = '@parameter.outer',
+            }
+        },
+    },
 }
 
 require('treesitter-context').setup({
@@ -200,29 +250,44 @@ end
 --- LSP setup
 -- LSPConfig setup
 local on_attach = function(_, bufnr)
-    local opts = { buffer = bufnr, noremap = true, silent = true }
+    local opts = function(desc)
+        return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
+    end
     require('lsp_signature').on_attach()
 
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<leader>h', doc_highlight(), opts)
-    vim.keymap.set('n', '<leader>ws', vim.lsp.buf.list_workspace_folders, opts)
-    vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float({ focusable = false }) end, opts)
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>re', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<space>ci', vim.lsp.buf.incoming_calls, opts)
-    vim.keymap.set('n', '<space>co', vim.lsp.buf.outgoing_calls, opts)
-    vim.keymap.set('n', '<space>l', vim.diagnostic.setloclist, opts)
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setqflist, opts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts("[G]oto [D]efinition"))
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts("[H]over Documentation"))
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts("[G]oto [i]mplementation"))
+    vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts("[G]oto [r]eferences"))
+    vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
+    vim.keymap.set('n', '<leader>h', doc_highlight(), opts("[h]ighlight"))
+    vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float({ focusable = false }) end,
+        opts("Show [d]iagnostics"))
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
+    vim.keymap.set('n', '<space>re', vim.lsp.buf.rename, opts("[R][e]name"))
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
+    vim.keymap.set('n', '<space>ci', vim.lsp.buf.incoming_calls, opts("[I]ncoming [c]alls"))
+    vim.keymap.set('n', '<space>co', vim.lsp.buf.outgoing_calls, opts("[O]utgoing [c]alls"))
+    vim.keymap.set('n', '<space>l', vim.diagnostic.setloclist, opts("Diagnostics to Loc List"))
+    vim.keymap.set('n', '<space>q', vim.diagnostic.setqflist, opts("Diagnostics to QuickFix List"))
+    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts("Format"))
+    vim.keymap.set('n', '<leader>wl', function() P(vim.lsp.buf.list_workspace_folders()) end,
+        opts("List Workspace Folders"))
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [A]dd folder"))
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [R]emove folder"))
+    vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
+        opts("[W]orkspace [S]ymbols"))
+
+    local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+
+    if filetype == "go" then
+        vim.keymap.set('n', '<leader>ws', function()
+            require('telescope.builtin').lsp_workspace_symbols { query = vim.fn.input("Query: ") }
+        end, opts("[W]orkspace [S]ymbols"))
+    end
+
 
 end
 
@@ -238,8 +303,6 @@ local configs = {
         on_attach = on_attach
     },
     sumneko_lua = {
-        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-        on_attach = on_attach,
         settings = {
             Lua = {
                 runtime = {
@@ -261,7 +324,17 @@ local configs = {
                 },
             },
         },
-    }
+    },
+    gopls = {
+        completeUnimported = true,
+        buildFlags = { "-tags=debug" },
+        ["local"] = "github.com/sourcegraph/sourcegraph",
+        analyses = {
+            unusedparams = true,
+        },
+        staticcheck = true,
+        experimentalPostfixCompletions = true,
+    },
 }
 
 
@@ -270,7 +343,10 @@ for _, lsp in ipairs(servers) do
     local c = configs.default
     if configs[lsp] ~= nil then
         c = configs[lsp]
+        c.on_attach = configs.default.on_attach
+        c.capabilities = configs.default.capabilities
     end
+
 
     require('lspconfig')[lsp].setup(c)
 end
@@ -289,13 +365,19 @@ require('neorg').setup {
         ["core.norg.dirman"] = {
             config = {
                 workspaces = {
-                    notes = BurmFuncs.relative_src_dir("notes")
+                    notes = BurmFuncs.relative_src_dir("notes"),
+                    gtd = BurmFuncs.relative_src_dir("notes/gtd")
                 },
             },
         },
         ["core.norg.journal"] = {
             config = {
                 workspace = "notes",
+            }
+        },
+        ["core.gtd.base"] = {
+            config = {
+                workspace = "gtd",
             }
         }
     }

@@ -5,7 +5,7 @@ km("n", "<C-tab>", ":tabn<cr>")
 km("n", "<C-S-tab>", ":tabp<cr>")
 km("i", "<C-tab>", ":tabn<cr>")
 km("i", "<C-S-tab>", ":tabp<cr>")
-km("n", "<leader>tt", ":tabnew<cr>")
+km("n", "<leader>t", require('burm.custom.neorg').open_gtd, { desc = "open gtd [t]asks" })
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
 --- this should probably be a auto command in lua files
 km("n", "<c-r>", require('burm.funcs').reload_current)
@@ -33,7 +33,7 @@ km("n", "<leader>sf", function()
     )
 end, { desc = "[S]search [F] files" })
 km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
-km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch by [G]rep" })
+km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()
     require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
         {

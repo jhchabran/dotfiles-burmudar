@@ -16,7 +16,8 @@ local PLUGINS = {
     { name = 'nvim-treesitter/nvim-treesitter-context' },
     { name = 'lewis6991/gitsigns.nvim' },
     { name = 'nvim-telescope/telescope.nvim' },
-    { name = 'nvim-telescope/telescope-fzf-native.nvim', opts = { ['do'] = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } },
+    { name = 'nvim-telescope/telescope-fzf-native.nvim',
+        opts = { ['do'] = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } },
     { name = 'onsails/lspkind-nvim' },
     { name = 'neovim/nvim-lspconfig' },
     { name = 'hrsh7th/cmp-nvim-lsp' },
@@ -36,6 +37,7 @@ local PLUGINS = {
     { name = 'folke/lsp-colors.nvim' },
     { name = 'tpope/vim-fugitive' },
     { name = 'ray-x/lsp_signature.nvim' },
+    { name = 'nvim-treesitter/nvim-treesitter-textobjects' },
 }
 
 local function plug_all(plugins)
