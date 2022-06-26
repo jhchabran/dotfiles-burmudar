@@ -63,8 +63,8 @@ cond_eval "direnv" "direnv hook zsh"
 cond_eval "zoxide" "zoxide init zsh"
 
 # Setup environment by executing funcs
-cond_eval "starship" "starship init zsh"
 
+cond_eval "starship" "starship init zsh"
 # if we're in our work environment then load work scripts
 # otherwise just load normal scripts
 if [[ -a ~/.work ]]; then
@@ -73,11 +73,9 @@ else
     scripts=$SRC/dotfiles/scripts.d/^work*.bash
 fi
 
-
-
-# in zsh =~ means:
-# = -> perform word splitting
-# ~ -> perform globbing
+# # in zsh =~ means:
+# # = -> perform word splitting
+# # ~ -> perform globbing
 for file in $=~scripts; do
     source $file
 done

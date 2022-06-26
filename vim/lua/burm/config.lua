@@ -1,5 +1,15 @@
 local BurmFuncs = require('burm.funcs')
 
+-- highlight on yank
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    pattern = '*',
+})
+
 require "fidget".setup {}
 
 --- Do all the plugin setup here
@@ -53,7 +63,8 @@ parser_configs.norg = {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig", "rust", "sumneko_lua" },
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig",
+        "rust", "sumneko_lua" },
     ignore_install = {},
     highlight = {
         enable = true,
@@ -200,7 +211,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<leader>h', doc_highlight(), opts)
     vim.keymap.set('n', '<leader>ws', vim.lsp.buf.list_workspace_folders, opts)
-    vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float( { focusable = false } ) end, opts)
+    vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float({ focusable = false }) end, opts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
     vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
