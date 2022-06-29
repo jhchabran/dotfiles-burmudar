@@ -8,7 +8,7 @@ km("i", "<C-S-tab>", ":tabp<cr>")
 km("n", "<leader>t", require('burm.custom.neorg').open_gtd, { desc = "open gtd [t]asks" })
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
 --- this should probably be a auto command in lua files
-km("n", "<c-r>", require('burm.funcs').reload_current)
+km("n", "<c-m-r>", require('burm.funcs').reload_current)
 km("n", "]p", ":cnext<cr>")
 km("n", "[p", ":cprev<cr>")
 km("n", "<c-q>", require('burm.funcs').toggle_quickfix)

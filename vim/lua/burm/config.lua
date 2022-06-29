@@ -262,7 +262,10 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts("[G]oto [r]eferences"))
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
     vim.keymap.set('n', '<leader>h', doc_highlight(), opts("[h]ighlight"))
-    vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float({ focusable = false }) end,
+    vim.keymap.set('n', '<leader>d', function()
+        P("showing diagnostics")
+        vim.diagnostic.open_float({ focusable = false })
+    end,
         opts("Show [d]iagnostics"))
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
