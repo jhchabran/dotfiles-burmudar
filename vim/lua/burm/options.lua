@@ -4,7 +4,6 @@ vim.g.rustfmt_autosave = 1
 
 vim.opt.exrc = true
 vim.opt.guicursor = ""
-vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.hidden = true
 vim.opt.hlsearch = false
@@ -43,4 +42,3 @@ vim.opt.listchars = "tab:»·,eol:↲,nbsp:␣"
 
 vim.opt.updatetime = 50
 vim.opt.syntax = "enable"
-

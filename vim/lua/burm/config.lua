@@ -295,7 +295,6 @@ local on_attach = function(_, bufnr)
 end
 
 local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "sumneko_lua" }
-
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -329,14 +328,16 @@ local configs = {
         },
     },
     gopls = {
-        completeUnimported = true,
-        buildFlags = { "-tags=debug" },
-        ["local"] = "github.com/sourcegraph/sourcegraph",
-        analyses = {
-            unusedparams = true,
+        settings = {
+            completeUnimported = true,
+            buildFlags = { "-tags=debug" },
+            ["local"] = "github.com/sourcegraph/sourcegraph",
+            analyses = {
+                unusedparams = true,
+            },
+            staticcheck = true,
+            experimentalPostfixCompletions = true,
         },
-        staticcheck = true,
-        experimentalPostfixCompletions = true,
     },
 }
 
@@ -349,7 +350,6 @@ for _, lsp in ipairs(servers) do
         c.on_attach = configs.default.on_attach
         c.capabilities = configs.default.capabilities
     end
-
 
     require('lspconfig')[lsp].setup(c)
 end
