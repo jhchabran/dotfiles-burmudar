@@ -61,6 +61,10 @@ km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', 
 
 km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back<CR>', { silent = true })
 km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back<CR>', { silent = true })
+-- Trouble
+km("n", "<leader>tt", "<cmd>Trouble<cr>", { silent = true })
+km("n", "<leader>tw", "<cmd>Trouble workspace_diagnostics<cr>", { silent = true })
+km("n", "<leader>td", "<cmd>Trouble document_diagnostics<cr>", { silent = true })
 --- Debugging
 km('n', "<leader>b", require('dap').toggle_breakpoint)
 km('n', "<leader>B", function()

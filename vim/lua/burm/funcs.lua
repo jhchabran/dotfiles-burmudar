@@ -80,5 +80,26 @@ M.reload_current = function()
 end
 
 
+local Highlighter = { highlight = false }
+
+setmetatable(Highlighter, { __index = {
+    toggle_highlight = function(self)
+        P(self.highlight)
+        self.highlight = not self.highlight
+    end,
+    do_highlight = function(self)
+        P(self.highlight)
+        if self.highlight == true then
+            vim.lsp.buf.document_highlight()
+        end
+    end,
+    clear_highlight = function(self)
+        P(self.highlight)
+        if self.highlight == true then
+            vim.lsp.buf.clear_references()
+        end
+    end,
+} })
+
 --- export these funcs as the module
 return M

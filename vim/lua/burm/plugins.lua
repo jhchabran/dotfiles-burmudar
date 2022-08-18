@@ -38,6 +38,7 @@ local PLUGINS = {
     { name = 'tpope/vim-fugitive' },
     { name = 'ray-x/lsp_signature.nvim' },
     { name = 'nvim-treesitter/nvim-treesitter-textobjects' },
+    { name = 'folke/trouble.nvim' },
 }
 
 local function plug_all(plugins)

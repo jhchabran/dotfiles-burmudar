@@ -151,20 +151,10 @@ require('telescope').setup {
 
 require('telescope').load_extension('fzf')
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        'documentation',
-        'detail',
-        'additionalTextEdits',
-    }
-}
-
 
 --- Luasnip
-local ls = require("luasnip")
-ls.config.set_config {
+local luasnip = require("luasnip")
+luasnip.config.set_config {
     history = true,
     enable_autosnippets = true
 }
@@ -175,31 +165,21 @@ local lspkind = require('lspkind')
 lspkind.init()
 local cmp = require 'cmp'
 cmp.setup({
-    mapping = {
-        ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
-        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
-        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<C-e>'] = cmp.mapping({
-            i = cmp.mapping.abort(),
-            c = cmp.mapping.close(),
-        }),
+    mapping = cmp.mapping.preset.insert {
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<tab>'] = cmp.config.disable,
-        ['<C-y>'] = cmp.mapping(
-            cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Insert,
-                select = true
-            }),
-            { "i", "c" }
-        ),
-        ['<C-q>'] = cmp.mapping(
-            cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = true,
-            }),
-            { 'i', 'c' }
-        ),
-        ['<C-space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-y>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true
+        },
+        ['<C-q>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
+        ['<C-Space>'] = cmp.mapping.complete,
     },
     formatting = {
         format = lspkind.cmp_format({
@@ -222,7 +202,7 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            ls.lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
         end
     },
     experimental = {
@@ -231,25 +211,10 @@ cmp.setup({
     }
 })
 
-local doc_highlight = function()
-    local highlighted = false
-
-    return function()
-        if highlighted == false then
-            vim.lsp.buf.document_highlight()
-            highlighted = true
-        else
-            vim.lsp.buf.clear_references()
-            highlighted = false
-        end
-
-    end
-
-end
 
 --- LSP setup
 -- LSPConfig setup
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
     local opts = function(desc)
         return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
     end
@@ -261,7 +226,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts("[G]oto [i]mplementation"))
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts("[G]oto [r]eferences"))
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
-    vim.keymap.set('n', '<leader>h', doc_highlight(), opts("[h]ighlight"))
+    -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
     vim.keymap.set('n', '<leader>d', function()
         P("showing diagnostics")
         vim.diagnostic.open_float({ focusable = false })
@@ -283,6 +248,16 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
         opts("[W]orkspace [S]ymbols"))
 
+    if client.server_capabilities.documentHighlightProvider then
+        vim.cmd [[
+            augroup lsp_document_highlight
+                autocmd! * <buffer>
+                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+        ]]
+    end
+
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
     if filetype == "go" then
@@ -299,9 +274,19 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+        'documentation',
+        'detail',
+        'additionalTextEdits',
+    }
+}
+
 local configs = {
     default = {
-        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities),
         on_attach = on_attach
     },
     sumneko_lua = {
@@ -337,6 +322,12 @@ local configs = {
             },
             staticcheck = true,
             experimentalPostfixCompletions = true,
+            gopls = {
+                codelenses = { test = true },
+            },
+            flags = {
+                debounce_text_changes = 200,
+            }
         },
     },
 }
@@ -398,3 +389,6 @@ require("which-key").setup({})
 
 --- Highlights
 vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]
+
+-- Trouble
+require('trouble').setup({})

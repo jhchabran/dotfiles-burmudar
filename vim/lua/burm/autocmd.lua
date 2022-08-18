@@ -1,7 +1,7 @@
 --- Remove trailing whitespace before write
 --
 vim.cmd([[
-    augroup BURMUDAR
+    augroup WHITESPACE
         autocmd!
         autocmd BufWritePre * %s/\s\+$//e
     augroup END
