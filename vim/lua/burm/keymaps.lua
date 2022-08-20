@@ -1,6 +1,26 @@
 --- KEYMAPS HERE
 local km = vim.keymap.set
 
+local fileBrowser = function()
+    require('telescope._extensions').file_browser.file_browser({
+        no_ignore = true,
+        no_ignore_parent = true
+    })
+end
+local fuzzyBrowser = function()
+    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        previewer = false,
+        winblend = 10,
+    })
+end
+local quickFileBrowser = function()
+    require('telescope.builtin').find_files(
+        require('telescope.themes').get_dropdown(
+            { previewer = false, layout_config = { width = 0.65 }
+            })
+    )
+end
+
 km("n", "<C-tab>", ":tabn<cr>")
 km("n", "<C-S-tab>", ":tabp<cr>")
 km("i", "<C-tab>", ":tabn<cr>")
@@ -12,26 +32,12 @@ km("n", "<c-m-r>", require('burm.funcs').reload_current)
 km("n", "]p", ":cnext<cr>")
 km("n", "[p", ":cprev<cr>")
 km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
-km("n", "<leader>.", function()
-    local dir = require('burm.funcs').current_dir()
-    require('nvim-tree.actions.change-dir').fn(dir, {})
-    vim.api.nvim_cmd({ cmd = "cd", args = { dir } }, {})
-    P("current dir: " .. dir)
-end)
+
+km("n", "<leader>.", fileBrowser, { desc = "File browser" })
 km("n", "<leader>?", require('telescope.builtin').oldfiles, { desc = "[?] Find recently opened files" })
-km("n", "<leader>/", function()
-    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        previewer = false,
-        winblend = 10,
-    })
-end, { desc = "[/] Fuzzy search in current buffer" })
-km("n", "<leader>sf", function()
-    require('telescope.builtin').find_files(
-        require('telescope.themes').get_dropdown(
-            { previewer = false, layout_config = { width = 0.65 }
-            })
-    )
-end, { desc = "[S]search [F] files" })
+km("n", "<leader>/", fuzzyBrowser, { desc = "[/] Fuzzy search in current buffer" })
+km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })
+km("n", "<leader>sf", quickFileBrowser, { desc = "[S]search [F] files" })
 km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
 km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()

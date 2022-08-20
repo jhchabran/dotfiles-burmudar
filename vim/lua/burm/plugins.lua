@@ -30,7 +30,6 @@ local PLUGINS = {
     { name = 'rhysd/committia.vim' },
     { name = 'nvim-neorg/neorg' },
     { name = 'kyazdani42/nvim-web-devicons' },
-    { name = 'kyazdani42/nvim-tree.lua' },
     { name = 'numToStr/comment.nvim' },
     { name = 'j-hui/fidget.nvim' },
     { name = 'mfussenegger/nvim-dap' },

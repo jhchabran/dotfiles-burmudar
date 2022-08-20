@@ -40,9 +40,6 @@ NORMAL Mode
 ]] --
 require('Comment').setup {}
 
---- Lua tree
-require('nvim-tree').setup {}
-
 --- Lualine setup
 require('lualine').setup {
     options = { theme = 'gruvbox' },
