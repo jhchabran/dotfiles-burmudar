@@ -19,7 +19,6 @@ require 'nvim-web-devicons'.setup {
     default = true
 }
 
-
 --- comment.nvim
 
 --[[ Mappings for Comment
@@ -139,9 +138,10 @@ require('telescope').setup {
         file_previewer = require('telescope.previewers').vim_buffer_cat.new,
         grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
         qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+
     },
     extensions = {
-        fzy_native = {
+        fzf_native = {
             override_generic_sorter = false,
             override_file_sorter = true,
         }
@@ -158,7 +158,6 @@ luasnip.config.set_config {
     history = true,
     enable_autosnippets = true
 }
-
 
 --- nvim-cmp setup
 local lspkind = require('lspkind')
@@ -181,9 +180,15 @@ cmp.setup({
         },
         ['<C-Space>'] = cmp.mapping.complete,
     },
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end
+    },
     formatting = {
         format = lspkind.cmp_format({
             with_text = true, maxwidth = 50,
+            mode = "symbol_text",
             menu = {
                 buffer = "[buf]",
                 nvim_lsp = "[LSP]",
@@ -193,22 +198,33 @@ cmp.setup({
             }
         })
     },
-    sources = {
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = "path" },
+        { name = 'path' },
         { name = "neorg" },
         { name = 'buffer' },
-    },
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end
-    },
-    experimental = {
-        native_menu = false,
-        ghost_text = false,
+    }, {
+        { name = 'buffer' },
+    })
+})
+
+-- `/` cmdline setup.
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
     }
+})
+
+-- `:` cmdline setup.
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    })
 })
 
 
