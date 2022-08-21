@@ -2,7 +2,7 @@
 local km = vim.keymap.set
 
 local fileBrowser = function()
-    require('telescope._extensions').file_browser.file_browser({
+    require('telescope').extensions.file_browser.file_browser({
         no_ignore = true,
         no_ignore_parent = true
     })

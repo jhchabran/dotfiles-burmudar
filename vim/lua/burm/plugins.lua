@@ -18,6 +18,7 @@ local PLUGINS = {
     { name = 'nvim-telescope/telescope.nvim' },
     { name = 'nvim-telescope/telescope-fzf-native.nvim',
         opts = { ['do'] = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } },
+    { name = 'nvim-telescope/telescope-file-browser.nvim' },
     { name = 'onsails/lspkind-nvim' },
     { name = 'neovim/nvim-lspconfig' },
     { name = 'hrsh7th/cmp-nvim-lsp' },
@@ -40,6 +41,7 @@ local PLUGINS = {
     { name = 'ray-x/lsp_signature.nvim' },
     { name = 'nvim-treesitter/nvim-treesitter-textobjects' },
     { name = 'folke/trouble.nvim' },
+    { name = 'lukas-reineke/indent-blankline.nvim' },
 }
 
 local function plug_all(plugins)

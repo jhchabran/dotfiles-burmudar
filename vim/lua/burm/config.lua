@@ -19,6 +19,12 @@ require 'nvim-web-devicons'.setup {
     default = true
 }
 
+require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    show_current_context_start = true,
+}
+
 --- comment.nvim
 
 --[[ Mappings for Comment
@@ -125,6 +131,7 @@ require('treesitter-context').setup({
     enable = true
 })
 
+
 --- Telescope setup
 require('telescope').setup {
     defaults = {
@@ -141,12 +148,17 @@ require('telescope').setup {
         fzf_native = {
             override_generic_sorter = false,
             override_file_sorter = true,
-        }
+        },
+        file_browser = {
+            theme = 'ivy',
+            hijack_netrw = true,
+        },
     }
 }
 
 
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('file_browser')
 
 
 --- Luasnip
@@ -401,7 +413,9 @@ require('dap-go').setup()
 require("which-key").setup({})
 
 --- Highlights
-vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]
+--- vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]
+-- Black background white foreground
+--- vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=0 ctermbg=255 gui=reverse guifg=#000000 guibg=#ffffff]]
 
 -- Trouble
 require('trouble').setup({})
