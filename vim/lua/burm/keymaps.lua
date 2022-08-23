@@ -1,12 +1,6 @@
 --- KEYMAPS HERE
 local km = vim.keymap.set
 
-local fileBrowser = function()
-    require('telescope').extensions.file_browser.file_browser({
-        no_ignore = true,
-        no_ignore_parent = true
-    })
-end
 local fuzzyBrowser = function()
     require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
         previewer = false,
@@ -33,7 +27,6 @@ km("n", "]p", ":cnext<cr>")
 km("n", "[p", ":cprev<cr>")
 km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
 
-km("n", "<leader>.", fileBrowser, { desc = "File browser" })
 km("n", "<leader>?", require('telescope.builtin').oldfiles, { desc = "[?] Find recently opened files" })
 km("n", "<leader>/", fuzzyBrowser, { desc = "[/] Fuzzy search in current buffer" })
 km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })

@@ -15,8 +15,8 @@ export PATH="$PATH:$HOME/.local/bin"
 # aliases
 
 # Preferred editor for local and remote sessions
-export EDITOR='nvim'
-export VISUAL='nvim'
+#export EDITOR='nvim'
+#export VISUAL='nvim'
 
 # correct locale
 export LC_ALL=en_US.UTF-8
