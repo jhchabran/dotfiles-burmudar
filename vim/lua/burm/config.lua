@@ -131,7 +131,14 @@ require('treesitter-context').setup({
     enable = true
 })
 
-require('nvim-tree').setup()
+require('nvim-tree').setup({
+    update_focused_file = {
+        enable = true
+    },
+    diagnostics = {
+        enable = true
+    },
+})
 
 --- Telescope setup
 require('telescope').setup {
@@ -195,10 +202,10 @@ cmp.setup({
             with_text = true, maxwidth = 50,
             mode = "symbol_text",
             menu = {
-                buffer = "[buf]",
                 nvim_lsp = "[LSP]",
                 path = "[path]",
                 luasnip = "[snip]",
+                buffer = "[buf]",
                 neorg = "[neorg]",
             }
         })
@@ -335,21 +342,21 @@ local configs = {
     },
     gopls = {
         settings = {
-            completeUnimported = true,
-            buildFlags = { "-tags=debug" },
-            ["local"] = "github.com/sourcegraph/sourcegraph",
-            analyses = {
-                unusedparams = true,
-            },
-            staticcheck = true,
-            experimentalPostfixCompletions = true,
+            -- completeUnimported = true,
+            -- buildFlags = { "-tags=debug" },
+            -- ["local"] = "github.com/sourcegraph/sourcegraph",
+            -- analyses = {
+            --     unusedparams = true,
+            -- },
+            -- staticcheck = true,
+            -- experimentalPostfixCompletions = true,
             gopls = {
                 codelenses = { test = true },
             },
-            flags = {
-                debounce_text_changes = 200,
-            }
         },
+        flags = {
+            debounce_text_changes = 200,
+        }
     },
 }
 
