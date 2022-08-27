@@ -44,7 +44,7 @@ local PLUGINS = {
     { name = 'lukas-reineke/indent-blankline.nvim' },
     { name = 'phaazon/mind.nvim' },
     { name = 'williamboman/mason.nvim' },
-
+    { name = 'theHamsta/nvim-dap-virtual-text' },
 }
 
 local function plug_all(plugins)

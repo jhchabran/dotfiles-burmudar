@@ -329,23 +329,30 @@ local configs = {
         },
     },
     gopls = {
+        flags = { debounce_text_changes = 200 },
         settings = {
-            -- completeUnimported = true,
-            -- buildFlags = { "-tags=debug" },
-            -- ["local"] = "github.com/sourcegraph/sourcegraph",
-            -- analyses = {
-            --     unusedparams = true,
-            -- },
-            -- staticcheck = true,
-            -- experimentalPostfixCompletions = true,
             gopls = {
+                completeUnimported = true,
+                buildFlags = { "-tags=debug" },
+                ["local"] = "github.com/sourcegraph/sourcegraph",
+                analyses = {
+                    unusedparams = true,
+                },
+                staticcheck = true,
+                experimentalPostfixCompletions = true,
                 codelenses = { test = true },
+                hints = {
+                    parameterNames = true,
+                    assignVariableTypes = true,
+                    constantValues = true,
+                    rangeVariableTypes = true,
+                    compositeLiteralTypes = true,
+                    compositeLiteralFields = true,
+                    functionTypeParameters = true,
+                },
             },
         },
-        flags = {
-            debounce_text_changes = 200,
-        }
-    },
+    }
 }
 
 
@@ -380,6 +387,7 @@ require("mason").setup()
 
 ---
 local dap, dapui = require("dap"), require("dapui")
+-- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv
 dapui.setup()
 vim.fn.sign_define('DapBreakpoint', { text = '🧪', texthl = '', linehl = '', numhl = '' })
 vim.fn.sign_define('DapBreakpointCondition', { text = '🔍', texthl = '', linehl = '', numhl = '' })
@@ -395,3 +403,10 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
+
+-- Diagnostics
+vim.diagnostic.config({
+    underline = true,
+    virtual_text = true,
+    signs = true,
+})
