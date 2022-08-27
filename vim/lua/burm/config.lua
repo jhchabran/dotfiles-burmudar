@@ -54,18 +54,8 @@ require('lualine').setup {
 
 
 --- Treesitter config
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-
-parser_configs.norg = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg",
-        files = { "src/parser.c", "src/scanner.cc" },
-        branch = "main"
-    },
-}
-
 require('nvim-treesitter.configs').setup {
-    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "norg", "zig",
+    ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
         "rust", "sumneko_lua" },
     ignore_install = {},
     highlight = {
@@ -206,7 +196,6 @@ cmp.setup({
                 path = "[path]",
                 luasnip = "[snip]",
                 buffer = "[buf]",
-                neorg = "[neorg]",
             }
         })
     },
@@ -214,7 +203,6 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
-        { name = "neorg" },
         { name = 'buffer' },
     }, {
         { name = 'buffer' },
@@ -373,45 +361,6 @@ for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(c)
 end
 
---- Neorg setup
-require('neorg').setup {
-    load = {
-        ["core.defaults"] = {},
-        ["core.keybinds"] = {},
-        ["core.norg.concealer"] = {},
-        ["core.norg.completion"] = {
-            config = {
-                engine = "nvim-cmp"
-            }
-        },
-        ["core.norg.dirman"] = {
-            config = {
-                workspaces = {
-                    notes = BurmFuncs.relative_src_dir("notes"),
-                    gtd = BurmFuncs.relative_src_dir("notes/gtd")
-                },
-            },
-        },
-        ["core.norg.journal"] = {
-            config = {
-                workspace = "notes",
-            }
-        },
-        ["core.gtd.base"] = {
-            config = {
-                workspace = "gtd",
-            }
-        }
-    }
-}
-
----local D = require('dap')
----D.set_log_level("TRACE")
-vim.fn.sign_define('DapBreakpoint', { text = '🧪', texthl = '', linehl = '', numhl = '' })
-vim.fn.sign_define('DapBreakpointCondition', { text = '🔍', texthl = '', linehl = '', numhl = '' })
-vim.fn.sign_define('DapStopped', { text = '👉', texthl = '', linehl = '', numhl = '' })
-vim.fn.sign_define('DapBreakpointRejected', { text = '🛑', texthl = '', linehl = '', numhl = '' })
-require('dap-go').setup()
 
 require("which-key").setup({})
 
@@ -422,3 +371,27 @@ require("which-key").setup({})
 
 -- Trouble
 require('trouble').setup({})
+
+-- Mind.nvim
+require('mind').setup({})
+
+-- Mason, use :Mason to open up the window
+require("mason").setup()
+
+---
+local dap, dapui = require("dap"), require("dapui")
+dapui.setup()
+vim.fn.sign_define('DapBreakpoint', { text = '🧪', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpointCondition', { text = '🔍', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '👉', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpointRejected', { text = '🛑', texthl = '', linehl = '', numhl = '' })
+require('dap-go').setup()
+dap.listeners.after.event_initialized["dapui_config"] = function()
+    dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+    dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+    dapui.close()
+end

@@ -20,7 +20,7 @@ set $mod Mod4
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 # font pango:Fire Code Medium 10
-font pango: JetBrainsMonoNL Nerd Font Mono, Medium 10
+font pango: JetBrainsMono Nerd Font Mono, Medium 10
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -163,7 +163,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec xfce4-session-logout
 
 # custom bindings
-bindsym $mod+Shift+x exec "~/development/dotfiles/i3/i3lock.sh"
+bindsym $mod+Shift+x exec "~/code/dotfiles/i3/i3lock.sh"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -234,7 +234,7 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi -show-icons -font 'JetBrainsMono Nerd Font 12'
+bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi -show-icons -font 'JetBrainsMonoMedium Nerd Font Mono 12'
 bindsym $mod+m exec --no-startup-id rofimoji --skin-tone light --action clipboard --clipboarder xclip --selector-args '-theme ~/.config/rofi/themes/Arc.rasi'
 
 exec --no-startup-id spotify

@@ -28,13 +28,13 @@ local PLUGINS = {
     { name = 'L3MON4D3/LuaSnip' },
     { name = 'saadparwaiz1/cmp_luasnip' },
     { name = 'rhysd/committia.vim' },
-    { name = 'nvim-neorg/neorg' },
     { name = 'kyazdani42/nvim-web-devicons' },
     { name = 'kyazdani42/nvim-tree.lua' },
     { name = 'numToStr/comment.nvim' },
     { name = 'j-hui/fidget.nvim' },
     { name = 'mfussenegger/nvim-dap' },
     { name = 'leoluz/nvim-dap-go' },
+    { name = 'rcarriga/nvim-dap-ui' },
     { name = 'folke/which-key.nvim' },
     { name = 'folke/lsp-colors.nvim' },
     { name = 'tpope/vim-fugitive' },
@@ -42,6 +42,9 @@ local PLUGINS = {
     { name = 'nvim-treesitter/nvim-treesitter-textobjects' },
     { name = 'folke/trouble.nvim' },
     { name = 'lukas-reineke/indent-blankline.nvim' },
+    { name = 'phaazon/mind.nvim' },
+    { name = 'williamboman/mason.nvim' },
+
 }
 
 local function plug_all(plugins)
