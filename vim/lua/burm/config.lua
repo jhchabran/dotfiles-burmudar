@@ -68,7 +68,7 @@ require('nvim-treesitter.configs').setup {
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = '<c-space>',
+            init_selection = 'gnn',
             node_incremental = '<c-space>',
             scope_incremental = '<c-s>',
             node_decremental = '<c-backspace>',
@@ -234,7 +234,6 @@ local on_attach = function(client, bufnr)
     local opts = function(desc)
         return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
     end
-    require('lsp_signature').on_attach()
 
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts("[G]oto [D]efinition"))
@@ -368,8 +367,6 @@ for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(c)
 end
 
-
-require("which-key").setup({})
 
 --- Highlights
 --- vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]

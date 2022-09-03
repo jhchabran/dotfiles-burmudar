@@ -10,7 +10,6 @@ local PLUGINS = {
     { name = 'nvim-lualine/lualine.nvim' },
     { name = 'vim-pandoc/vim-pandoc' },
     { name = 'gruvbox-community/gruvbox' },
-    { name = 'sainnhe/everforest' },
     { name = 'nvim-treesitter/nvim-treesitter', opts = { ['do'] = ':TSUpdate' } },
     { name = 'nvim-treesitter/playground' },
     { name = 'nvim-treesitter/nvim-treesitter-context' },
@@ -35,16 +34,14 @@ local PLUGINS = {
     { name = 'mfussenegger/nvim-dap' },
     { name = 'leoluz/nvim-dap-go' },
     { name = 'rcarriga/nvim-dap-ui' },
-    { name = 'folke/which-key.nvim' },
+    { name = 'theHamsta/nvim-dap-virtual-text' },
     { name = 'folke/lsp-colors.nvim' },
     { name = 'tpope/vim-fugitive' },
-    { name = 'ray-x/lsp_signature.nvim' },
     { name = 'nvim-treesitter/nvim-treesitter-textobjects' },
     { name = 'folke/trouble.nvim' },
     { name = 'lukas-reineke/indent-blankline.nvim' },
     { name = 'phaazon/mind.nvim' },
     { name = 'williamboman/mason.nvim' },
-    { name = 'theHamsta/nvim-dap-virtual-text' },
 }
 
 local function plug_all(plugins)
