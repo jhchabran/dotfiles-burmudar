@@ -56,7 +56,7 @@ function cond_eval() {
 
 cond_source /usr/local/opt/fzf/shell/completion.zsh /usr/share/doc/fzf/examples/completion.zsh
 cond_source /usr/local/opt/fzf/shell/key-bindings.zsh /usr/share/doc/fzf/examples/key-bindings.zsh
-cond_source /usr/share/nvm/init-nvm.sh
+cond_source /Users/william/.sdkman/bin/sdkman-init.sh
 
 cond_eval "pyenv" "pyenv init --path"
 cond_eval "direnv" "direnv hook zsh"

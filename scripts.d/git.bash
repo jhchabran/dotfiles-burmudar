@@ -5,10 +5,12 @@ unalias gbr 2>/dev/null
 gf() {
     git pull
 }
+
 gp() {
     git push
 }
-gb () {
+
+gb() {
 # if we have a query string, start with it
 if [ -n "${1}" ]; then
     FZF_ARGS+=( -q ${1} )
@@ -20,14 +22,14 @@ project=$(fd . "${SRC}" -t d -d 1 | awk -F '/' '{ print $5}' | fzf "${FZF_ARGS[@
 }
 
 # gbr - checkout git branch (including remote branches)
-gbr () {
+gbr() {
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
-gnb () {
+gnb() {
     local branch_name=$1
     git switch -c $branch_name
 }

@@ -1,4 +1,5 @@
-source ~/.zplug/init.zsh
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
+source $ZPLUG_HOME/init.zsh
 
 export HISTFILE=~/.histfile
 export HISTSIZE=1000000 # internal number for history list items
@@ -33,15 +34,10 @@ if type brew &>/dev/null; then
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zwilliam
 
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if [ -f "$HOME/.sourcegraph/sg.zsh_autocomplete" ]; then
     PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
@@ -52,3 +48,9 @@ if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/
 
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

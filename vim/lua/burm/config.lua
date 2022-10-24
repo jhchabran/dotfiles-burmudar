@@ -13,7 +13,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require "fidget".setup {}
 
 --- Do all the plugin setup here
-require('gitsigns').setup()
+require('gitsigns').setup({
+    numhl = true,
+    word_diff = true,
+    current_line_blame = true,
+})
 
 require 'nvim-web-devicons'.setup {
     default = true
