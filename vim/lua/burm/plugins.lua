@@ -42,6 +42,8 @@ local PLUGINS = {
     { name = 'lukas-reineke/indent-blankline.nvim' },
     { name = 'phaazon/mind.nvim' },
     { name = 'williamboman/mason.nvim' },
+    { name = 'jose-elias-alvarez/null-ls.nvim' },
+    { name = 'nvim-neorg/neorg' },
 }
 
 local function plug_all(plugins)

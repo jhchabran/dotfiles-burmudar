@@ -207,6 +207,7 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
+        { name = 'neorg' },
         { name = 'buffer' },
     }, {
         { name = 'buffer' },
@@ -305,7 +306,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 
 local configs = {
     default = {
-        capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities),
+        capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities),
         on_attach = on_attach
     },
     sumneko_lua = {
@@ -371,6 +372,14 @@ for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup(c)
 end
 
+-- null-ls
+-- DISABLED: incurs a performance hit
+-- require('null-ls').setup({
+--     sources = {
+--         require('null-ls').builtins.diagnostics.golangci_lint,
+--     }
+-- })
+
 
 --- Highlights
 --- vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]
@@ -386,7 +395,32 @@ require('mind').setup({})
 -- Mason, use :Mason to open up the window
 require("mason").setup()
 
----
+-- Norg
+require('neorg').setup {
+    load = {
+        ["core.defaults"] = {},
+        ["core.norg.dirman"] = {
+            config = {
+                workspaces = {
+                    home = "~/code/notes/",
+                    gtd = "~/code/example_workspaces/gtd/",
+                }
+            }
+        },
+        ["core.norg.concealer"] = {},
+        ["core.norg.completion"] = {
+            config = {
+                engine = "nvim-cmp",
+            },
+        },
+        ["core.gtd.base"] = {
+            config = {
+                workspace = "gtd"
+            },
+        },
+    }
+}
+
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv
 dapui.setup()
@@ -396,13 +430,13 @@ vim.fn.sign_define('DapStopped', { text = '👉', texthl = '', linehl = '', numh
 vim.fn.sign_define('DapBreakpointRejected', { text = '🛑', texthl = '', linehl = '', numhl = '' })
 require('dap-go').setup()
 dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
+    dapui.open({})
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
+    dapui.close({})
 end
 dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
+    dapui.close({})
 end
 
 -- Diagnostics

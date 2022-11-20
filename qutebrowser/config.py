@@ -15,9 +15,10 @@ c.url.searchengines = {
             "s": "https://sourcegraph.sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "ss": "https://sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "g": "https://google.com/search?q={}",
+            "gif": "https://giphy.com/search/{}",
          }
 
-config.bind(',1', "open https://github.com")
-config.bind(',2', "open https://mail.google.com")
-config.bind(',3', "open https://calendar.google.com")
+config.bind(',1', "open https://mail.google.com")
+config.bind(',2', "open https://calendar.google.com")
+config.bind(',3', "open https://github.com")
 

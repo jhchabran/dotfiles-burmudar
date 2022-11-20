@@ -26,6 +26,8 @@ vim.cmd([[
     ]])
 
 
+-- nvim_create_user_commands("JFormat", "!jq .")
+--
 local M = {
     lsp_setup = function(client)
         if client.server_capabilities.documentHighlightProvider then

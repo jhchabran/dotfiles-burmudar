@@ -15,8 +15,15 @@ local quickFileBrowser = function()
     )
 end
 
-km("n", "<C-tab>", ":tabn<cr>")
-km("n", "<C-S-tab>", ":tabp<cr>")
+km("n", "<leader>on", function()
+    vim.cmd("Neorg workspace home")
+end)
+
+km("n", "<c-u>", "<c-u>zz")
+km("n", "<c-d>", "<c-d>zz")
+
+km("n", "<leader><tab>", ":tabn<cr>")
+km("n", "<leader><S-tab>", ":tabp<cr>")
 km("i", "<C-tab>", ":tabn<cr>")
 km("i", "<C-S-tab>", ":tabp<cr>")
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
@@ -46,7 +53,6 @@ km("n", "<leader>df", function()
     require('telescope.builtin').git_files { cwd = '$SRC/dotfiles' }
 end, { desc = "Search [D]ot[F]iles" })
 km("n", "<leader>ss", require('telescope.builtin').lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
-km("n", "<leader>j", require('burm.custom.neorg').journal_today)
 -- Yank into clipboard
 km("v", "<leader>y", "\"+y")
 km("n", "<leader>p", "\"+p")
@@ -74,7 +80,7 @@ km('n', "<F10>", require('dap').step_over)
 km('n', "<F11>", require('dap').step_into)
 km('n', "<F12>", require('dap').step_out)
 --- Press CTRL-ESC to exit terminal mode
-km("t", "<Esc>", '<C-\\><C-n>', { noremap = true })
+km("t", "<Esc><Esc>", '<C-\\><C-n>', { noremap = true })
 --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
 
 local M = {
