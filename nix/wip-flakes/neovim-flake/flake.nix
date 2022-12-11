@@ -7,11 +7,10 @@
     };
     outputs = { self, nixpkgs, neovim-nightly-overlay, neovim, flake-utils }: flake-utils.lib.eachDefaultSystem (system:
         let
-            system = "x86_64-linux";
             #pkgs = import nixpkgs { inherit system; overlays = [ neovim-nightly-overlay.overlay ]; };
             pkgs = import nixpkgs { inherit system; };
 
-            
+
             examiner = (with pkgs; stdenv.mkDerivation {
                 name = "examiner";
                 version = "dev";
@@ -38,11 +37,12 @@
                     };
 
                     nativeBuildInputs = [ makeWrapper pkg-config examiner];
-                    
+
                     buildPhase = "make";
                     installPhase = ''
-                        mkdir -p "$out/share/lua/${mylua.luaversion}/telescope/_extensions/"
-                        cp build/libfzf.so "$out/share/lua/${mylua.luaversion}/telescope/_extensions/fzf.so"
+                         echo ${mylua.luaversion}
+                         mkdir -p "$out/lib/lua/${mylua.luaversion}/"
+                         cp build/libfzf.so "$out/lib/lua/${mylua.luaversion}/fzf.so"
                     '';
                     doCheck = true;
                     checkTarget = "test";
@@ -52,13 +52,11 @@
             fzfLuaPkg = luaPkg pkgs pkgs.neovim-unwrapped.lua;
 
             config = pkgs.neovimUtils.makeNeovimConfig {
-                customRc = "luafile ~/.config/nvim/init.lua";
+                customRC = "luafile ~/.config/nvim/init.lua";
                 extraLuaPackages = (ps: with ps;  [ fzfLuaPkg ]);
             };
 
-            nvimPkg = with pkgs; (wrapNeovim neovim-unwrapped.overrideAttrs {
-                inherit config;
-            });
+            nvimPkg = with pkgs; (wrapNeovimUnstable neovim-unwrapped config);
 
             nvimApp = flake-utils.lib.mkApp {
                 drv = nvimPkg;
@@ -67,13 +65,9 @@
         in
         {
             inherit system;
-            fzf.${system} = fzfLuaPkg;
             inherit config;
-            #defaultPackage.${system} = pkgs.neovim.override {
-                #configure = {
-                    #customRc = ''luafile ~/.config/nvim/init.lua'';
-                #};
-            #};
+
+            fzf = fzfLuaPkg;
 
             defaultPackage = nvimPkg;
             defaultApp = nvimApp;
@@ -81,8 +75,10 @@
             devShell = pkgs.mkShell {
                 buildInputs = [
                     nvimPkg
+                    pkgs.fd
+                    pkgs.neovim-unwrapped.lua
                     ];
-                    };
+            };
 
 
 
