@@ -19,8 +19,8 @@ km("n", "<leader>on", function()
     vim.cmd("Neorg workspace home")
 end)
 
-km("n", "<c-u>", "<c-u>zz")
-km("n", "<c-d>", "<c-d>zz")
+km("n", "<c-u>", "<cmd>call smoothie#do(\"<c-u>zz\")<cr>")
+km("n", "<c-d>", "<cmd>call smoothie#do(\"<c-d>zz\")<cr>")
 
 km("n", "<leader><tab>", ":tabn<cr>")
 km("n", "<leader><S-tab>", ":tabp<cr>")
@@ -53,6 +53,7 @@ km("n", "<leader>df", function()
     require('telescope.builtin').git_files { cwd = '$SRC/dotfiles' }
 end, { desc = "Search [D]ot[F]iles" })
 km("n", "<leader>ss", require('telescope.builtin').lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
+km("n", "<leader>si", require('telescope.builtin').lsp_implementations, { desc = "[S]earch [I]mplementation" })
 -- Yank into clipboard
 km("v", "<leader>y", "\"+y")
 km("n", "<leader>p", "\"+p")

@@ -1,4 +1,14 @@
-# general
+# conditional aliases
+if type "fdfind" &> /dev/null; then
+    alias fd='fdfind'
+fi
+if [[ $OSTYPE == "darwin"* ]]; then
+	alias ls='ls -G'
+else
+	alias ls='ls --color=auto'
+fi
+
+# general aliases
 alias h='cd $HOME'
 alias pass=gopass
 alias aenv='source $(fd -s "activate")'
@@ -9,8 +19,4 @@ alias egrep='egrep --color=auto'
 alias cat='bat'
 
 
-if [[ $OSTYPE == "darwin"* ]]; then
-	alias ls='ls -G'
-else
-	alias ls='ls --color=auto'
-fi
+

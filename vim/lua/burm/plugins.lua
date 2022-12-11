@@ -8,6 +8,7 @@ end
 
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
+    use 'nvim-lua/plenary.nvim'
     use 'nvim-lua/popup.nvim'
     use 'christoomey/vim-tmux-navigator'
     use 'rust-lang/rust.vim'
@@ -22,10 +23,10 @@ require('packer').startup(function(use)
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use 'nvim-treesitter/playground'
     use 'nvim-treesitter/nvim-treesitter-context'
-    use {'nvim-treesitter/nvim-treesitter-textobjects', after = { 'nvim-treesitter' }}
+    use 'nvim-treesitter/nvim-treesitter-textobjects'
+    use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }}
-    use { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
-    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable "make" == 1 }
     use 'onsails/lspkind-nvim'
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/cmp-nvim-lsp'
@@ -52,6 +53,8 @@ require('packer').startup(function(use)
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
     use 'theHamsta/nvim-dap-virtual-text'
+    use 'psliwka/vim-smoothie'
+    use 'nvim-neorg/neorg'
 
     if is_bootstrap then
         require('packer').sync()
