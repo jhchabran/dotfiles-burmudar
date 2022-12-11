@@ -39,6 +39,11 @@
                     nativeBuildInputs = [ makeWrapper pkg-config examiner];
 
                     buildPhase = "make";
+                    # This below doesn't quite work it seems? need to figure out how to verify it
+                    # currently I'm doing:
+                    # $ lua
+                    # require('fzf');
+                    # and that throws an error
                     installPhase = ''
                          echo ${mylua.luaversion}
                          mkdir -p "$out/lib/lua/${mylua.luaversion}/"
@@ -52,10 +57,12 @@
             fzfLuaPkg = luaPkg pkgs pkgs.neovim-unwrapped.lua;
 
             config = pkgs.neovimUtils.makeNeovimConfig {
+                # take not of the attribute cases here! ... the wrong case and your attribute will be silently ignored
                 customRC = "luafile ~/.config/nvim/init.lua";
                 extraLuaPackages = (ps: with ps;  [ fzfLuaPkg ]);
             };
 
+            # read this as ... func1(func2(config))
             nvimPkg = with pkgs; (wrapNeovimUnstable neovim-unwrapped config);
 
             nvimApp = flake-utils.lib.mkApp {
@@ -66,8 +73,6 @@
         {
             inherit system;
             inherit config;
-
-            fzf = fzfLuaPkg;
 
             defaultPackage = nvimPkg;
             defaultApp = nvimApp;

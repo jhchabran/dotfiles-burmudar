@@ -60,7 +60,7 @@ require('lualine').setup {
 --- Treesitter config
 require('nvim-treesitter.configs').setup {
     ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-        "rust", "sumneko_lua" },
+        "rust", "sumneko_lua", "nix" },
     ignore_install = {},
     highlight = {
         enable = true,
