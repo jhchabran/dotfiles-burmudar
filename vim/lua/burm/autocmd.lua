@@ -1,20 +1,30 @@
 --- Remove trailing whitespace before write
 --
 vim.cmd([[
-    augroup WHITESPACE
+    augroup BURM_WHITESPACE
         autocmd!
         autocmd BufWritePre * %s/\s\+$//e
     augroup END
     ]])
 
 vim.cmd([[
-    augroup FORMATTING
+    augroup BURM_FORMATTING
         autocmd BufWritePre * :lua vim.lsp.buf.format()
     augroup END
     ]])
 
 vim.cmd([[
-    augroup PYTHON
+    augroup BURM_GOLANG
+      autocmd!
+
+      autocmd BufEnter,BufNewFile,BufRead *.go setlocal formatoptions+=roq
+      autocmd BufEnter,BufNewFile,BufRead *.go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
+      autocmd BufEnter,BufNewFile,BufRead *.tmpl setlocal filetype=html
+    augroup END
+    ]])
+
+vim.cmd([[
+    augroup BURN_PYTHON
         autocmd BufNewFile,BufRead *.py set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent
     augroup END
     ]])

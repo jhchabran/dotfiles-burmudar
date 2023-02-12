@@ -54,6 +54,8 @@ km("n", "<leader>df", function()
 end, { desc = "Search [D]ot[F]iles" })
 km("n", "<leader>ss", require('telescope.builtin').lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
 km("n", "<leader>si", require('telescope.builtin').lsp_implementations, { desc = "[S]earch [I]mplementation" })
+km("n", "<leader>m", require('harpoon.mark').add_file, { desc = "[M]ark a file" })
+km("n", "<M-m>", require('harpoon.ui').toggle_quick_menu, { desc = "Show [M]arks" })
 -- Yank into clipboard
 km("v", "<leader>y", "\"+y")
 km("n", "<leader>p", "\"+p")

@@ -1,0 +1,24 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = William Bezuidenhout
+	email = william.bezuidenhout@sourcegraph.com
+	signingkey = EDE8072F89D58CD9!
+[push]
+	autoSetupRemote = true
+[commit]
+	gpgsign = true
+[alias]
+  s = status
+  co = checkout
+  c = commit
+  cm = commit -m
+  ca = commit --amend
+  nb = switch -c
+  ps = push
+  psf = push --force
+  psu = push -u
+  pl = pull
+  plr = pull --rebase
+  f = fetch
+  ap = add -p
