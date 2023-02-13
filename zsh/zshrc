@@ -1,6 +1,23 @@
 #zmodload zsh/zprof
-export ZPLUG_HOME=/opt/homebrew/opt/zplug
-source $ZPLUG_HOME/init.zsh
+if [[ $OSTYPE == "darwin"* ]]; then
+  export ZPLUG_HOME=/opt/homebrew/opt/zplug
+  source $ZPLUG_HOME/init.zsh
+  zplug "zsh-users/zsh-history-substring-search"
+  zplug "zsh-users/zsh-syntax-highlighting"
+
+  if ! zplug check --verbose; then
+      printf "Install ? [yN]: "
+      if read -q; then
+          echo; zplug install
+      fi
+  fi
+
+  zplug load
+  PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
+  # The next line enables shell command completion for gcloud.
+  source "$HOME/google-cloud-sdk/completion.zsh.inc"
+  source /opt/homebrew/opt/asdf/libexec/asdf.sh
+fi
 
 export HISTFILE=~/.histfile
 export HISTSIZE=1000000 # internal number for history list items
@@ -13,17 +30,6 @@ setopt INC_APPEND_HISTORY_TIME # append command to history file immediately afte
 setopt EXTENDED_HISTORY # record command start time
 setopt EXTENDED_GLOB
 
-zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-syntax-highlighting"
-
-if ! zplug check --verbose; then
-    printf "Install ? [yN]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-zplug load
 
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
@@ -35,21 +41,6 @@ if type brew &>/dev/null; then
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
 
-source ~/.fzf.zsh
 source ~/.zwilliam
-
-PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
-
-# The next line updates PATH for the Google Cloud SDK.
-source  "$HOME/google-cloud-sdk/path.zsh.inc"
-
-# The next line enables shell command completion for gcloud.
-source "$HOME/google-cloud-sdk/completion.zsh.inc"
-source /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 #zprof
