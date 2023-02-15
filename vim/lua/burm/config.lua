@@ -48,7 +48,8 @@ NORMAL Mode
 `gcO` - Insert comment to the previous line and enters INSERT mode
 `gcA` - Insert comment to end of the current line and enters INSERT mode
 
-]] --
+]]
+--
 require('Comment').setup {}
 
 --- Lualine setup
@@ -61,7 +62,7 @@ require('lualine').setup {
 --- Treesitter config
 require('nvim-treesitter.configs').setup {
   ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-    "rust", "sumneko_lua", "nix" },
+    "rust", "lua_ls", "nix" },
   ignore_install = {},
   highlight = {
     enable = true,
@@ -175,7 +176,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -287,11 +288,9 @@ local on_attach = function(client, bufnr)
       require('telescope.builtin').lsp_workspace_symbols { query = vim.fn.input("Query: ") }
     end, opts("[W]orkspace [S]ymbols"))
   end
-
-
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "sumneko_lua" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
