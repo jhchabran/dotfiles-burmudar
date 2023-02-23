@@ -7,15 +7,22 @@ let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in {
   imports =
     [ # Include the results of the hardware scan.
+      <home-manager/nixos>	
       ./hardware-configuration.nix
       ./ergodox.nix
     ];
 
+  boot.supportedFilesystems = [ "ntfs" ];
+
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
+  boot.loader.grub.version = 2;
 
   networking.hostName = "william-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -31,7 +38,7 @@ in {
   time.timeZone = "Africa/Johannesburg";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_ZA.utf8";
+  i18n.defaultLocale = "en_US.utf8";
 
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -69,7 +76,6 @@ in {
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -89,31 +95,34 @@ in {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.defaultUserShell = pkgs.zsh;
   users.users.william = {
     isNormalUser = true;
     description = "William Bezuidenhout";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      firefox
-    #  thunderbird
-    ];
   };
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.users.william = import /home/william/.config/nixpkgs/home.nix;
+
   nix.settings.trusted-users = [ "root" "william" ];
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [
-  	(import (builtins.fetchTarball {
-	  url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-	}))
-	];
+#  nixpkgs.overlays = [
+#  	(import (builtins.fetchTarball {
+#	  url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+#	}))
+#	];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-  neovim
+  os-prober
+  unstable.neovim
   curl
+  cura
   wget
   git
   go_1_18
@@ -146,6 +155,11 @@ in {
   man-pages
   man-pages-posix
   btrfs-progs
+  gcc
+  unstable.grub2
+  unstable.flameshot
+  gnumake
+  pavucontrol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -163,11 +177,20 @@ in {
     '';
   nix.package = unstable.nixFlakes;
   environment.pathsToLink = [ "/share/nix-direnv" ];
+  environment.shells = with pkgs; [ zsh ];
 
+  programs.zsh.enable = true;	
 
   programs.neovim.enable = true;
   programs.neovim.viAlias = true;
   programs.neovim.vimAlias = true;
+
+  fonts.fonts = with pkgs; [
+  	noto-fonts
+	noto-fonts-cjk
+	noto-fonts-emoji
+	(nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
+  ];
 
   services.avahi = {
   	enable = true;
