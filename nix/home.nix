@@ -44,10 +44,14 @@ home-manager.users.william = { pkgs, ...}: {
       enable = true;
     };
 
-    # programs.neovim = {
-    #   enable = true
-    #   extraConfig =
-    # }
+    programs.neovim = {
+       enable = true;
+       viAlias = true;
+       vimAlias = true;
+
+       # extraConfig = ''
+       # '';
+    };
 
     programs.zsh = {
       enable = true;
@@ -71,6 +75,15 @@ home-manager.users.william = { pkgs, ...}: {
       initExtra = ''
       source ~/.zwilliam
       '';
+    };
+
+    # services
+    services.gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
+      enableZshIntegration = true;
+
+      defaultCacheTtl = 3600 * 4;
     };
   };
 }

@@ -2,15 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ pkgs, config, ... }:
 let
 in {
   imports =
     [ # Include the results of the hardware scan.
-      <home-manager/nixos>
       ./hardware-configuration.nix
       ./ergodox.nix
-      ./home.nix
     ];
 
   boot.supportedFilesystems = [ "ntfs" ];
@@ -107,13 +105,6 @@ in {
   # home-manager.users.william = import ./home.nix
 
   nix.settings.trusted-users = [ "root" "william" ];
-  # Allow unfree packages
-  pkgs.config.allowUnfree = true;
-#  nixpkgs.overlays = [
-#  	(import (builtins.fetchTarball {
-#	  url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-#	}))
-#	];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -121,7 +112,7 @@ in {
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   os-prober
-  pkgs.neovim
+  neovim
   curl
   cura
   wget
@@ -129,19 +120,17 @@ in {
   go_1_18
   python3
   nix-direnv
-  unstable.gopls
+  gopls
   htop
   lua
   fd
   nmap
   jq
   tmux
-  unstable.difftastic
+  difftastic
   xclip
-  unstable.starship
   kitty
   unzip
-  unstable.discord
   tdesktop # telegram
   spotify
   aspell
@@ -152,8 +141,8 @@ in {
   man-pages-posix
   btrfs-progs
   gcc
-  unstable.grub2
-  unstable.flameshot
+  grub2
+  flameshot
   gnumake
   pavucontrol
   ];
@@ -161,10 +150,6 @@ in {
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
 
   nix.extraOptions = ''
     keep-outputs = true
@@ -175,9 +160,6 @@ in {
   environment.pathsToLink = [ "/share/nix-direnv" ];
   environment.shells = with pkgs; [ zsh ];
 
-  programs.zsh.enable = true;
-
-  programs.neovim.enable = true;
   programs.neovim.viAlias = true;
   programs.neovim.vimAlias = true;
 

@@ -12,15 +12,22 @@
 
   outputs = { self, nixpkgs, home-manager, darwin }:
   let
-    # define variables here
+    pkgs = import nixpkgs {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+      overlays = [];
+    };
   in {
       nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/desktop/default.nix
+          ./hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           ./home.nix
         ];
+        specialArgs = {
+          inherit pkgs;
+        };
       };
       darwinConfigurations."Williams-MacBook-Pro" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
