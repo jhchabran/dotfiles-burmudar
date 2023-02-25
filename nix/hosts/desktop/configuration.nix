@@ -3,13 +3,14 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+let
 in {
   imports =
     [ # Include the results of the hardware scan.
-      <home-manager/nixos>	
+      <home-manager/nixos>
       ./hardware-configuration.nix
       ./ergodox.nix
+      ./home.nix
     ];
 
   boot.supportedFilesystems = [ "ntfs" ];
@@ -46,27 +47,27 @@ in {
   # Enable the X11 windowing system.
   services.xserver = {
   	enable = true;
-	layout = "za";
+    layout = "za";
 
-	videoDrivers = [ "nvidia" ];
+    videoDrivers = [ "nvidia" ];
 
-	desktopManager = {
-		xterm.enable = false;
-		xfce = {
-			enable = true;
-			noDesktop = true;
-			enableXfwm = false;
-			};
-		};
-	displayManager = {
-		gdm.enable = true;
-		defaultSession = "xfce+i3";
-		};
+    desktopManager = {
+      xterm.enable = false;
+      xfce = {
+        enable = true;
+        noDesktop = true;
+        enableXfwm = false;
+        };
+      };
+    displayManager = {
+      gdm.enable = true;
+      defaultSession = "xfce+i3";
+      };
 
-	windowManager.i3 = {
-		enable = true;
-		extraPackages = with pkgs; [ rofi dmenu i3status i3lock ];
-		};
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [ rofi dmenu i3status i3lock ];
+      };
 	};
 
 
@@ -102,12 +103,12 @@ in {
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.users.william = import /home/william/.config/nixpkgs/home.nix;
+  # home-manager.useGlobalPkgs = true;
+  # home-manager.users.william = import ./home.nix
 
   nix.settings.trusted-users = [ "root" "william" ];
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  pkgs.config.allowUnfree = true;
 #  nixpkgs.overlays = [
 #  	(import (builtins.fetchTarball {
 #	  url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
@@ -120,25 +121,20 @@ in {
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   os-prober
-  unstable.neovim
+  pkgs.neovim
   curl
   cura
   wget
   git
   go_1_18
   python3
-  direnv
   nix-direnv
   unstable.gopls
   htop
-  zsh
   lua
-  ripgrep
-  bat
   fd
   nmap
   jq
-  fzf
   tmux
   unstable.difftastic
   xclip
@@ -170,16 +166,16 @@ in {
     enableSSHSupport = true;
   };
 
-  nix.extraOptions = '' 
+  nix.extraOptions = ''
     keep-outputs = true
     keep-derivations = true
     experimental-features = nix-command flakes
     '';
-  nix.package = unstable.nixFlakes;
+  nix.package = pkgs.nixFlakes;
   environment.pathsToLink = [ "/share/nix-direnv" ];
   environment.shells = with pkgs; [ zsh ];
 
-  programs.zsh.enable = true;	
+  programs.zsh.enable = true;
 
   programs.neovim.enable = true;
   programs.neovim.viAlias = true;
@@ -187,19 +183,19 @@ in {
 
   fonts.fonts = with pkgs; [
   	noto-fonts
-	noto-fonts-cjk
-	noto-fonts-emoji
-	(nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
+    noto-fonts-cjk
+    noto-fonts-emoji
+    (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
   ];
 
   services.avahi = {
   	enable = true;
-	nssmdns = true;
-	publish = {
-		addresses = true;
-		domain = true;
-		enable = true;
-	};
+    nssmdns = true;
+    publish = {
+      addresses = true;
+      domain = true;
+      enable = true;
+    };
   };
 
   # List services that you want to enable:

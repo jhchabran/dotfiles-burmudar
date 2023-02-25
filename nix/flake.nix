@@ -1,5 +1,5 @@
 {
-  description = "My first nix flake";
+  description = "William Flake config for his machines";
 
   inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
@@ -12,18 +12,23 @@
 
   outputs = { self, nixpkgs, home-manager, darwin }:
   let
+    # define variables here
   in {
-
-
+      nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/desktop/default.nix
+          home-manager.nixosModules.home-manager
+          ./home.nix
+        ];
+      };
       darwinConfigurations."Williams-MacBook-Pro" = darwin.lib.darwinSystem {
-        # you can have multiple darwinConfigurations per flake, one per hostname
-
-        system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
+        system = "aarch64-darwin";
         modules = [
           ./hosts/mac/default.nix
           home-manager.darwinModules.home-manager
           ./home.nix
-        ]; # will be important later
+        ];
       };
     };
 
