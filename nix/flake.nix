@@ -13,6 +13,7 @@
 
   outputs = { self, nixpkgs, home-manager, darwin, flake-utils }:
   let
+    # A function to return a customized pkgs per system which allowsUnfree
     pkgsForSystem = (system:
       let
         pkgs = import nixpkgs {
@@ -25,6 +26,7 @@
       }
     );
   in {
+      # using rec because otherwise we can't refer to the system var inside the set
       nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
