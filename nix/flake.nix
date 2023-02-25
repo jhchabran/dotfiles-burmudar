@@ -8,35 +8,40 @@
       # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
       darwin.url = "github:lnl7/nix-darwin";
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
+      flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin }:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils }:
   let
-    pkgs = import nixpkgs {
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-      overlays = [];
-    };
+    pkgsForSystem = (system:
+      let
+        pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [];
+        };
+      in {
+        inherit pkgs;
+      }
+    );
   in {
-      nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem {
+      nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           ./hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           ./home.nix
         ];
-        specialArgs = {
-          inherit pkgs;
-        };
+        specialArgs = pkgsForSystem system;
       };
-      darwinConfigurations."Williams-MacBook-Pro" = darwin.lib.darwinSystem {
+      darwinConfigurations."Williams-MacBook-Pro" = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
         modules = [
           ./hosts/mac/default.nix
           home-manager.darwinModules.home-manager
           ./home.nix
         ];
+        specialArgs = pkgsForSystem system;
       };
-    };
-
+  };
 }
