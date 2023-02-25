@@ -1,9 +1,6 @@
 #!/bin/zsh
 # vim: set filetype=bash : */ ~
-# User configuration
-export SRC="$HOME/code"
-
-# fzf exports
+export GPG_TTY=$(tty)
 export FZF_DEFAULT_COMMAND="fdfind -t f"
 
 export SSH_KEY_FOLDER="$HOME/.ssh/keys"

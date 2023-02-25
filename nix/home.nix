@@ -79,7 +79,7 @@ home-manager.users.william = { pkgs, ...}: {
 
     # services
     services.gpg-agent = {
-      enable = true;
+      enable = pkgs.stdenv.isLinux;
       enableSshSupport = true;
       enableZshIntegration = true;
 

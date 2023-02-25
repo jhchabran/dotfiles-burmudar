@@ -1,5 +1,8 @@
 { pkgs, ... }:
 {
+  users.users.william = {
+  	home = /Users/william;
+  };
 
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
