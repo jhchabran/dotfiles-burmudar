@@ -22,8 +22,8 @@
 
    programs.zsh = {
     enable = true;
-    # initExtra = ''
-    # source ~/.zwilliam
-    # '';
+     initExtra = ''
+     source ~/.zwilliam
+     '';
    };
 }
