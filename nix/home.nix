@@ -1,6 +1,6 @@
 { pkgs, ...}: {
-   home.stateVersion = "22.11";
 
+   stateVersion = "22.11";
    # software
    programs.direnv = {
     enable = true;

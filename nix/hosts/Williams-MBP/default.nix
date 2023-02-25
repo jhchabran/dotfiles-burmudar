@@ -53,5 +53,5 @@
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.william = import ../../home.nix
+  home-manager.users.william = import ../../home.nix;
 }
