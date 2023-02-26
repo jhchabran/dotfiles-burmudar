@@ -1,7 +1,7 @@
 {
-home-manager.useGlobalPkgs = true;
-home-manager.useUserPackages = true;
 home-manager.users.william = { pkgs, ...}: {
+    programs.home-manager.enable = true;
+
     home.stateVersion = "22.11";
 
     home.file = {
@@ -9,6 +9,21 @@ home-manager.users.william = { pkgs, ...}: {
       ".zwilliam".source = ../zsh/zwilliam;
       "code-test/".source = builtins.toFile ".keep" "";
     };
+
+    home.packages = with pkgs; [
+      home-manager
+      starship
+      ripgrep
+      lsd
+      fd
+      jq
+      cheat
+      tldr
+      gping
+      procs
+      dog
+      delta
+    ];
 
     xdg = {
       enable = true;
@@ -28,6 +43,12 @@ home-manager.users.william = { pkgs, ...}: {
 
     programs.starship = {
       enable = true;
+      enableZshIntegration = true;
+      settings = {
+        aws.disabled = true;
+        gcloud.disabled = true;
+        nodejs.disabled = true;
+      };
     };
 
     programs.zoxide = {
@@ -72,9 +93,14 @@ home-manager.users.william = { pkgs, ...}: {
       export EDITOR="nvim"
       '';
 
-      initExtra = ''
-      source ~/.zwilliam
-      '';
+      # initExtra = ''
+      # source ~/.zwilliam
+      # '';
+    };
+
+    programs.lsd = {
+      enable = true;
+      enableAliases = true;
     };
 
     # services
