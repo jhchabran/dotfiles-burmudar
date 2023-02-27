@@ -8,8 +8,11 @@
   home.file = {
     ".config/nvim/".source = ../vim;
     ".zwilliam".source = ../zsh/zwilliam;
+    ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "empty";
+
     "code/.keep".source = builtins.toFile ".keep" "";
   };
+
 
   home.packages = with pkgs; [
     home-manager
@@ -94,9 +97,10 @@
     export EDITOR="nvim"
     '';
 
-    # initExtra = ''
-    # source ~/.zwilliam
-    # '';
+    initExtra = ''
+      source ~/.zwilliam
+      source ~/.zwork
+    '';
   };
 
   programs.lsd = {
