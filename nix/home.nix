@@ -8,7 +8,7 @@
   home.file = {
     ".config/nvim/".source = ../vim;
     ".zwilliam".source = ../zsh/zwilliam;
-    ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "empty";
+    ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
 
     "code/.keep".source = builtins.toFile ".keep" "";
   };
