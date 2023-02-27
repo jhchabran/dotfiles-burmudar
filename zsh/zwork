@@ -1,6 +1,7 @@
 #!/bin/zsh
 # vim: set filetype=bash : */ ~
 
+export PATH=$PATH:~/.sg
 PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
 # The next line enables shell command completion for gcloud.
 source "$HOME/google-cloud-sdk/completion.zsh.inc"
