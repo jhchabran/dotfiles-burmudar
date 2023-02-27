@@ -3,6 +3,10 @@
   users.users.william = {
   	home = /Users/william;
   };
+  # From https://gist.github.com/jmatsushita/5c50ef14b4b96cb24ae5268dab613050
+  # Without this, home-manager user packages doesn't work properly
+  # Create /etc/bashrc that loads the nix-darwin environment.
+  programs.zsh.enable = true;
 
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;

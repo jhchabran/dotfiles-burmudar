@@ -35,8 +35,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.users.william = ./home.nix;
           }
-          ./home.nix
         ];
         specialArgs = pkgsForSystem system;
       };
@@ -45,7 +45,11 @@
         modules = [
           ./hosts/mac/default.nix
           home-manager.darwinModules.home-manager
-          ./home.nix
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.william = ./home.nix;
+          }
         ];
         specialArgs = pkgsForSystem system;
       };
