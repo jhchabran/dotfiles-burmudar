@@ -21,6 +21,10 @@
     magicDNS.enable = true;
   };
 
+  environment.systemPackages = with pkgs; [
+    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+  ];
+
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
@@ -45,6 +49,7 @@
       "intellij-idea-ce"
       "kitty"
       "loom"
+      "mark-text"
       "p4v"
       "perforce"
       "postico"
