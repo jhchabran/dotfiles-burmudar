@@ -103,6 +103,50 @@
     '';
   };
 
+  programs.tmux = {
+    enable = true;
+
+    clock24 = true;
+    baseIndex = 1;
+    escapeTime = 50;
+    historyLimit = 10000;
+    keyMode = "vi";
+    mouse = true;
+    shortcut = "b";
+    prefix = "C-a";
+    terminal = "screen-256color";
+
+    plugins = with pkgs.tmuxPlugins; [
+      yank
+      vim-tmux-navigator
+      vim-tmux-focus-events
+      {
+        plugin = dracula;
+        extraConfig = ''
+          set -g @dracula-plugins "cpu-usage ram-usage weather"
+          set -g @dracula-show-powerline true
+          set -g @dracula-show-flags true
+          set -g @dracula-show-fahrenheit false
+        '';
+      }
+    ];
+
+    extraConfig = ''
+      set -g renumber-windows on
+      set-option -g visual-activity off
+      set-option -g visual-bell off
+      set-option -g visual-silence off
+
+      # keybindings
+      bind-key C-s set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
+      bind-key -T root M-j run-shell $SRC/dotfiles/tmux/popupmx.sh
+      bind | split-window -h
+      bind - split-window -v
+      unbind '"'
+      unbind %
+    '';
+  };
+
   programs.lsd = {
     enable = true;
     enableAliases = true;
