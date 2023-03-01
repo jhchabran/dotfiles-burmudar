@@ -13,6 +13,15 @@
     "code/.keep".source = builtins.toFile ".keep" "";
   };
 
+  home.shellAliases = {
+    pass="gopass";
+    aenv="source $(fd -s 'activate')";
+    denv="deactivate";
+    grep="grep --color=auto";
+    fgrep="fgrep --color=auto";
+    egrep="egrep --color=auto";
+    cat="bat";
+  };
 
   home.packages = with pkgs; [
     home-manager
@@ -41,7 +50,7 @@
   programs.bat = {
     enable = true;
     config = {
-      name = "github";
+      theme = "github";
     };
   };
 
@@ -98,6 +107,7 @@
     '';
 
     initExtra = ''
+      setopt EXTENDED_GLOB
       source ~/.zwilliam
       source ~/.zwork
     '';
