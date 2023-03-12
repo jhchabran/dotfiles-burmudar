@@ -50,7 +50,7 @@
   programs.bat = {
     enable = true;
     config = {
-      theme = "github";
+      theme = "ansi";
     };
   };
 
@@ -162,6 +162,42 @@
     enableAliases = true;
   };
 
+  programs.git = {
+    enable = true;
+    userEmail = if pkgs.stdenv.isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout+github@gmail.com";
+    userName = "William Bezuidenhout";
+    signing = {
+      signByDefault = true;
+      key = "EDE8072F89D58CD9!";
+    };
+    aliases = {
+      s = "status";
+      co = "checkout";
+      c = "commit";
+      cm = "commit -m";
+      ca = "commit --amend";
+      nb = "switch -c";
+      ps = "push";
+      psf = "push --force";
+      psu = "push -u";
+      pl = "pull";
+      plr = "pull --rebase";
+      f = "fetch";
+      ap = "add -p";
+    };
+    extraConfig = {
+      push.autoSetupRemote = true;
+    };
+
+    delta = {
+      enable = true;
+      options = {
+        side-by-side = true;
+        line-numbers = true;
+      };
+    };
+  };
+
   # services
   services.gpg-agent = {
     enable = pkgs.stdenv.isLinux;
@@ -170,4 +206,5 @@
 
     defaultCacheTtl = 3600 * 4;
   };
+
 }
