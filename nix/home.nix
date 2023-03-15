@@ -172,7 +172,7 @@
       };
       "github.com" = {
         hostname = "github.com";
-        user = "william";
+        user = "git";
         identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "mac" = {
