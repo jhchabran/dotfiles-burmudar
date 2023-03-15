@@ -7,10 +7,10 @@ config.bind(',d', 'tab-close')
 c.input.insert_mode.auto_load = True
 c.input.insert_mode.auto_leave = True
 
-c.tabs.favicons.scale = 2.0
-c.tabs.max_width = 200
+c.tabs.favicons.scale = 1.0
+c.tabs.width = 250
 c.tabs.padding = {"bottom": 5, "left": 5, "right": 5, "top": 5}
-c.tabs.position = right
+c.tabs.position = "right"
 
 with config.pattern("*://github.com") as p:
     p.content.javascript.clipboard = 'access'
@@ -25,10 +25,13 @@ c.url.searchengines = {
 
 def rutorrent():
     import pathlib
-    p = pathlib.Path("~/.qutebrowser/.rutorrent").expanduser()
-    with open(p) as f:
-        creds = f.read()
-    return creds.rstrip()
+    try:
+        p = pathlib.Path("~/.rutorrent").expanduser()
+        with open(p) as f:
+            creds = f.read()
+        return creds.rstrip()
+    except:
+        return "burmudar:EMPTY"
 
 config.bind(',1', "open https://mail.google.com")
 config.bind(',2', "open https://calendar.google.com")

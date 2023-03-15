@@ -9,7 +9,6 @@
     ".config/nvim/".source = ../vim;
     ".zwilliam".source = ../zsh/zwilliam;
     ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
-
     "code/.keep".source = builtins.toFile ".keep" "";
   };
 
@@ -76,6 +75,11 @@
 
   programs.k9s = {
     enable = true;
+  };
+
+  programs.qutebrowser = {
+    enable = true;
+    extraConfig = (builtins.readFile ../qutebrowser/config.py);
   };
 
   programs.neovim = {
@@ -155,6 +159,28 @@
       unbind '"'
       unbind %
     '';
+  };
+
+  programs.ssh = {
+    enable = true;
+    forwardAgent = true;
+    matchBlocks = {
+      "media-pc" = {
+        hostname = "media-pc.local";
+        user = "william";
+        identityFile = "~/.ssh/keys/burmkey.pem";
+      };
+      "github.com" = {
+        hostname = "github.com";
+        user = "william";
+        identityFile = "~/.ssh/keys/burmkey.pem";
+      };
+      "mac" = {
+        hostname = "github.com";
+        user = "william";
+        identityFile = "~/.ssh/keys/burmkey.pem";
+      };
+    };
   };
 
   programs.lsd = {

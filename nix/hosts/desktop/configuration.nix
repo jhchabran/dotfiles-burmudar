@@ -118,7 +118,7 @@ in {
   cura
   wget
   git
-  go_1_18
+  go
   python3
   nix-direnv
   gopls
@@ -146,6 +146,8 @@ in {
   flameshot
   gnumake
   pavucontrol
+  # language servers
+  nodePackages.typescript-language-server
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
