@@ -168,17 +168,17 @@
       "media-pc" = {
         hostname = "media-pc.local";
         user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pem";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "github.com" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/keys/burmkey.pem";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "mac" = {
         hostname = "Williams-MacBook-Pro.local";
         user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pem";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "router" = {
         user = "root";
