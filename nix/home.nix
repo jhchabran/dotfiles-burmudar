@@ -176,9 +176,34 @@
         identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "mac" = {
-        hostname = "github.com";
+        hostname = "Williams-MacBook-Pro.local";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pem";
+      };
+      "router" = {
+        user = "root";
+        hostname = "192.168.1.1";
+        identityFile = "~/.ssh/burmkey.pvt";
+      };
+      "desktop" = {
+        user = "william";
+        hostname = "william-desktop.local";
+        identityFile = "~/.ssh/burmkey.pvt";
+      };
+      "spotipi.local" = {
+          user = "pi";
+          hostname = "spotipi.local";
+          identityFile = "~/.ssh/burmkey.pvt";
+      };
+      "spotipi" = {
+          user = "pi";
+          hostname = "spotipi";
+          identityFile = "~/.ssh/burmkey.pvt";
+      };
+      "bezuidenhout" = {
+          user = "bezuidenhout";
+          hostname = "bezuidenhout-pc";
+          identityFile = "~/.ssh/burmkey.pvt";
       };
     };
   };
