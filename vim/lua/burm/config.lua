@@ -10,10 +10,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-
-require "fidget".setup {}
-
---- Do all the plugin setup here
+require "fidget".setup {} --- Do all the plugin setup here
 require('gitsigns').setup({
   numhl = true,
   word_diff = true,
@@ -176,7 +173,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -421,6 +418,22 @@ require("mason").setup()
 --         },
 --     }
 -- }
+--
+
+-- require('easyread').setup({
+--     hlValues = {
+--         ['1'] = 1,
+--         ['2'] = 1,
+--         ['3'] = 2,
+--         ['4'] = 2,
+--         ['fallback'] = 0.4
+--     },
+--     hlgroupOptions = { link = 'Bold' },
+--     fileTypes = { 'text' },
+--     saccadeInterval = 0,
+--     saccadeReset = false,
+--     updateWhileInsert = true
+-- })
 
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv

@@ -53,6 +53,7 @@ require('packer').startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   use 'theHamsta/nvim-dap-virtual-text'
   use 'psliwka/vim-smoothie'
+  use 'JellyApple102/easyread.nvim'
   use { 'phaazon/mind.nvim', branch = 'v2.2', requires = { 'nvim-lua/plenary.nvim' },
     config = function() require 'mind'.setup() end }
   use 'ThePrimeagen/harpoon'
