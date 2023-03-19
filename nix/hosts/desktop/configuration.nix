@@ -98,7 +98,7 @@ in {
   users.users.william = {
     isNormalUser = true;
     description = "William Bezuidenhout";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
   # home-manager.useGlobalPkgs = true;
@@ -109,45 +109,46 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-  bash
-  os-prober
-  neovim
-  curl
-  cura
-  wget
-  git
-  go
-  python3
-  nix-direnv
-  gopls
-  htop
-  lua
-  fd
-  nmap
-  jq
-  tmux
-  difftastic
-  xclip
-  kitty
-  unzip
-  tdesktop # telegram
-  spotify
   aspell
   aspellDicts.en
   aspellDicts.en-computers
   aspellDicts.en-science
+  bash
+  btrfs-progs
+  cura
+  curl
+  difftastic
+  fd
+  flameshot
+  gcc
+  git
+  gnumake
+  go
+  gopls
+  grub2
+  htop
+  jq
+  kitty
+  lua
   man-pages
   man-pages-posix
-  btrfs-progs
-  gcc
-  grub2
-  flameshot
-  gnumake
-  pavucontrol
+  neovim
+  nix-direnv
+  nmap
   # language servers
   nodePackages.typescript-language-server
+  sumneko-lua-language-server
+  os-prober
+  pavucontrol
+  python3
+  # qmk for flashing keyboard
+  qmk
+  spotify
+  tdesktop # telegram
+  tmux
+  unzip
+  wget
+  xclip
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -187,6 +188,14 @@ in {
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # Enable docker daemon to start
+  virtualisation.docker.enable = true;
+  virtualisation.docker.storageDriver = "btrfs";
+
+
+  # Need so that qmk can see the keyboard
+  services.udev.packages = [ pkgs.qmk-udev-rules ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
