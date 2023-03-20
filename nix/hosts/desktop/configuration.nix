@@ -101,9 +101,6 @@ in {
     extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.users.william = import ./home.nix
-
   nix.settings.trusted-users = [ "root" "william" ];
 
   # List packages installed in system profile. To search, run:
@@ -142,7 +139,7 @@ in {
   pavucontrol
   python3
   # qmk for flashing keyboard
-  qmk
+  # qmk
   spotify
   tdesktop # telegram
   tmux
@@ -195,7 +192,7 @@ in {
 
 
   # Need so that qmk can see the keyboard
-  services.udev.packages = [ pkgs.qmk-udev-rules ];
+  # services.udev.packages = [ pkgs.qmk-udev-rules ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
