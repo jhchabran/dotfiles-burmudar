@@ -3,21 +3,22 @@
 
   inputs = {
       nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+      darwin-pkgs.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
       # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
       home-manager.url = "github:nix-community/home-manager";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
       # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
       darwin.url = "github:lnl7/nix-darwin";
-      darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
+      darwin.inputs.nixpkgs.follows = "darwin-pkgs"; # ...
       flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils }:
+  outputs = { self, nixpkgs, darwin-pkgs, home-manager, darwin, flake-utils }:
   let
     # A function to return a customized pkgs per system which allowsUnfree
-    pkgsForSystem = (system:
+    pkgsForSystem = (system: (pkgsModule:
       let
-        pkgs = import nixpkgs {
+        pkgs = import pkgsModule {
           inherit system;
           config.allowUnfree = true;
           overlays = [];
@@ -25,7 +26,7 @@
       in {
         inherit pkgs;
       }
-    );
+    ));
   in {
       # using rec because otherwise we can't refer to the system var inside the set
       nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem rec {
@@ -39,7 +40,7 @@
             home-manager.users.william = ./home.nix;
           }
         ];
-        specialArgs = pkgsForSystem system;
+        specialArgs = pkgsForSystem system nixpkgs;
       };
       darwinConfigurations."Williams-MacBook-Pro" = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
@@ -52,7 +53,7 @@
             home-manager.users.william = ./home.nix;
           }
         ];
-        specialArgs = pkgsForSystem system;
+        specialArgs = pkgsForSystem system darwin-pkgs;
       };
   };
 }
