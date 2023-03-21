@@ -1,9 +1,12 @@
-{config, pkgs, ...}:
+{config, pkgs,...}:
 
 {
   programs.home-manager.enable = true;
 
   home.stateVersion = "22.11";
+
+  home.username = "william";
+  home.homeDirectory = "/home/william";
 
   home.file = {
     ".config/nvim/".source = ../vim;
@@ -125,7 +128,7 @@
     escapeTime = 50;
     historyLimit = 10000;
     keyMode = "vi";
-    mouse = true;
+    #mouse = true;
     shortcut = "b";
     prefix = "C-a";
     terminal = "screen-256color";
@@ -165,7 +168,7 @@
     enable = true;
     forwardAgent = true;
     matchBlocks = {
-      "media-pc" = {
+      "media-pc.*" = {
         hostname = "media-pc.local";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pvt";

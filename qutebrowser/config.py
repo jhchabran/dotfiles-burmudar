@@ -12,8 +12,12 @@ c.tabs.width = 250
 c.tabs.padding = {"bottom": 5, "left": 5, "right": 5, "top": 5}
 c.tabs.position = "right"
 
-with config.pattern("*://github.com") as p:
-    p.content.javascript.clipboard = 'access'
+# with config.pattern("*://github.com") as p:
+#     try:
+#         p.content.javascript.clipboard = 'access'
+#     except:
+#         pass
+#         # guess it doesn't exist
 
 c.url.searchengines = {
             "DEFAULT": "https://duckduckgo.com/?q={}",
