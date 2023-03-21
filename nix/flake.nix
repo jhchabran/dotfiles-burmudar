@@ -55,5 +55,13 @@
         ];
         specialArgs = pkgsForSystem system darwin-pkgs;
       };
+      homeConfigurations = {
+        "william@william-desktop" = home-manager.lib.homeManagerConfiguration rec {
+          pkgs = (pkgsForSystem "x86_64-linux" nixpkgs).pkgs;
+          modules = [
+            ./home.nix
+          ];
+        };
+      };
   };
 }
