@@ -128,7 +128,7 @@
     escapeTime = 50;
     historyLimit = 10000;
     keyMode = "vi";
-    #mouse = true;
+    mouse = true;
     shortcut = "b";
     prefix = "C-a";
     terminal = "screen-256color";
