@@ -2,18 +2,17 @@
   description = "William Flake config for his machines";
 
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
-      darwin-pkgs.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
-      # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-      home-manager.url = "github:nix-community/home-manager";
+      nixpkgs.url = "github:NixOS/nixpkgs/c9ece0059f42e0ab53ac870104ca4049df41b133";
+      # pin because qutebrowser works on this version
+      home-manager.url = "github:nix-community/home-manager/95201931f2e733705296d1d779e70793deaeb909";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
       # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
       darwin.url = "github:lnl7/nix-darwin";
-      darwin.inputs.nixpkgs.follows = "darwin-pkgs"; # ...
+      darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
       flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, darwin-pkgs, home-manager, darwin, flake-utils }:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils }:
   let
     # A function to return a customized pkgs per system which allowsUnfree
     user = "william";
@@ -58,19 +57,22 @@
             home-manager.users.william = ./home.nix;
           }
         ];
-        specialArgs = pkgsForSystem system darwin-pkgs;
+        specialArgs = pkgsForSystem system nixpkgs;
       };
       homeConfigurations = {
-        "${user}@${hosts.desktop}" = home-manager.lib.homeManagerConfiguration rec {
+        "desktop" = home-manager.lib.homeManagerConfiguration rec {
           pkgs = (pkgsForSystem "x86_64-linux" nixpkgs).pkgs;
           modules = [
             ./home.nix
           ];
         };
-        "${user}@${hosts.mac}" = home-manager.lib.homeManagerConfiguration rec {
+        "mac" = home-manager.lib.homeManagerConfiguration rec {
           pkgs = (pkgsForSystem "aarch64-darwin" nixpkgs).pkgs;
           modules = [
             ./home.nix
+            {
+              home.homeDirectory = "/Users/william";
+            }
           ];
         };
       };
