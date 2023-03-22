@@ -11,6 +11,9 @@ c.tabs.favicons.scale = 1.0
 c.tabs.width = 250
 c.tabs.padding = {"bottom": 5, "left": 5, "right": 5, "top": 5}
 c.tabs.position = "right"
+# when the tab is selected make it more visible
+c.fonts.tabs.selected = '14pt default_family'
+c.fonts.tabs.unselected = '10pt default_family'
 
 # with config.pattern("*://github.com") as p:
 #     try:
@@ -36,6 +39,7 @@ def rutorrent():
         return creds.rstrip()
     except:
         return "burmudar:EMPTY"
+
 
 config.bind(',1', "open https://mail.google.com")
 config.bind(',2', "open https://calendar.google.com")
