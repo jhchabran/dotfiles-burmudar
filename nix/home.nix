@@ -6,7 +6,6 @@
   home.stateVersion = "22.11";
 
   home.username = "william";
-  home.homeDirectory = "/home/william";
 
   home.file = {
     ".config/nvim/".source = ../vim;

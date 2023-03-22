@@ -16,6 +16,11 @@
   outputs = { self, nixpkgs, darwin-pkgs, home-manager, darwin, flake-utils }:
   let
     # A function to return a customized pkgs per system which allowsUnfree
+    user = "william";
+    hosts = {
+      desktop = "william-desktop";
+      mac = "Williams-MacBook-Pro";
+    };
     pkgsForSystem = (system: (pkgsModule:
       let
         pkgs = import pkgsModule {
@@ -29,7 +34,7 @@
     ));
   in {
       # using rec because otherwise we can't refer to the system var inside the set
-      nixosConfigurations."william-desktop" = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations."${hosts.desktop}" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           ./hosts/desktop/configuration.nix
@@ -42,7 +47,7 @@
         ];
         specialArgs = pkgsForSystem system nixpkgs;
       };
-      darwinConfigurations."Williams-MacBook-Pro" = darwin.lib.darwinSystem rec {
+      darwinConfigurations."${hosts.mac}" = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
         modules = [
           ./hosts/mac/default.nix
@@ -56,8 +61,14 @@
         specialArgs = pkgsForSystem system darwin-pkgs;
       };
       homeConfigurations = {
-        "william@william-desktop" = home-manager.lib.homeManagerConfiguration rec {
+        "${user}@${hosts.desktop}" = home-manager.lib.homeManagerConfiguration rec {
           pkgs = (pkgsForSystem "x86_64-linux" nixpkgs).pkgs;
+          modules = [
+            ./home.nix
+          ];
+        };
+        "${user}@${hosts.mac}" = home-manager.lib.homeManagerConfiguration rec {
+          pkgs = (pkgsForSystem "aarch64-darwin" nixpkgs).pkgs;
           modules = [
             ./home.nix
           ];
