@@ -24,7 +24,6 @@
         pkgs = import pkgsModule {
           inherit system;
           config.allowUnfree = true;
-          config.allowBroken = true;
           overlays = [];
         };
       in {

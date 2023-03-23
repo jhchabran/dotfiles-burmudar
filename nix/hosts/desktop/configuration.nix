@@ -138,6 +138,7 @@ in {
   os-prober
   pavucontrol
   python3
+  racket
   # qmk for flashing keyboard
   # qmk
   spotify
