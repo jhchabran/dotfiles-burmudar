@@ -173,7 +173,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -392,6 +392,13 @@ require('mind').setup({})
 
 -- Mason, use :Mason to open up the window
 require("mason").setup()
+
+-- ChatGPT
+require("chatgpt").setup({
+  keymaps = {
+    submit = "<C-s>"
+  }
+})
 
 -- Norg DISABLED
 -- require('neorg').setup {

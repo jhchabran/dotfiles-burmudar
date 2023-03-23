@@ -54,6 +54,7 @@ require('packer').startup(function(use)
   use 'theHamsta/nvim-dap-virtual-text'
   use 'psliwka/vim-smoothie'
   use 'JellyApple102/easyread.nvim'
+  use { "jackMort/ChatGPT.nvim", requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" } }
   use { 'phaazon/mind.nvim', branch = 'v2.2', requires = { 'nvim-lua/plenary.nvim' },
     config = function() require 'mind'.setup() end }
   use 'ThePrimeagen/harpoon'
