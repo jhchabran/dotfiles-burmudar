@@ -2,9 +2,8 @@
   description = "William Flake config for his machines";
 
   inputs = {
-      nixpkgs.url = "github:NixOS/nixpkgs/c9ece0059f42e0ab53ac870104ca4049df41b133";
-      # pin because qutebrowser works on this version
-      home-manager.url = "github:nix-community/home-manager/95201931f2e733705296d1d779e70793deaeb909";
+      nixpkgs.url = "github:NixOS/nixpkgs";
+      home-manager.url = "github:nix-community/home-manager";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
       # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
       darwin.url = "github:lnl7/nix-darwin";
@@ -25,6 +24,7 @@
         pkgs = import pkgsModule {
           inherit system;
           config.allowUnfree = true;
+          config.allowBroken = true;
           overlays = [];
         };
       in {

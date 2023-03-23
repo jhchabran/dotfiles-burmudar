@@ -1,17 +1,19 @@
 {config, pkgs,...}:
-
 {
-  programs.home-manager.enable = true;
+  #programs.home-manager.enable = true;
 
   home.stateVersion = "22.11";
 
   home.username = "william";
 
-  home.file = {
+  home.file = let
+    qutebrowserConf = if pkgs.stdenv.isDarwin then "${config.home.homeDirectory}/.qutebrowser/config.py" else "${config.xdg.configHome}/qutebrowser/config.py";
+  in {
     ".config/nvim/".source = ../vim;
     ".zwilliam".source = ../zsh/zwilliam;
     ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
     "code/.keep".source = builtins.toFile ".keep" "";
+    "${qutebrowserConf}".source = ../qutebrowser/config.py;
   };
 
   home.shellAliases = {
@@ -79,10 +81,13 @@
     enable = true;
   };
 
-  programs.qutebrowser = {
-    enable = true;
-    extraConfig = (builtins.readFile ../qutebrowser/config.py);
-  };
+  # commented out: qutebrowser has a broken dependency aka python310.readability-lxml
+  # programs.qutebrowser = {
+  #   enable = true;
+  #   extraConfig = (builtins.readFile ../qutebrowser/config.py);
+  # };
+
+
 
   programs.neovim = {
       enable = true;
@@ -185,27 +190,27 @@
       "router" = {
         user = "root";
         hostname = "192.168.1.1";
-        identityFile = "~/.ssh/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "desktop" = {
         user = "william";
         hostname = "william-desktop.local";
-        identityFile = "~/.ssh/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "spotipi.local" = {
           user = "pi";
           hostname = "spotipi.local";
-          identityFile = "~/.ssh/burmkey.pvt";
+          identityFile = "~/.ssh//keys/burmkey.pvt";
       };
       "spotipi" = {
           user = "pi";
           hostname = "spotipi";
-          identityFile = "~/.ssh/burmkey.pvt";
+          identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "bezuidenhout" = {
           user = "bezuidenhout";
           hostname = "bezuidenhout-pc";
-          identityFile = "~/.ssh/burmkey.pvt";
+          identityFile = "~/.ssh/keys/burmkey.pvt";
       };
     };
   };
