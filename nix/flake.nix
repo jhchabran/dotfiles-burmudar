@@ -63,6 +63,9 @@
           pkgs = (pkgsForSystem "x86_64-linux" nixpkgs).pkgs;
           modules = [
             ./home.nix
+            {
+              home.homeDirectory = "/home/william";
+            }
           ];
         };
         "mac" = home-manager.lib.homeManagerConfiguration rec {

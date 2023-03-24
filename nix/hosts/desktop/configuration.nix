@@ -94,6 +94,7 @@ in {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  # set in Home manager
   users.defaultUserShell = pkgs.zsh;
   users.users.william = {
     isNormalUser = true;
@@ -138,6 +139,7 @@ in {
   os-prober
   pavucontrol
   python3
+  qutebrowser-qt6
   racket
   # qmk for flashing keyboard
   # qmk
@@ -148,6 +150,8 @@ in {
   wget
   xclip
   ];
+
+  programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
