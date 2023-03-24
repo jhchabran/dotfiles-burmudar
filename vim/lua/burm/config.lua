@@ -138,12 +138,9 @@ require('telescope').setup {
   defaults = {
     prompt_prefix = '> ',
     color_devicons = true,
-
-
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
     grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
     qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
-
   },
   extensions = {
     fzf_native = {
@@ -173,7 +170,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -193,7 +190,8 @@ cmp.setup({
   },
   formatting = {
     format = lspkind.cmp_format({
-      with_text = true, maxwidth = 50,
+      with_text = true,
+      maxwidth = 50,
       mode = "symbol_text",
       menu = {
         nvim_lsp = "[LSP]",
@@ -248,9 +246,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
   -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
   vim.keymap.set('n', '<leader>d', function()
-    P("showing diagnostics")
-    vim.diagnostic.open_float({ focusable = false })
-  end,
+      P("showing diagnostics")
+      vim.diagnostic.open_float({ focusable = false })
+    end,
     opts("Show [d]iagnostics"))
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
@@ -394,11 +392,16 @@ require('mind').setup({})
 require("mason").setup()
 
 -- ChatGPT
-require("chatgpt").setup({
-  keymaps = {
-    submit = "<C-s>"
-  }
-})
+local v = os.getenv('OPENAI_API_KEY')
+if not (v == nil) then
+  require("chatgpt").setup({
+    keymaps = {
+      submit = "<C-s>"
+    }
+  })
+else
+  print('OPENAI_API_KEY not set - not loading chatgpt plugin')
+end
 
 -- Norg DISABLED
 -- require('neorg').setup {
