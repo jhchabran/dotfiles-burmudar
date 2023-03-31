@@ -130,7 +130,7 @@ in {
   lua
   man-pages
   man-pages-posix
-  neovim-nightly-pkg
+  neovim-nightly-pkg.neovim
   nix-direnv
   nmap
   # language servers

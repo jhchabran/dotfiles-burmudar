@@ -10,10 +10,11 @@
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
       flake-utils.url = "github:numtide/flake-utils";
       neovim-flake.url = "github:neovim/neovim?dir=contrib";
-      neovim-flake.follows = "nixpkgs";
+      neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+      neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-flake }:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-flake }@inputs:
   let
     # A function to return a customized pkgs per system which allowsUnfree
     user = "william";
@@ -21,23 +22,20 @@
       desktop = "william-desktop";
       mac = "Williams-MacBook-Pro";
     };
-    overlays = [
+
+    pkgOverlays = [
       (final: prev: {
-        neovim-nightly-pkg = neovim-flake.packages.${prev.system};
+        neovim-nightly-pkg = inputs.neovim-flake.packages.${prev.system};
       })
     ];
-    pkgsForSystem = (system: (pkgsModule:
-      let
-        pkgs = import pkgsModule {
-          inherit system;
-          inherit overlays;
-          config.allowUnfree = true;
 
-        };
-      in {
-        inherit pkgs;
-      }
-    ));
+    pkgsForSystem = (system: (pkgsModule: {
+        pkgs = import pkgsModule {
+        inherit system;
+        overlays = pkgOverlays;
+        config.allowUnfree = true;
+      };
+    }));
   in {
       # using rec because otherwise we can't refer to the system var inside the set
       nixosConfigurations."${hosts.desktop}" = nixpkgs.lib.nixosSystem rec {
