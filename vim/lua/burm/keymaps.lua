@@ -38,7 +38,7 @@ km("n", "<leader>/", fuzzyBrowser, { desc = "[/] Fuzzy search in current buffer"
 km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })
 km("n", "<leader>sf", quickFileBrowser, { desc = "[S]search [F] files" })
 km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
-km("n", "<leader>sr", require('telescope').extensions.live_grep_args.live_grep_args(),
+km("n", "<leader>sr", require('telescope').extensions.live_grep_args.live_grep_args,
   { desc = "[S]earch by [R]ip Grep Args" })
 km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()

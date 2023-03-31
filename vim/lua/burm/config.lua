@@ -134,6 +134,7 @@ require('nvim-tree').setup({
 })
 
 --- Telescope setup
+local lga_actions = require("telescope-live-grep-args.actions")
 require('telescope').setup {
   defaults = {
     prompt_prefix = '> ',
@@ -147,7 +148,16 @@ require('telescope').setup {
       override_generic_sorter = false,
       override_file_sorter = true,
     },
-  }
+    live_grep_args = {
+      auto_quoting = true,
+      mappings = {
+        i = {
+          ["<C-k>"] = lga_actions.quote_prompt(),
+          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+        }
+      }
+    },
+  },
 }
 
 

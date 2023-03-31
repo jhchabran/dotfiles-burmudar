@@ -9,12 +9,14 @@
       darwin.url = "github:lnl7/nix-darwin";
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
       flake-utils.url = "github:numtide/flake-utils";
-      neovim-flake.url = "github:neovim/neovim?dir=contrib";
-      neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
-      neovim-flake.inputs.flake-utils.follows = "flake-utils";
+      neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+      # patching fails with neovim flake for some reason
+      # neovim-flake.url = "github:neovim/neovim?dir=contrib";
+      # neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+      # neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-flake }@inputs:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay }@inputs:
   let
     # A function to return a customized pkgs per system which allowsUnfree
     user = "william";
@@ -23,16 +25,10 @@
       mac = "Williams-MacBook-Pro";
     };
 
-    pkgOverlays = [
-      (final: prev: {
-        neovim-nightly-pkg = inputs.neovim-flake.packages.${prev.system};
-      })
-    ];
-
     pkgsForSystem = (system: (pkgsModule: {
         pkgs = import pkgsModule {
         inherit system;
-        overlays = pkgOverlays;
+        overlays = [ neovim-nightly-overlay.overlay ];
         config.allowUnfree = true;
       };
     }));
