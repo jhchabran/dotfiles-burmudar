@@ -9,9 +9,11 @@
       darwin.url = "github:lnl7/nix-darwin";
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
       flake-utils.url = "github:numtide/flake-utils";
+      neovim-flake.url = "github:neovim/neovim?dir=contrib";
+      neovim-flake.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils }:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-flake }:
   let
     # A function to return a customized pkgs per system which allowsUnfree
     user = "william";
@@ -19,12 +21,18 @@
       desktop = "william-desktop";
       mac = "Williams-MacBook-Pro";
     };
+    overlays = [
+      (final: prev: {
+        neovim-nightly-pkg = neovim-flake.packages.${prev.system};
+      })
+    ];
     pkgsForSystem = (system: (pkgsModule:
       let
         pkgs = import pkgsModule {
           inherit system;
+          inherit overlays;
           config.allowUnfree = true;
-          overlays = [];
+
         };
       in {
         inherit pkgs;

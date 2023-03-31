@@ -76,6 +76,9 @@
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
+        "neovim-flake": [
+          "nixpkgs"
+        ],
         "nixpkgs": "nixpkgs"
       }
     },

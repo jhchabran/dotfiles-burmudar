@@ -2,21 +2,21 @@
 local km = vim.keymap.set
 
 local fuzzyBrowser = function()
-    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        previewer = false,
-        winblend = 10,
-    })
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    previewer = false,
+    winblend = 10,
+  })
 end
 local quickFileBrowser = function()
-    require('telescope.builtin').find_files(
-        require('telescope.themes').get_dropdown(
-            { previewer = false, layout_config = { width = 0.65 }
-            })
-    )
+  require('telescope.builtin').find_files(
+    require('telescope.themes').get_dropdown(
+      { previewer = false, layout_config = { width = 0.65 }
+      })
+  )
 end
 
 km("n", "<leader>on", function()
-    vim.cmd("Neorg workspace home")
+  vim.cmd("Neorg workspace home")
 end)
 
 km("n", "<c-u>", "<cmd>call smoothie#do(\"<c-u>zz\")<cr>")
@@ -38,19 +38,21 @@ km("n", "<leader>/", fuzzyBrowser, { desc = "[/] Fuzzy search in current buffer"
 km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })
 km("n", "<leader>sf", quickFileBrowser, { desc = "[S]search [F] files" })
 km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
+km("n", "<leader>sr", require('telescope').extensions.live_grep_args.live_grep_args(),
+  { desc = "[S]earch by [R]ip Grep Args" })
 km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()
-    require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-        {
-            layout_config = { width = 0.80 },
-            bufnr = 0
-        }
-    )
+  require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
+    {
+      layout_config = { width = 0.80 },
+      bufnr = 0
+    }
+  )
 end, { desc = "[S]search [D]iagnostics" })
 km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
 km("n", "<leader>sh", require('telescope.builtin').help_tags, { desc = "[S]earch [H]elp" })
 km("n", "<leader>df", function()
-    require('telescope.builtin').git_files { cwd = '$SRC/dotfiles' }
+  require('telescope.builtin').git_files { cwd = '$SRC/dotfiles' }
 end, { desc = "Search [D]ot[F]iles" })
 km("n", "<leader>ss", require('telescope.builtin').lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
 km("n", "<leader>si", require('telescope.builtin').lsp_implementations, { desc = "[S]earch [I]mplementation" })
@@ -75,7 +77,7 @@ km("n", "<leader>td", "<cmd>Trouble document_diagnostics<cr>", { silent = true }
 --- Debugging
 km('n', "<leader>b", require('dap').toggle_breakpoint)
 km('n', "<leader>B", function()
-    require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
+  require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
 end)
 km('n', "<F5>", require('dap').continue)
 km('n', "<F6>", require('dapui').toggle)
@@ -87,12 +89,11 @@ km("t", "<Esc><Esc>", '<C-\\><C-n>', { noremap = true })
 --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
 
 local M = {
-    setup = function(cbs)
-        for _, cb in ipairs(cbs) do
-            cb()
-        end
-    end,
-
+  setup = function(cbs)
+    for _, cb in ipairs(cbs) do
+      cb()
+    end
+  end,
 }
 
 return M
