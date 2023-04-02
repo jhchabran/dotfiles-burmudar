@@ -28,6 +28,7 @@ c.url.searchengines = {
             "ss": "https://sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "g": "https://google.com/search?q={}",
             "gif": "https://giphy.com/search/{}",
+            "n": "https://search.nixos.org/packages?query={}",
          }
 
 def rutorrent():
@@ -49,3 +50,4 @@ config.bind(',5', "open https://sourcegraph.com")
 config.bind(',6', "open https://sourcegraph.test:3443")
 config.bind(',7', f"open https://{rutorrent()}@leon.feralhosting.com/burmudar/rutorrent/")
 config.bind('tt', 'set-cmd-text -s :tab-select')
+config.bind(',s', 'set-cmd-text :open https://github.com/sourcegraph/')
