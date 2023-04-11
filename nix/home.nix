@@ -25,6 +25,10 @@
     fgrep="fgrep --color=auto";
     egrep="egrep --color=auto";
     cat="bat";
+    bb="bazel build";
+    bt="bazel test";
+    bq="bazel query";
+    bc="bazel configure";
   };
 
   home.packages = with pkgs; [
