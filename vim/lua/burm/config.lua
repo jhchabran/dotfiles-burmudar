@@ -186,7 +186,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -262,14 +262,15 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
   -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
   vim.keymap.set('n', '<leader>d', function()
-      P("showing diagnostics")
-      vim.diagnostic.open_float({ focusable = false })
-    end,
+    P("showing diagnostics")
+    vim.diagnostic.open_float({ focusable = false })
+  end,
     opts("Show [d]iagnostics"))
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
   vim.keymap.set('n', '<space>re', vim.lsp.buf.rename, opts("[R][e]name"))
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
+  vim.keymap.set('v', '<space>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
   vim.keymap.set('n', '<space>ci', vim.lsp.buf.incoming_calls, opts("[I]ncoming [c]alls"))
   vim.keymap.set('n', '<space>co', vim.lsp.buf.outgoing_calls, opts("[O]utgoing [c]alls"))
   vim.keymap.set('n', '<space>l', vim.diagnostic.setloclist, opts("Diagnostics to Loc List"))
@@ -301,7 +302,7 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "llmsp" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -316,10 +317,40 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
+require("burm.cody")
+
+local lspconfig = require('lspconfig')
+require('lspconfig.configs').llmsp = {
+  default_config = {
+    cmd = { 'llmsp' },
+    filetypes = { 'go' },
+    root_dir = function(fname)
+      return lspconfig.util.find_git_ancestor(fname)
+    end,
+    settings = {},
+  },
+}
+
+
 local configs = {
   default = {
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities),
     on_attach = on_attach
+  },
+  llmsp = {
+    cmd = { 'llmsp' },
+    filetypes = { 'go' },
+    root_dir = function(fname)
+      return lspconfig.util.find_git_ancestor(fname)
+    end,
+    settings = {
+      llmsp = {
+        sourcegraph = {
+          url = "https://sourcegraph.com",
+          accessToken = "sgp_7be25df477d3ee0f2094455e089a561577cde0c4",
+        },
+      },
+    },
   },
   sumneko_lua = {
     settings = {
