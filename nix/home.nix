@@ -263,6 +263,27 @@
     };
   };
 
+  programs.alacritty = {
+    enable = true;
+    package = pkgs.alacritty;
+    settings = {
+      window = {
+        decorations = "none";
+        padding = { x = 10; y = 10; };
+        startup_mode = "Maximized";
+        dynamic_title = true;
+        option_as_alt = "OnlyLeft";
+      };
+      font = {
+        size = 12.0;
+        normal = {
+          family = "JetBrainsMono Nerd Font Mono";
+          style = "Medium";
+        };
+      };
+    };
+  };
+
   # services
   services.gpg-agent = {
     enable = pkgs.stdenv.isLinux;
