@@ -25,6 +25,7 @@
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     racket
     zk
+    alacritty
   ];
 
   homebrew = {

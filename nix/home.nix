@@ -114,6 +114,7 @@
 
     envExtra = ''
     export SRC=~/code
+    export ZK_NOTEBOOK_DIR=~/code/notes
     export LC_ALL=en_US.UTF-8
     export LANG=en_US.UTF-8
     export TERM=xterm-256color
@@ -166,6 +167,7 @@
       # keybindings
       bind-key C-s set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
       bind-key -T root M-j run-shell $SRC/dotfiles/tmux/popupmx.sh
+      bind-key -T root M-n run-shell $SRC/dotfiles/tmux/notes.sh
       bind | split-window -h
       bind - split-window -v
       unbind '"'

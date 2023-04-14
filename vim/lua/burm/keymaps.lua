@@ -14,12 +14,7 @@ local quickFileBrowser = function()
       })
   )
 end
-local bzk = require("burm.custom.zk")
-
-km("n", "zj", bzk.new_journal)
-
-km("n", "<c-u>", "<cmd>call smoothie#do(\"<c-u>zz\")<cr>")
-km("n", "<c-d>", "<cmd>call smoothie#do(\"<c-d>zz\")<cr>")
+km("n", "zj", require('burm.custom.zk').new_journal)
 
 km("n", "<tab><leader>", ":tabn<cr>")
 km("n", "<leader><tab>", ":tabp<cr>")
