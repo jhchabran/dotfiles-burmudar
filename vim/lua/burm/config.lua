@@ -432,9 +432,6 @@ end
 -- Trouble
 require('trouble').setup({})
 
--- Mind.nvim
-require('mind').setup({})
-
 -- Mason, use :Mason to open up the window
 require("mason").setup()
 
@@ -516,3 +513,7 @@ vim.diagnostic.config({
   virtual_text = true,
   signs = true,
 })
+
+-- Notes
+vim.env.ZK_NOTEBOOK_DIR = vim.fs.normalize("~/code/notes")
+require("zk").setup()

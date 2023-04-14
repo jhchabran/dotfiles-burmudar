@@ -22,7 +22,7 @@
     user = "william";
     hosts = {
       desktop = "william-desktop";
-      mac = "Williams-MacBook-Pro";
+      mac = "Williams-MBP";
     };
 
     pkgsForSystem = (system: (pkgsModule: {

@@ -149,6 +149,7 @@ in {
   unzip
   wget
   xclip
+  zk
   ];
 
   programs.zsh.enable = true;

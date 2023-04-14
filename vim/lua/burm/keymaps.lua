@@ -14,10 +14,9 @@ local quickFileBrowser = function()
       })
   )
 end
+local bzk = require("burm.custom.zk")
 
-km("n", "<leader>on", function()
-  vim.cmd("Neorg workspace home")
-end)
+km("n", "zj", bzk.new_journal)
 
 km("n", "<c-u>", "<cmd>call smoothie#do(\"<c-u>zz\")<cr>")
 km("n", "<c-d>", "<cmd>call smoothie#do(\"<c-d>zz\")<cr>")
@@ -41,10 +40,10 @@ km("n", "<leader>sr", require('telescope').extensions.live_grep_args.live_grep_a
 km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()
   require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-    {
-      layout_config = { width = 0.80 },
-      bufnr = 0
-    }
+  {
+    layout_config = { width = 0.80 },
+    bufnr = 0
+  }
   )
 end, { desc = "[S]earch [D]iagnostics" })
 km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
