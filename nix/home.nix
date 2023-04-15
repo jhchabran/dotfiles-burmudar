@@ -25,7 +25,9 @@
         "${config.xdg.configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
       };
 
-  home.shellAliases = {
+  home.shellAliases = let
+    systemCmd = if pkgs.stdenv.isDarwin then "./nix/result/sw/bin/darwin-rebuild switch --flake nix/." else "sudo nixos-rebuild switch --flake nix/.";
+    in {
     pass="gopass";
     aenv="source $(fd -s 'activate')";
     denv="deactivate";
@@ -37,6 +39,8 @@
     bt="bazel test";
     bq="bazel query";
     bc="bazel configure";
+    hsw = "cd $SRC/dotfiles && home-manager switch --flake 'nix/#mac'; cd -";
+    ssw = "cd $SRC/dotfiles && ${systemCmd}; cd -";
   };
 
   home.packages = with pkgs; [
