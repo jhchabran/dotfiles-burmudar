@@ -1,36 +1,29 @@
-hs.hotkey.bind({ "cmd" }, "1", function()
-  local terminal = hs.application.find("kitty")
-  if not terminal then
-    terminal = hs.application.find("alacritty")
+local function showFn(hint)
+  local names = {}
+  if type(hint) ~= "table" then
+    table.insert(names, hint)
+  else
+    names = hint
   end
-  show(terminal)
-end)
+  return function()
+    for _, name in ipairs(names) do
+      local app = hs.application.find(name)
+      if app then
+        app:activate()
+        return
+      end
+    end
+  end
+end
 
+hs.hotkey.bind({ "cmd" }, "1", showFn({ "kitty", "alacritty" }))
 hs.hotkey.bind({ "cmd" }, "2", function()
   local zoom = hs.application.find("zoom")
   if zoom then
     local win = zoom:findWindow("Zoom Meeting")
-    show(win)
+    win:focus()
   end
 end)
 
-hs.hotkey.bind({ "cmd" }, "3", function()
-  local slack = hs.application.find("slack")
-  show(slack)
-end)
-
-hs.hotkey.bind({ "cmd" }, "4", function()
-  local browser = hs.application.find("qutebrowser")
-  show(browser)
-end)
-
-function show(target)
-  if target.activate then
-    target:activate()
-    return
-  end
-  if target.focus then
-    target:focus()
-    return
-  end
-end
+hs.hotkey.bind({ "cmd" }, "3", showFn("slack"))
+hs.hotkey.bind({ "cmd" }, "4", showFn("qutebrowser"))
