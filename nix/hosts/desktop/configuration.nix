@@ -90,6 +90,16 @@ in {
     #media-session.enable = true;
   };
 
+  # Additional plugins for Thunar
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
+
+  # Needed for Thunar to function properly
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -142,7 +152,7 @@ in {
   qutebrowser-qt6
   racket
   # qmk for flashing keyboard
-  # qmk
+  qmk
   spotify
   tdesktop # telegram
   tmux
@@ -198,7 +208,7 @@ in {
 
 
   # Need so that qmk can see the keyboard
-  # services.udev.packages = [ pkgs.qmk-udev-rules ];
+  services.udev.packages = [ pkgs.qmk-udev-rules ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
