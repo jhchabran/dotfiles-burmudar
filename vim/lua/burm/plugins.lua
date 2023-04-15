@@ -58,7 +58,7 @@ require('packer').startup(function(use)
     "nvim-telescope/telescope.nvim" } }
   use 'ThePrimeagen/harpoon'
   use 'mickael-menu/zk-nvim'
-
+  use { 'stevearc/dressing.nvim' }
   if is_bootstrap then
     require('packer').sync()
   end

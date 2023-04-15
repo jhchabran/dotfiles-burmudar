@@ -317,7 +317,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
-require("burm.cody")
+local cody = require("burm.cody")
+cody.register_commands()
 
 local lspconfig = require('lspconfig')
 require('lspconfig.configs').llmsp = {
@@ -332,7 +333,6 @@ require('lspconfig.configs').llmsp = {
 }
 
 
-local sg_token = BurmFuncs.file_content(vim.fn.expand("~/sg-token"))
 local configs = {
   default = {
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities),
@@ -340,7 +340,7 @@ local configs = {
   },
   llmsp = {
     cmd = { 'llmsp' },
-    filetypes = { 'go' },
+    filetypes = { 'go', 'lua' },
     root_dir = function(fname)
       return lspconfig.util.find_git_ancestor(fname)
     end,
@@ -348,7 +348,8 @@ local configs = {
       llmsp = {
         sourcegraph = {
           url = "https://sourcegraph.com",
-          accessToken = sg_token,
+          accessToken = cody.get_token(),
+          autocomplete = "off",
         },
       },
     },
@@ -448,50 +449,8 @@ if not (v == nil) then
     }
   })
 else
-  print('OPENAI_API_KEY not set - not loading chatgpt plugin')
+  vim.notify('OPENAI_API_KEY not set - not loading chatgpt plugin')
 end
-
--- Norg DISABLED
--- require('neorg').setup {
---     load = {
---         ["core.defaults"] = {},
---         ["core.norg.dirman"] = {
---             config = {
---                 workspaces = {
---                     home = "~/code/notes/",
---                     gtd = "~/code/example_workspaces/gtd/",
---                 }
---             }
---         },
---         ["core.norg.concealer"] = {},
---         ["core.norg.completion"] = {
---             config = {
---                 engine = "nvim-cmp",
---             },
---         },
---         ["core.gtd.base"] = {
---             config = {
---                 workspace = "gtd"
---             },
---         },
---     }
--- }
---
-
--- require('easyread').setup({
---     hlValues = {
---         ['1'] = 1,
---         ['2'] = 1,
---         ['3'] = 2,
---         ['4'] = 2,
---         ['fallback'] = 0.4
---     },
---     hlgroupOptions = { link = 'Bold' },
---     fileTypes = { 'text' },
---     saccadeInterval = 0,
---     saccadeReset = false,
---     updateWhileInsert = true
--- })
 
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv

@@ -10,7 +10,8 @@ end
 local quickFileBrowser = function()
   require('telescope.builtin').find_files(
     require('telescope.themes').get_dropdown(
-      { previewer = false, layout_config = { width = 0.65 }
+      {
+        previewer = false, layout_config = { width = 0.65 }
       })
   )
 end

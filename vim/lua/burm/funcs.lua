@@ -103,12 +103,12 @@ setmetatable(Highlighter, {
   }
 })
 
-M.file_content = function(path)
+M.read_full = function(path)
   local fp = io.open(path, "r")
   if not fp then
     return ""
   end
-  return fp:read("a")
+  return fp:read()
 end
 
 --- export these funcs as the module

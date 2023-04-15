@@ -8,7 +8,6 @@ M.new_journal = function()
     template = "daily.md",
   }
   local noop = function()
-    print("I am here")
   end
 
   api.new(home, opts, noop)
