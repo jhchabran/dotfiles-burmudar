@@ -7,15 +7,23 @@
   home.username = "william";
 
   home.file = let
-    qutebrowserConf = if pkgs.stdenv.isDarwin then "${config.home.homeDirectory}/.qutebrowser/config.py" else "${config.xdg.configHome}/qutebrowser/config.py";
-  in {
+    files =  {
     ".config/nvim/init.lua".source = config.lib.file.mkOutOfStoreSymlink ../vim/init.lua;
     ".config/nvim/lua".source = config.lib.file.mkOutOfStoreSymlink ../vim/lua;
     ".zwilliam".source = ../zsh/zwilliam;
     ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
     "code/.keep".source = builtins.toFile ".keep" "";
-    "${qutebrowserConf}".source = ../qutebrowser/config.py;
-  };
+    };
+  in
+    if pkgs.stdenv.isDarwin then
+      files // {
+        "${config.home.homeDirectory}/.qutebrowser/config.py".source = ../qutebrowser/config.py;
+        "${config.home.homeDirectory}/.hammerspoon".source = ../hammerspoon;
+      }
+    else
+      files // {
+        "${config.xdg.configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
+      };
 
   home.shellAliases = {
     pass="gopass";

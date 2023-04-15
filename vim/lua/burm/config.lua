@@ -332,6 +332,7 @@ require('lspconfig.configs').llmsp = {
 }
 
 
+local sg_token = BurmFuncs.file_content(vim.fn.expand("~/sg-token"))
 local configs = {
   default = {
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities),
@@ -347,7 +348,7 @@ local configs = {
       llmsp = {
         sourcegraph = {
           url = "https://sourcegraph.com",
-          accessToken = "sgp_7be25df477d3ee0f2094455e089a561577cde0c4",
+          accessToken = sg_token,
         },
       },
     },
@@ -363,10 +364,13 @@ local configs = {
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = { 'vim' },
+          globals = { 'vim', 'hs' },
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
+          library = {
+            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          },
         },
         -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = {
