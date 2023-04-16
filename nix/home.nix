@@ -162,7 +162,7 @@
       {
         plugin = dracula;
         extraConfig = ''
-          set -g @dracula-plugins "cpu-usage ram-usage weather"
+          set -g @dracula-plugins "cpu-usage ram-usage"
           set -g @dracula-show-powerline true
           set -g @dracula-show-flags true
           set -g @dracula-show-fahrenheit false
@@ -287,7 +287,7 @@
         option_as_alt = "OnlyLeft";
       };
       font = {
-        size = 10.0;
+        size = if pkgs.stdenv.isDarwin then 12.0 else 10.00;
         normal = {
           family = "JetBrainsMono Nerd Font Mono";
           style = "Medium";
