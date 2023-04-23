@@ -41,6 +41,7 @@ in {
 
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia.nvidiaSettings = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -83,7 +84,7 @@ in {
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -139,6 +140,7 @@ in {
   jq
   kitty
   lua
+  pipewire
   man-pages
   man-pages-posix
   neovim-nightly
