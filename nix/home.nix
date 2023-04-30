@@ -1,4 +1,4 @@
-{config, pkgs,...}:
+{ config, pkgs, ... }:
 {
   #programs.home-manager.enable = true;
 
@@ -6,6 +6,7 @@
 
   home.username = "william";
 
+<<<<<<< HEAD
   home.file = let
     configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
     files =  {
@@ -40,7 +41,7 @@
     bt="bazel test";
     bq="bazel query";
     bc="bazel configure";
-    hsw = "cd $SRC/dotfiles && home-manager switch --flake 'nix/#mac'; cd -";
+    hsw = "cd $SRC/dotfiles && home-manager switch --flake 'nix/#${if pkgs.stdenv.isDarwin then "mac" else "desktop"}' && cd - && source ~/.zshrc";
     ssw = "cd $SRC/dotfiles && ${systemCmd}; cd -";
     zj = "zk new --no-input -g journal";
   };
@@ -109,12 +110,12 @@
 
 
   programs.neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
 
-      # extraConfig = ''
-      # '';
+    # extraConfig = ''
+    # '';
   };
 
   programs.zsh = {
@@ -127,14 +128,14 @@
     enableCompletion = true;
 
     envExtra = ''
-    export SRC=~/code
-    export ZK_NOTEBOOK_DIR=~/code/notes
-    export LC_ALL=en_US.UTF-8
-    export LANG=en_US.UTF-8
-    export TERM=xterm-256color
+      export SRC=~/code
+      export ZK_NOTEBOOK_DIR=~/code/notes
+      export LC_ALL=en_US.UTF-8
+      export LANG=en_US.UTF-8
+      export TERM=xterm-256color
 
-    export VISUAL="nvim"
-    export EDITOR="nvim"
+      export VISUAL="nvim"
+      export EDITOR="nvim"
     '';
 
     initExtra = let
@@ -229,19 +230,19 @@
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "spotipi.local" = {
-          user = "pi";
-          hostname = "spotipi.local";
-          identityFile = "~/.ssh//keys/burmkey.pvt";
+        user = "pi";
+        hostname = "spotipi.local";
+        identityFile = "~/.ssh//keys/burmkey.pvt";
       };
       "spotipi" = {
-          user = "pi";
-          hostname = "spotipi";
-          identityFile = "~/.ssh/keys/burmkey.pvt";
+        user = "pi";
+        hostname = "spotipi";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "bezuidenhout" = {
-          user = "bezuidenhout";
-          hostname = "bezuidenhout-pc";
-          identityFile = "~/.ssh/keys/burmkey.pvt";
+        user = "bezuidenhout";
+        hostname = "bezuidenhout-pc";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
     };
   };

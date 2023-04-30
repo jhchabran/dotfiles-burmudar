@@ -145,6 +145,7 @@ in {
   man-pages-posix
   neovim-nightly
   nix-direnv
+  rnix-lsp
   nmap
   # language servers
   nodePackages.typescript-language-server

@@ -22,8 +22,7 @@ require 'nvim-web-devicons'.setup {
 }
 
 require("indent_blankline").setup {
-  -- for example, context is off by default, use this to turn it on
-  show_current_context = true,
+  -- for example, context is off by default, use this to turn it on show_current_context = true,
   show_current_context_start = true,
 }
 
@@ -186,7 +185,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -262,9 +261,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
   -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
   vim.keymap.set('n', '<leader>d', function()
-    P("showing diagnostics")
-    vim.diagnostic.open_float({ focusable = false })
-  end,
+      P("showing diagnostics")
+      vim.diagnostic.open_float({ focusable = false })
+    end,
     opts("Show [d]iagnostics"))
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
@@ -331,7 +330,6 @@ require('lspconfig.configs').llmsp = {
     settings = {},
   },
 }
-
 
 local configs = {
   default = {
