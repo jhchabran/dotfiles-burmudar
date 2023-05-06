@@ -22,7 +22,9 @@
     if pkgs.stdenv.isDarwin then
       files // {
         "${config.home.homeDirectory}/.hammerspoon".source = ../hammerspoon;
-      };
+      }
+    else
+      files // {};
 
   home.shellAliases = let
     systemCmd = if pkgs.stdenv.isDarwin then "./nix/result/sw/bin/darwin-rebuild switch --flake nix/." else "sudo nixos-rebuild switch --flake nix/.";
