@@ -15,8 +15,8 @@
     ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
     "code/.keep".source = builtins.toFile ".keep" "";
     "${configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
-    "${configHome}/zk/config.toml".source = ../zk/config.toml;
-    "${configHome}/zk/templates".source = ../zk/templates;
+    "${config.xdg.configHome}/zk/config.toml".source = ../zk/config.toml;
+    "${config.xdg.configHome}/zk/templates".source = ../zk/templates;
     };
   in
     if pkgs.stdenv.isDarwin then
