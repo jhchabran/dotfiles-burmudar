@@ -340,7 +340,7 @@ local configs = {
   },
   llmsp = {
     cmd = { 'llmsp' },
-    filetypes = { 'go', 'lua' },
+    filetypes = { 'go', 'lua', 'typescriptreact', 'typescript', 'javascript', "rust" },
     root_dir = function(fname)
       return lspconfig.util.find_git_ancestor(fname)
     end,

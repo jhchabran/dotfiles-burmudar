@@ -7,22 +7,21 @@
   home.username = "william";
 
   home.file = let
+    configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
     files =  {
     ".config/nvim/init.lua".source = config.lib.file.mkOutOfStoreSymlink ../vim/init.lua;
     ".config/nvim/lua".source = config.lib.file.mkOutOfStoreSymlink ../vim/lua;
     ".zwilliam".source = ../zsh/zwilliam;
     ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
     "code/.keep".source = builtins.toFile ".keep" "";
+    "${configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
+    "${configHome}/zk/config.toml".source = ../zk/config.toml;
+    "${configHome}/zk/templates".source = ../zk/templates;
     };
   in
     if pkgs.stdenv.isDarwin then
       files // {
-        "${config.home.homeDirectory}/.qutebrowser/config.py".source = ../qutebrowser/config.py;
         "${config.home.homeDirectory}/.hammerspoon".source = ../hammerspoon;
-      }
-    else
-      files // {
-        "${config.xdg.configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
       };
 
   home.shellAliases = let
@@ -41,6 +40,7 @@
     bc="bazel configure";
     hsw = "cd $SRC/dotfiles && home-manager switch --flake 'nix/#mac'; cd -";
     ssw = "cd $SRC/dotfiles && ${systemCmd}; cd -";
+    zj = "zk new --no-input -g journal";
   };
 
   home.packages = with pkgs; [
@@ -135,11 +135,21 @@
     export EDITOR="nvim"
     '';
 
-    initExtra = ''
+    initExtra = let
+      base = ''
       setopt EXTENDED_GLOB
       source ~/.zwilliam
       source ~/.zwork
     '';
+    in
+      if pkgs.stdenv.isDarwin then
+        ''
+        ${base}
+        source ~/.cargo/env
+        ''
+      else
+        base;
+
   };
 
   programs.tmux = {

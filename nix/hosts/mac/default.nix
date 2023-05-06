@@ -26,6 +26,7 @@
     racket
     zk
     alacritty
+    zig
   ];
 
   homebrew = {
@@ -35,6 +36,8 @@
     brews = [
       "ibazel"
       "bazelisk"
+      "sourcegraph/app/sourcegraph"
+      "rustup"
     ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)

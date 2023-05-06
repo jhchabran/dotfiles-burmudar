@@ -10,10 +10,7 @@
       darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
       flake-utils.url = "github:numtide/flake-utils";
       neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-      # patching fails with neovim flake for some reason
-      # neovim-flake.url = "github:neovim/neovim?dir=contrib";
-      # neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
-      # neovim-flake.inputs.flake-utils.follows = "flake-utils";
+      neovim-nightly-overlay.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay }@inputs:
