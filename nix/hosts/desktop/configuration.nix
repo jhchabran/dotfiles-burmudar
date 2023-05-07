@@ -110,10 +110,11 @@ in {
   users.users.william = {
     isNormalUser = true;
     description = "William Bezuidenhout";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" "libvirtd" ];
+    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com"];
+
   };
 
-  nix.settings.trusted-users = [ "root" "william" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -145,7 +146,7 @@ in {
   man-pages-posix
   neovim-nightly
   nix-direnv
-  rnix-lsp
+  nil
   nmap
   # language servers
   nodePackages.typescript-language-server
@@ -172,12 +173,13 @@ in {
   # started in user sessions.
   programs.mtr.enable = true;
 
-  nix.extraOptions = ''
-    keep-outputs = true
-    keep-derivations = true
-    experimental-features = nix-command flakes
-    '';
-  nix.package = pkgs.nixFlakes;
+  nix = {
+      settings.experimental-features = [ "nix-command" "flakes" ];
+      settings.trusted-users = [ "root" "william" ];
+      gc.automatic = true;
+      optimise.automatic = true;
+  };
+
   environment.pathsToLink = [ "/share/nix-direnv" ];
   environment.shells = with pkgs; [ zsh ];
 
@@ -204,11 +206,23 @@ in {
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh= {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
+  };
 
   # Enable docker daemon to start
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
+
+  # Enable virtualbox
+  virtualisation.virtualbox.host.enable = true;
+
+  # Enable libvirt/kvm
+  virtualisation.libvirtd.enable = true;
 
 
   # Need so that qmk can see the keyboard
@@ -227,5 +241,12 @@ in {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.05"; # Did you read the comment?
+
+  # Needed otherwise we get some binaries complaining that they can't find glibc
+  system.activationScripts.ldso = pkgs.lib.stringAfter [ "usrbinenv" ] ''
+    mkdir -m 0755 -p /lib64
+    ln -sfn ${pkgs.glibc.out}/lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2.tmp
+    mv -f /lib64/ld-linux-x86-64.so.2.tmp /lib64/ld-linux-x86-64.so.2 # atomically replace
+  '';
 
 }

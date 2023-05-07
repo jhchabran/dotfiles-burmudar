@@ -6,7 +6,6 @@
 
   home.username = "william";
 
-<<<<<<< HEAD
   home.file = let
     configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
     files =  {
