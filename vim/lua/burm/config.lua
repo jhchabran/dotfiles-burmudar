@@ -302,7 +302,7 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil", "llmsp" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls", "llmsp" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")

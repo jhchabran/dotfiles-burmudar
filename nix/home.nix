@@ -46,18 +46,18 @@
   };
 
   home.packages = with pkgs; [
-    home-manager
-    starship
-    ripgrep
-    lsd
-    fd
-    jq
     cheat
-    tldr
-    gping
-    procs
-    dog
     delta
+    dog
+    fd
+    gping
+    home-manager
+    jq
+    lsd
+    procs
+    ripgrep
+    starship
+    tldr
   ];
 
   xdg = {
