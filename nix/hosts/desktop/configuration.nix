@@ -6,7 +6,8 @@
 let
 in {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./ergodox.nix
     ];
@@ -45,7 +46,7 @@ in {
 
   # Enable the X11 windowing system.
   services.xserver = {
-  	enable = true;
+    enable = true;
     layout = "za";
 
     videoDrivers = [ "nvidia" ];
@@ -56,18 +57,18 @@ in {
         enable = true;
         noDesktop = true;
         enableXfwm = false;
-        };
       };
+    };
     displayManager = {
       gdm.enable = true;
       defaultSession = "xfce+i3";
-      };
+    };
 
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [ rofi dmenu i3status i3lock ];
-      };
-	};
+    };
+  };
 
 
   services.picom.enable = true;
@@ -111,60 +112,61 @@ in {
     isNormalUser = true;
     description = "William Bezuidenhout";
     extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" "libvirtd" ];
-    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com"];
+    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com" ];
 
   };
 
+  nix.settings.trusted-users = [ "root" "william" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  alacritty
-  aspell
-  aspellDicts.en
-  aspellDicts.en-computers
-  aspellDicts.en-science
-  bash
-  btrfs-progs
-  cura
-  curl
-  difftastic
-  fd
-  flameshot
-  gcc
-  git
-  gnumake
-  go
-  gopls
-  grub2
-  htop
-  jq
-  kitty
-  lua
-  pipewire
-  man-pages
-  man-pages-posix
-  neovim-nightly
-  nix-direnv
-  nil
-  nmap
-  # language servers
-  nodePackages.typescript-language-server
-  sumneko-lua-language-server
-  os-prober
-  pavucontrol
-  python3
-  qutebrowser-qt6
-  racket
-  # qmk for flashing keyboard
-  qmk
-  spotify
-  tdesktop # telegram
-  tmux
-  unzip
-  wget
-  xclip
-  zk
+    alacritty
+    aspell
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
+    bash
+    btrfs-progs
+    cura
+    curl
+    difftastic
+    fd
+    flameshot
+    gcc
+    git
+    gnumake
+    go
+    gopls
+    grub2
+    htop
+    jq
+    kitty
+    lua
+    pipewire
+    man-pages
+    man-pages-posix
+    neovim-nightly
+    nix-direnv
+    nil
+    nmap
+    # language servers
+    nodePackages.typescript-language-server
+    sumneko-lua-language-server
+    os-prober
+    pavucontrol
+    python3
+    qutebrowser-qt6
+    racket
+    # qmk for flashing keyboard
+    qmk
+    spotify
+    tdesktop # telegram
+    tmux
+    unzip
+    wget
+    xclip
+    zk
   ];
 
   programs.zsh.enable = true;
@@ -174,10 +176,10 @@ in {
   programs.mtr.enable = true;
 
   nix = {
-      settings.experimental-features = [ "nix-command" "flakes" ];
-      settings.trusted-users = [ "root" "william" ];
-      gc.automatic = true;
-      optimise.automatic = true;
+    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.trusted-users = [ "root" "william" ];
+    gc.automatic = true;
+    optimise.automatic = true;
   };
 
   environment.pathsToLink = [ "/share/nix-direnv" ];
@@ -187,14 +189,14 @@ in {
   programs.neovim.vimAlias = true;
 
   fonts.fonts = with pkgs; [
-  	noto-fonts
+    noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
     (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
   ];
 
   services.avahi = {
-  	enable = true;
+    enable = true;
     nssmdns = true;
     publish = {
       addresses = true;
@@ -206,7 +208,7 @@ in {
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh= {
+  services.openssh = {
     enable = true;
     settings = {
       PasswordAuthentication = false;

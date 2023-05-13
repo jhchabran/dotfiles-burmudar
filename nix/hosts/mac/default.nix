@@ -1,7 +1,7 @@
 { config, pkgs, home-manager, ... }:
 {
   users.users.william = {
-  	home = /Users/william;
+    home = /Users/william;
   };
   # From https://gist.github.com/jmatsushita/5c50ef14b4b96cb24ae5268dab613050
   # Without this, home-manager user packages doesn't work properly
@@ -13,7 +13,7 @@
   # Installs a version of nix, that dosen't need "experimental-features = nix-command flakes" in /etc/nix/nix.conf
   nix.package = pkgs.nixFlakes;
 
-  networking.dns = ["1.1.1.1" "8.8.8.8"];
+  networking.dns = [ "1.1.1.1" "8.8.8.8" ];
   networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor" "Thunderbolt Ethernet" ];
 
   services.tailscale = {
@@ -22,14 +22,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     cloud-sql-proxy
     alacritty
     nil
     racket
     zig
     zk
-  ] ++ [pkgs.home-manager];
+  ] ++ [ pkgs.home-manager ];
 
   homebrew = {
     enable = true;
