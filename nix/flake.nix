@@ -15,67 +15,41 @@
 
   outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay }@inputs:
   let
-    # A function to return a customized pkgs per system which allowsUnfree
-    user = "william";
-    hosts = {
-      desktop = "william-desktop";
-      mac = "Williams-MacBook-Pro";
-    };
-
-    pkgsForSystem = (system: (pkgsModule: {
-        pkgs = import pkgsModule {
-        inherit system;
-        overlays = [ neovim-nightly-overlay.overlay ];
-        config.allowUnfree = true;
-      };
-    }));
+    pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: { pkgs = import inputs.nixpkgs { inherit system;}; })).pkgs;
   in {
       # using rec because otherwise we can't refer to the system var inside the set
-      nixosConfigurations."${hosts.desktop}" = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.william-desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./hosts/desktop/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
+          inputs.home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.william = ./home.nix;
+            home-manager.users.william = import ./home.nix;
           }
         ];
-        specialArgs = pkgsForSystem system nixpkgs;
       };
-      darwinConfigurations."${hosts.mac}" = darwin.lib.darwinSystem rec {
+      darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           ./hosts/mac/default.nix
-          home-manager.darwinModules.home-manager
-          {
+          inputs.home-manager.darwinModules.home-manager{
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.william = ./home.nix;
+            home-manager.users.william = import ./home.nix;
           }
-        ];
-        specialArgs = pkgsForSystem system nixpkgs;
+          ];
       };
       homeConfigurations = {
-        "desktop" = home-manager.lib.homeManagerConfiguration rec {
-          pkgs = (pkgsForSystem "x86_64-linux" nixpkgs).pkgs;
-          modules = [
-            ./home.nix
-            {
-              home.homeDirectory = "/home/william";
-            }
-          ];
+        "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = pkgs.x86_64-linux;
+          imports = [ ./home.nix ];
         };
-        "mac" = home-manager.lib.homeManagerConfiguration rec {
-          pkgs = (pkgsForSystem "aarch64-darwin" nixpkgs).pkgs;
-          modules = [
-            ./home.nix
-            {
-              home.homeDirectory = "/Users/william";
-            }
-          ];
+        "mac" = inputs.home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = pkgs.aarch64-darwin;
+          imports = [ ./home.nix ];
         };
       };
-  };
+      formatter = pkgs.nixpkgs-fmt;
+      };
 }
