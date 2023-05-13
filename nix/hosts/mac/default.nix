@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, home-manager, ... }:
 {
   users.users.william = {
   	home = /Users/william;
@@ -23,14 +23,13 @@
 
   environment.systemPackages = with pkgs; [
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
-    home-manager
     cloud-sql-proxy
     alacritty
     nil
     racket
     zig
     zk
-  ];
+  ] ++ [pkgs.home-manager];
 
   homebrew = {
     enable = true;

@@ -1,8 +1,5 @@
 {config, pkgs, home-manager, ...}:
-{
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.william = {
+  {
     programs.home-manager.enable = true;
 
     home.stateVersion = "22.11";
@@ -54,7 +51,7 @@
       dog
       fd
       gping
-      home-manager
+      #home-manager
       jq
       lsd
       procs
@@ -319,5 +316,4 @@
 
       defaultCacheTtl = 3600 * 4;
     };
-  };
 }

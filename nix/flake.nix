@@ -17,9 +17,9 @@
   let
     pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: { pkgs = import inputs.nixpkgs { inherit system;}; })).pkgs;
   in {
-      # using rec because otherwise we can't refer to the system var inside the set
       nixosConfigurations.william-desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { pkgs = pkgs.x86_64-linux; };
         modules = [
           ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager {
@@ -31,6 +31,7 @@
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+        specialArgs = { pkgs = pkgs.aarch64-darwin; };
         modules = [
           ./hosts/mac/default.nix
           inputs.home-manager.darwinModules.home-manager{
@@ -42,14 +43,13 @@
       };
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
-          extraSpecialArgs = pkgs.x86_64-linux;
-          imports = [ ./home.nix ];
+          pkgs = pkgs.x86_64-linux;
+          modules = [ ./home.nix { home.homeDirectory = "/home/william" ;} ];
         };
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
-          extraSpecialArgs = pkgs.aarch64-darwin;
-          imports = [ ./home.nix ];
+          pkgs = pkgs.aarch64-darwin;
+          modules = [ ./home.nix { home.homeDirectory = "/Users/william";} ];
         };
       };
-      formatter = pkgs.nixpkgs-fmt;
-      };
+};
 }
