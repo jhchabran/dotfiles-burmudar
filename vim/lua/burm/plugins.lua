@@ -59,6 +59,8 @@ require('packer').startup(function(use)
   use 'ThePrimeagen/harpoon'
   use 'mickael-menu/zk-nvim'
   use { 'stevearc/dressing.nvim' }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+
   if is_bootstrap then
     require('packer').sync()
   end
