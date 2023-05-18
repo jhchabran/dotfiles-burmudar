@@ -16,6 +16,20 @@ local function showFn(hint)
   end
 end
 
+local function maximizeFocusedWindow()
+  local window = hs.window.focusedWindow()
+  window:centerOnScreen()
+  window:maximize()
+end
+
+local function moveWindow(screenNum)
+  local screens = hs.screen.allScreens()
+  return function()
+    local window = hs.window.focusedWindow()
+    window:moveToScreen(screens[screenNum])
+  end
+end
+
 hs.hotkey.bind({ "cmd" }, "1", showFn({ "kitty", "alacritty" }))
 hs.hotkey.bind({ "cmd" }, "2", function()
   local zoom = hs.application.find("zoom")
@@ -27,3 +41,8 @@ end)
 
 hs.hotkey.bind({ "cmd" }, "3", showFn("slack"))
 hs.hotkey.bind({ "cmd" }, "4", showFn("qutebrowser"))
+
+hs.hotkey.bind({ "cmd", "shift" }, "1", moveWindow(1))
+hs.hotkey.bind({ "cmd", "shift" }, "2", moveWindow(2))
+
+hs.hotkey.bind({ "cmd", "shift" }, "w", maximizeFocusedWindow)

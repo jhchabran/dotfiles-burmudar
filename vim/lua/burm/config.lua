@@ -58,22 +58,33 @@ require('lualine').setup {
 --- Treesitter config
 require('nvim-treesitter.configs').setup {
   ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-    "rust", "lua_ls", "nix" },
+    "rust", "lua_ls", "nix", "norg" },
   ignore_install = {},
   highlight = {
     enable = true,
-    ident = true
+    ident = true,
+    --- Disable tree sitter on large files
+    disable = function(lang, buf)
+      local max_filesize = 100 * 1024 -- 100 KB
+      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+      if ok and stats and stats.size > max_filesize then
+        return true
+      end
+    end,
   },
   playground = {
+    enable = true
+  },
+  autopairs = {
     enable = true
   },
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = 'gnn',
-      node_incremental = '<c-space>',
-      scope_incremental = '<c-s>',
-      node_decremental = '<c-backspace>',
+      init_selection = '<space>',
+      node_incremental = '<space>',
+      node_decremental = '<backspace>',
+      scope_incremental = '<tab>',
     }
   },
   textobjects = {
@@ -261,9 +272,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
   -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
   vim.keymap.set('n', '<leader>d', function()
-      P("showing diagnostics")
-      vim.diagnostic.open_float({ focusable = false })
-    end,
+    P("showing diagnostics")
+    vim.diagnostic.open_float({ focusable = false })
+  end,
     opts("Show [d]iagnostics"))
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
@@ -438,18 +449,6 @@ require('trouble').setup({})
 -- Mason, use :Mason to open up the window
 require("mason").setup()
 
--- ChatGPT
-local v = os.getenv('OPENAI_API_KEY')
-if not (v == nil) then
-  require("chatgpt").setup({
-    keymaps = {
-      submit = "<C-s>"
-    }
-  })
-else
-  vim.notify('OPENAI_API_KEY not set - not loading chatgpt plugin')
-end
-
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv
 dapui.setup()
@@ -477,4 +476,25 @@ vim.diagnostic.config({
 
 -- Notes
 vim.env.ZK_NOTEBOOK_DIR = vim.fs.normalize("~/code/notes")
-require("zk").setup()
+--- require("zk").setup()
+
+-- Neorg
+require('neorg').setup {
+  load = {
+    ["core.defaults"] = {}, -- Loads default behaviour
+    ["core.concealer"] = {}, -- Adds pretty icons to your documents
+    ["core.dirman"] = { -- Manages Neorg workspaces
+      config = {
+        workspaces = {
+          notes = "~/code/notes",
+        },
+      },
+    },
+  },
+}
+-- Remember the last position my cursor was at
+require("nvim-lastplace").setup({
+  lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+  lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
+  lastplace_open_folds = true
+})

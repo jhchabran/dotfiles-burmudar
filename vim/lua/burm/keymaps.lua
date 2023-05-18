@@ -17,6 +17,10 @@ local quickFileBrowser = function()
 end
 km("n", "zj", require('burm.custom.zk').new_journal)
 
+km("n", "<leader>n", ":nohlsearch<CR>")
+km("n", "n", "nzzzv", { noremap = true, desc = "center on next result in search" })
+km("n", "N", "Nzzzv", { noremap = true, desc = "center on previous result in search" })
+
 km("n", "<tab><leader>", ":tabn<cr>")
 km("n", "<leader><tab>", ":tabp<cr>")
 km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
@@ -36,10 +40,10 @@ km("n", "<leader>sr", require('telescope').extensions.live_grep_args.live_grep_a
 km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()
   require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-  {
-    layout_config = { width = 0.80 },
-    bufnr = 0
-  }
+    {
+      layout_config = { width = 0.80 },
+      bufnr = 0
+    }
   )
 end, { desc = "[S]earch [D]iagnostics" })
 km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })

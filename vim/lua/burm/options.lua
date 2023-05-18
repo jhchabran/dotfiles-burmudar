@@ -44,3 +44,6 @@ vim.opt.listchars = "tab:»·,eol:↲,nbsp:␣"
 
 vim.opt.updatetime = 50
 vim.opt.syntax = "enable"
+
+vim.opt.lazyredraw = true
+vim.opt.ttyfast = true

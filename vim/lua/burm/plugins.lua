@@ -54,13 +54,12 @@ require('packer').startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   use 'theHamsta/nvim-dap-virtual-text'
   use 'JellyApple102/easyread.nvim'
-  use { "jackMort/ChatGPT.nvim", requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim" } }
   use 'ThePrimeagen/harpoon'
   use 'mickael-menu/zk-nvim'
   use { 'stevearc/dressing.nvim' }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
-
+  use { 'ethanholz/nvim-lastplace' }
+  use { "nvim-neorg/neorg", run = ":Neorg sync-parsers", requires = "nvim-lua/plenary.nvim" }
   if is_bootstrap then
     require('packer').sync()
   end

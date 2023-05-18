@@ -15,6 +15,7 @@
         ".zwilliam".source = ../zsh/zwilliam;
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
         "code/.keep".source = builtins.toFile ".keep" "";
+        ".ssh/config.d/.keep".source = builtins.toFile ".keep" "";
         "${configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
         "${config.xdg.configHome}/zk/config.toml".source = ../zk/config.toml;
         "${config.xdg.configHome}/zk/templates".source = ../zk/templates;
@@ -169,7 +170,7 @@
     mouse = true;
     shortcut = "b";
     prefix = "C-a";
-    terminal = "screen-256color";
+    terminal = "xterm-256color";
 
     plugins = with pkgs.tmuxPlugins; [
       yank
@@ -200,12 +201,18 @@
       bind - split-window -v
       unbind '"'
       unbind %
+
+      # without this, vim scrolling lags
+      set-option -s escape-time 10
     '';
   };
 
   programs.ssh = {
     enable = true;
     forwardAgent = true;
+    includes = [
+      "~/.ssh/config.d/*"
+    ];
     matchBlocks = {
       "media-pc.*" = {
         hostname = "media-pc.local";
