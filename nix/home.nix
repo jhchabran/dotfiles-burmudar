@@ -319,6 +319,36 @@
     };
   };
 
+  programs.kitty = {
+    enable = true;
+    package = pkgs.kitty;
+    theme = "Dracula";
+    font = {
+      name = "JetBrainsMono";
+      size = 13.0;
+    };
+    keybindings = {
+      "cmd+k>w" = "close_tab";
+      "cmd+w" = "no-op";
+    };
+    settings = {
+      input_delay = 2;
+      sync_to_monitor = "yes";
+      enable_audio_bell = "no";
+      macos_option_as_alt = "yes";
+      macos_titlebar_color = "background";
+      hide_window_decorations = "yes";
+      open_url_modifiers = "cmd";
+      tab_bar_style = "powerline";
+      tab_bar_separator = " ";
+      tab_bar_background = "none";
+    };
+    extraConfig = ''
+      macos_thicken_font = 0.4;
+      window_padding_width = 2.0;
+    '';
+  };
+
   # services
   services.gpg-agent = {
     enable = pkgs.stdenv.isLinux;

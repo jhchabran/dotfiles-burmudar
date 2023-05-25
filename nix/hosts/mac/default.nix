@@ -1,4 +1,4 @@
-{ config, pkgs, home-manager, ... }:
+{ config, pkgs, ... }:
 {
   users.users.william = {
     home = /Users/william;
@@ -25,11 +25,20 @@
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     cloud-sql-proxy
     alacritty
+    home-manager
+    kitty
+    (nerdfonts.override { fonts = [
+      "JetBrainsMono"
+      "Hack"
+      "FiraCode"
+      "Noto"
+    ]; })
     nil
+    nixpkgs-fmt
     racket
     zig
     zk
-  ] ++ [ pkgs.home-manager ];
+  ];
 
   homebrew = {
     enable = true;
