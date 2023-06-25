@@ -2,8 +2,9 @@
   description = "William Flake config for his machines";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
+    #nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
     darwin.url = "github:lnl7/nix-darwin";

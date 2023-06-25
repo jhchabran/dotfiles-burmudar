@@ -22,3 +22,5 @@
   plr = pull --rebase
   f = fetch
   ap = add -p
+[http]
+	version = HTTP/2

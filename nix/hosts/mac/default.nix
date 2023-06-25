@@ -13,7 +13,8 @@
   # Installs a version of nix, that dosen't need "experimental-features = nix-command flakes" in /etc/nix/nix.conf
   nix.package = pkgs.nixFlakes;
 
-  networking.dns = [ "1.1.1.1" "8.8.8.8" ];
+  networking.dns = [ "192.168.1.1" "1.1.1.1" "8.8.8.8" ];
+  networking.hostName = "Williams-MacBook-Pro";
   networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor" "Thunderbolt Ethernet" ];
 
   services.tailscale = {
@@ -35,7 +36,7 @@
     ]; })
     nil
     nixpkgs-fmt
-    racket
+    # racket -- broken
     zig
     zk
   ];
@@ -47,8 +48,8 @@
     brews = [
       "ibazel"
       "bazelisk"
-      "sourcegraph/app/sourcegraph"
       "rustup"
+      "graphviz"
     ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
@@ -60,6 +61,7 @@
       "chromium"
       "discord"
       "docker"
+      "element"
       "firefox"
       "font-jetbrains-mono-nerd-font"
       "hammerspoon"

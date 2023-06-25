@@ -16,7 +16,7 @@
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
         "code/.keep".source = builtins.toFile ".keep" "";
         ".ssh/config.d/.keep".source = builtins.toFile ".keep" "";
-        "${configHome}/qutebrowser/config.py".source = ../qutebrowser/config.py;
+        "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
         "${config.xdg.configHome}/zk/config.toml".source = ../zk/config.toml;
         "${config.xdg.configHome}/zk/templates".source = ../zk/templates;
       };
@@ -330,22 +330,27 @@
     keybindings = {
       "cmd+k>w" = "close_tab";
       "cmd+w" = "no-op";
+      "cmd+c" = "copy_to_clipboard";
+      "cmd+v" = "paste_from_clipboard";
     };
     settings = {
       input_delay = 2;
-      sync_to_monitor = "yes";
-      enable_audio_bell = "no";
-      macos_option_as_alt = "yes";
+      sync_to_monitor = true;
+      enable_audio_bell = false;
+      macos_option_as_alt = true;
       macos_titlebar_color = "background";
-      hide_window_decorations = "yes";
+      hide_window_decorations = true;
       open_url_modifiers = "cmd";
       tab_bar_style = "powerline";
       tab_bar_separator = " ";
       tab_bar_background = "none";
+      shell_integration = false;
+
+      copy_on_select = true;
     };
     extraConfig = ''
-      macos_thicken_font = 0.4;
-      window_padding_width = 2.0;
+      macos_thicken_font 0.4
+      window_padding_width 2.0
     '';
   };
 

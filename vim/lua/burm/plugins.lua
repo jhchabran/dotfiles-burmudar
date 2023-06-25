@@ -40,7 +40,7 @@ require('packer').startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
   use 'numToStr/comment.nvim'
-  use 'j-hui/fidget.nvim'
+  use { 'j-hui/fidget.nvim', tag = 'legacy' }
   use 'mfussenegger/nvim-dap'
   use 'leoluz/nvim-dap-go'
   use 'rcarriga/nvim-dap-ui'
