@@ -55,7 +55,6 @@
     dog
     fd
     gping
-    #home-manager
     jq
     lsd
     procs
@@ -299,7 +298,7 @@
   };
 
   programs.alacritty = {
-    enable = true;
+    enable = false;
     package = pkgs.alacritty;
     settings = {
       window = {
@@ -344,7 +343,7 @@
       tab_bar_style = "powerline";
       tab_bar_separator = " ";
       tab_bar_background = "none";
-      shell_integration = false;
+      shell_integration = true;
 
       copy_on_select = true;
     };
