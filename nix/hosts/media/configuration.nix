@@ -183,6 +183,11 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
   system.copySystemConfiguration = true;
+  # Stop Gnome 3 from suspending
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
 
   # Needed otherwise we get some binaries complaining that they can't find glibc
   system.activationScripts.ldso = pkgs.lib.stringAfter [ "usrbinenv" ] ''
