@@ -37,6 +37,19 @@
           }
         ];
       };
+      nixosConfigurations.media-pc = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { pkgs = pkgs.x86_64-linux; };
+        modules = [
+          ./hosts/media/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.william = import ./home.nix;
+          }
+        ];
+      };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { pkgs = pkgs.aarch64-darwin; };

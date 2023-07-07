@@ -43,19 +43,27 @@
 
     desktopManager = {
       xterm.enable = false;
-      gnome.enable = true;
+      gnome = {
+      	enable = true;
+	# Override GNOME defaults to disable GNOME tour and disable suspend
+        extraGSettingsOverrides = ''
+          [org.gnome.shell]
+          welcome-dialog-last-shown-version='9999999999'
+          [org.gnome.desktop.session]
+          idle-delay=0
+          [org.gnome.settings-daemon.plugins.power]
+          sleep-inactive-ac-type='nothing'
+          sleep-inactive-battery-type='nothing'
+        '';
       };
+    };
     displayManager = {
         autoLogin = {
           user = "william";
           enable = true;
-          timeout = 0;
         };
       lightdm = {
         enable = true;
-        autoLogin = {
-          timeout = 0;
-        };
 
       };
     };
@@ -85,6 +93,7 @@
     isNormalUser = true;
     description = "William Bezuidenhout";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
+    hashedPassword = "$6$FMTzPpwTEQLk5Tkd$/7F7iOfqsA5zOVGTl7wic5jQHXmqsZqmLucRl0IxT0/Kx4JfGq.VrJreq4RLcqxhsbEJjKDf4fTdvPVWhjGr8/";
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com"];
   };
 
@@ -113,9 +122,9 @@
   pipewire
   man-pages
   man-pages-posix
-  neovim-nightly
+  mkpasswd
   nmap
-  # language servers
+  neovim
   pavucontrol
   python3
   spotify
@@ -172,7 +181,7 @@
 
   # Enable docker daemon to start
   virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
+  #virtualisation.docker.storageDriver = "btrfs";
 
 
   # This value determines the NixOS release from which the default
