@@ -109,8 +109,8 @@
   btrfs-progs
   curl
   fd
-  flameshot
   firefox
+  flameshot
   gcc
   git
   gnumake
@@ -119,17 +119,18 @@
   jq
   kitty
   lua
-  pipewire
   man-pages
   man-pages-posix
   mkpasswd
-  nmap
   neovim
+  nmap
   pavucontrol
+  pipewire
   python3
   spotify
   tmux
   unzip
+  vlc
   wget
   xclip
   ];
@@ -191,7 +192,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-  system.copySystemConfiguration = true;
   # Stop Gnome 3 from suspending
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;

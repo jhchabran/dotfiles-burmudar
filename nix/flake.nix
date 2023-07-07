@@ -21,7 +21,7 @@
       #   x86_64-linux = <nixpkgs>;
       #   aarch64-darwin = <nixpkgs>;
       # }
-      pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: { pkgs = import inputs.nixpkgs { inherit system; }; })).pkgs;
+      pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: { pkgs = import inputs.nixpkgs { inherit system; config = { allowUnfree = true; }; }; })).pkgs;
     in
     {
       nixosConfigurations.william-desktop = nixpkgs.lib.nixosSystem {
