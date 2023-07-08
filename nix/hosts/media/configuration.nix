@@ -159,6 +159,11 @@
     (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
   ];
 
+  services.caddy = {
+    enable = true;
+    package = pkgs.cloudflare-caddy;
+  };
+
   services.avahi = {
   	enable = true;
     nssmdns = true;
