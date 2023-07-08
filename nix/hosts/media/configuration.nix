@@ -17,7 +17,7 @@
       fsType = "ntfs";
     };
     "/mnt/storage2" = {
-      device = "/dev/sdb3";
+      device = "/dev/sdb2";
       fsType = "ntfs";
     };
   };
