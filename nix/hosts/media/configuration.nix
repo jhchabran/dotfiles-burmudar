@@ -11,6 +11,17 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  fileSystems = {
+    "/mnt/storage1" = {
+      device = "/dev/sda2";
+      fsType = "ntfs";
+    };
+    "/mnt/storage2" = {
+      device = "/dev/sdb3";
+      fsType = "ntfs";
+    };
+  };
+
   networking.hostName = "media-pc"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -189,6 +200,25 @@
     enable = true;
   };
 
+  # services.syncthing = {
+  #   enable = true;
+  #   devices = {
+  #     "seedbox" = { id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO"; };
+  #   };
+  #   folders = {
+  #     "/mnt/storage1/Downloads/nzb" = {
+  #       id = "nzb-complete";
+  #       devices = [ "seedbox" ];
+  #       type = "receiveonly";
+  #     };
+  #     "/mnt/storage1/Downloads/torrents" = {
+  #       id = "torrents";
+  #       devices = [ "seedbox" ];
+  #       type = "receiveonly";
+  #     };
+  #   };
+  #
+  # };
 
 
   # Enable docker daemon to start
