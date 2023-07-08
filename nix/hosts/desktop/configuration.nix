@@ -214,6 +214,10 @@ in {
     };
   };
 
+  services.tailscale = {
+    enable = true;
+  };
+
   # Enable docker daemon to start
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";

@@ -177,12 +177,16 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh= {
+  services.openssh = {
     enable = true;
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
     };
+  };
+
+  services.tailscale = {
+    enable = true;
   };
 
 
