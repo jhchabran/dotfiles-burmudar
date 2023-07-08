@@ -1,10 +1,12 @@
 { config, pkgs, home-manager, ... }:
-{
+rec {
   programs.home-manager.enable = true;
 
-  home.stateVersion = "22.11";
+  home.stateVersion = "23.05";
 
   home.username = "william";
+
+  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${home.username}" else "/home/${home.username}";
 
   home.file =
     let

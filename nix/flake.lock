@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "cloudflare-caddy": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1688815128,
+        "narHash": "sha256-WIr864SbQkQY6Go8xtRC+15cWxnbmLdprkgyOmZXUIQ=",
+        "owner": "burmudar",
+        "repo": "nix-cloudflare-caddy",
+        "rev": "66ab81c4cb83f9346a1519c4dbc83e5f72646fe1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "burmudar",
+        "repo": "nix-cloudflare-caddy",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -312,6 +332,7 @@
     },
     "root": {
       "inputs": {
+        "cloudflare-caddy": "cloudflare-caddy",
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",

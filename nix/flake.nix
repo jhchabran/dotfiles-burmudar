@@ -12,16 +12,25 @@
     flake-utils.url = "github:numtide/flake-utils";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
+    cloudflare-caddy.url = "github:burmudar/nix-cloudflare-caddy";
+    cloudflare-caddy.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay }@inputs:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay, cloudflare-caddy }@inputs:
     let
       # generate pkgs for each subsystem ie. this results in the following set:
       # pkgs {
       #   x86_64-linux = <nixpkgs>;
       #   aarch64-darwin = <nixpkgs>;
       # }
-      pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: { pkgs = import inputs.nixpkgs { inherit system; config = { allowUnfree = true; }; }; })).pkgs;
+      pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
+      	pkgs = import inputs.nixpkgs {
+          inherit system;
+          overlays = [ neovim-nightly-overlay.overlay cloudflare-caddy.overlay.default ];
+          config = { allowUnfree = true; };
+	};
+      })).pkgs;
     in
     {
       nixosConfigurations.william-desktop = nixpkgs.lib.nixosSystem {
@@ -32,7 +41,7 @@
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+            home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
           }
         ];
@@ -45,7 +54,7 @@
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+            home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
           }
         ];

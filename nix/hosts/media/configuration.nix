@@ -1,6 +1,5 @@
 { pkgs, config, ... }:
 {
-  nixpkgs.config.allowUnfree = true;
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -45,7 +44,7 @@
       xterm.enable = false;
       gnome = {
       	enable = true;
-	# Override GNOME defaults to disable GNOME tour and disable suspend
+        # Override GNOME defaults to disable GNOME tour and disable suspend
         extraGSettingsOverrides = ''
           [org.gnome.shell]
           welcome-dialog-last-shown-version='9999999999'
@@ -64,7 +63,6 @@
         };
       lightdm = {
         enable = true;
-
       };
     };
 	};
@@ -110,6 +108,7 @@
   aspellDicts.en-science
   bash
   btrfs-progs
+  cloudflare-caddy
   curl
   fd
   firefox

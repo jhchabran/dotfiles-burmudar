@@ -116,8 +116,6 @@ in {
 
   };
 
-  nix.settings.trusted-users = [ "root" "william" ];
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
