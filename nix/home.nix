@@ -177,15 +177,6 @@ rec {
       yank
       vim-tmux-navigator
       vim-tmux-focus-events
-      {
-        plugin = dracula;
-        extraConfig = ''
-          set -g @dracula-plugins "cpu-usage ram-usage"
-          set -g @dracula-show-powerline true
-          set -g @dracula-show-flags true
-          set -g @dracula-show-fahrenheit false
-        '';
-      }
     ];
 
     extraConfig = ''
@@ -197,7 +188,6 @@ rec {
       # keybindings
       bind-key C-s set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
       bind-key -T root M-j run-shell $SRC/dotfiles/tmux/popupmx.sh
-      bind-key -T root M-n run-shell $SRC/dotfiles/tmux/notes.sh
       bind | split-window -h
       bind - split-window -v
       unbind '"'
