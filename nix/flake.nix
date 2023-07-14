@@ -10,8 +10,10 @@
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
     flake-utils.url = "github:numtide/flake-utils";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    # see: https://github.com/nix-community/neovim-nightly-overlay/issues/176
+    neovim-nightly-overlay = { url = "github:neovim/neovim?dir=contrib"; inputs.nixpkgs.follows = "nixpkgs"; };
+    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    # neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
     cloudflare-caddy.url = "github:burmudar/nix-cloudflare-caddy";
     cloudflare-caddy.inputs.nixpkgs.follows = "nixpkgs";

@@ -1,5 +1,6 @@
 local BurmFuncs = require('burm.funcs')
 
+
 require("harpoon").setup({})
 -- highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -312,7 +313,7 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls", "llmsp" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -327,60 +328,24 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
-local cody = require("burm.cody")
-cody.register_commands()
-
-local lspconfig = require('lspconfig')
-require('lspconfig.configs').llmsp = {
-  default_config = {
-    cmd = { 'llmsp' },
-    filetypes = { 'go' },
-    root_dir = function(fname)
-      return lspconfig.util.find_git_ancestor(fname)
-    end,
-    settings = {},
-  },
-}
-
 local configs = {
   default = {
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities),
     on_attach = on_attach
   },
-  llmsp = {
-    cmd = { 'llmsp' },
-    filetypes = { 'go', 'lua', 'typescriptreact', 'typescript', 'javascript', "rust" },
-    root_dir = function(fname)
-      return lspconfig.util.find_git_ancestor(fname)
-    end,
-    settings = {
-      llmsp = {
-        sourcegraph = {
-          url = "https://sourcegraph.com",
-          accessToken = cody.get_token(),
-          autocomplete = "off",
-        },
-      },
-    },
-  },
-  sumneko_lua = {
+  lua_ls = {
     settings = {
       Lua = {
         runtime = {
           -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
           version = 'LuaJIT',
-          -- Setup your lua path
-          path = runtime_path,
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
           globals = { 'vim', 'hs' },
         },
         workspace = {
-          library = {
-            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          },
+          library = vim.api.nvim_get_runtime_file("", true)
         },
         -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = {

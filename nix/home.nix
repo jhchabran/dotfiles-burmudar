@@ -1,4 +1,4 @@
-{ config, pkgs, home-manager, ... }:
+{ config, pkgs, lib, ... }:
 rec {
   programs.home-manager.enable = true;
 
@@ -6,7 +6,7 @@ rec {
 
   home.username = "william";
 
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${home.username}" else "/home/${home.username}";
+  home.homeDirectory = if pkgs.stdenv.isDarwin then lib.mkForce "/Users/${home.username}" else lib.mkForce "/home/${home.username}";
 
   home.file =
     let
