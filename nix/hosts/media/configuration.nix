@@ -202,7 +202,17 @@
 
   services.syncthing = {
     enable = true;
-    listenAddress = "localhost:22000";
+    extraOptions = {
+      options: {
+        listenAddresses = [
+          "localhost:22000"
+        ];
+        minHomeDiskFree = {
+          unit = "%";
+          value = 1;
+        };
+      };
+    };
     devices = {
       "seedbox" = {
         addresses = [
