@@ -117,6 +117,7 @@
   aspellDicts.en
   aspellDicts.en-computers
   aspellDicts.en-science
+  autossh
   bash
   btrfs-progs
   cloudflare-caddy
@@ -203,7 +204,7 @@
   services.syncthing = {
     enable = true;
     extraOptions = {
-      options: {
+      options = {
         listenAddresses = [
           "localhost:22000"
         ];
@@ -244,9 +245,9 @@
   services.autossh.sessions = [
     {
       extraArguments = "-N -R 22002:localhost:22000 -L 22001:localhost:22001 -L 10200:0.0.0.0:10200 seedbox";
-      monitoringPort = 22001;
-      name = "seedbox-ssh-link";
-      user = "burmudar";
+      monitoringPort = 23000;
+      name = "seedbox";
+      user = "william";
     }
   ];
 
