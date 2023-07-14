@@ -200,25 +200,45 @@
     enable = true;
   };
 
-  # services.syncthing = {
-  #   enable = true;
-  #   devices = {
-  #     "seedbox" = { id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO"; };
-  #   };
-  #   folders = {
-  #     "/mnt/storage1/Downloads/nzb" = {
-  #       id = "nzb-complete";
-  #       devices = [ "seedbox" ];
-  #       type = "receiveonly";
-  #     };
-  #     "/mnt/storage1/Downloads/torrents" = {
-  #       id = "torrents";
-  #       devices = [ "seedbox" ];
-  #       type = "receiveonly";
-  #     };
-  #   };
-  #
-  # };
+  services.syncthing = {
+    enable = true;
+    listenAddress = "localhost:22000";
+    devices = {
+      "seedbox" = {
+        addresses = [
+          "tcp://localhost:22001"
+        ];
+        id = "7ZPNQBO-RP2FIZQ-5CDEGQ5-OI6CRRZ-PPBLJ2I-URKEJMG-TJ7BTCE-XDBQWQ6";
+      };
+    };
+    folders = {
+      "NZB" = {
+        path = "/mnt/storage1/Downloads/nzb";
+        id = "nzb";
+        devices = [ "seedbox" ];
+        type = "sendreceive";
+      };
+      "Torrents" = {
+        path = "/mnt/storage1/Downloads/torrents";
+        id = "torrents";
+        devices = [ "seedbox" ];
+        type = "sendreceive";
+      };
+    };
+
+  };
+
+  # 22000: syncthing listen address on this machine
+  # 22001: listenAddress on the seedbox
+  # 10200: GUI of syncthing on the seedbox
+  services.autossh.sessions = [
+    {
+      extraArguments = "-N -R 22002:localhost:22000 -L 22001:localhost:22001 -L 10200:0.0.0.0:10200 seedbox";
+      monitoringPort = 22001;
+      name = "seedbox-ssh-link";
+      user = "burmudar";
+    }
+  ];
 
 
   # Enable docker daemon to start

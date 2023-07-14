@@ -144,7 +144,7 @@ in {
     pipewire
     man-pages
     man-pages-posix
-    neovim-nightly
+    neovim
     nix-direnv
     nil
     nmap
