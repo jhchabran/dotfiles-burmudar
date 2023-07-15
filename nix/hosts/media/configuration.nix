@@ -31,6 +31,14 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.interfaces.enp42s0.ipv4 = {
+    addresses = [
+      {
+        address = "192.168.1.101";
+        prefixLength = 32;
+      }
+    ];
+  };
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";
@@ -138,6 +146,7 @@
   mkpasswd
   neovim
   nmap
+  nss
   pavucontrol
   pipewire
   python3
@@ -174,59 +183,63 @@
   services.caddy = {
     enable = true;
     package = pkgs.cloudflare-caddy;
+    globalConfig = ''
+      debug
+    '';
+    logFormat = ''
+      output stdout
+    '';
     virtualHosts = {
-      "*.burmudar.dev" = {
+      "*.media-pc.raptor-emperor.ts.net" = {
         serverAliases = [
-          "*.media-pc.raptor-emperor.ts.net"
           "*.media-pc.local"
+          "media-pc.local"
         ];
+        extraConfig = ''
+          tls internal
+
+          @sync-seedbox {
+            host sync.{host}
+            path /seedbox/*
+          }
+          @sync-local {
+            host sync.{host}
+            path /local/*
+          }
+          @nzb-local {
+            host nzb.{host}
+          }
+
+          handle @sync-seedbox {
+            uri strip_prefix seedbox
+            reverse_proxy localhost:10200 {
+              header_up Host localhost
+            }
+          }
+
+          handle @sync-local {
+            uri strip_prefix local
+            reverse_proxy localhost:8384 {
+              header_up Host localhost
+            }
+          }
+
+          handle @nzb-local {
+            reverse_proxy seedbox.raptor-emperor.ts.net:10100 {
+              header_up Host seedbox.raptor-emperor.ts.net
+            }
+          }
+
+          handle /* {
+            respond "Ok this works"
+          }
+        '';
       };
-      extraConfig = ''
-      log {
-        output stdout
-        format console
-      }
-
-      (paths) {
-        @syncthing {
-          Host sync.media-pc.local sync.media-pc.raptor-emperor.ts.net
-        }
-
-        @nzb {
-          Host nzb.media-pc.local nzb.media-pc.raptor-emperor.ts.net
-        }
-
-        handle @syncthing path /seedbox/* {
-          reverse_proxy localhost:10200
-          header_up Host localhost
-        }
-
-        handle_path @syncthing /local/* {
-          reverse_proxy localhost:8384
-          header_up Host localhost
-        }
-
-        handle_path @nzb /* {
-          reverse_proxy seedbox.raptor-emperor.ts.net:10100
-          header_up Host seedbox.raptor-emperor.ts.net
-        }
-      }
-
-      media-pc.local {
-        import paths
-        tls internal
-      }
-
-      media-pc.raptor-emperor.ts.net {
-        import paths
-      }
-
-      burmudar.dev {
-        tls internal
-      }
-      '';
     };
   };
+
+  # because we're using a custom caddy package
+  systemd.services.caddy. serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
 
   services.avahi = {
   	enable = true;
