@@ -174,6 +174,58 @@
   services.caddy = {
     enable = true;
     package = pkgs.cloudflare-caddy;
+    virtualHosts = {
+      "*.burmudar.dev" = {
+        serverAliases = [
+          "*.media-pc.raptor-emperor.ts.net"
+          "*.media-pc.local"
+        ];
+      };
+      extraConfig = ''
+      log {
+        output stdout
+        format console
+      }
+
+      (paths) {
+        @syncthing {
+          Host sync.media-pc.local sync.media-pc.raptor-emperor.ts.net
+        }
+
+        @nzb {
+          Host nzb.media-pc.local nzb.media-pc.raptor-emperor.ts.net
+        }
+
+        handle @syncthing path /seedbox/* {
+          reverse_proxy localhost:10200
+          header_up Host localhost
+        }
+
+        handle_path @syncthing /local/* {
+          reverse_proxy localhost:8384
+          header_up Host localhost
+        }
+
+        handle_path @nzb /* {
+          reverse_proxy seedbox.raptor-emperor.ts.net:10100
+          header_up Host seedbox.raptor-emperor.ts.net
+        }
+      }
+
+      media-pc.local {
+        import paths
+        tls internal
+      }
+
+      media-pc.raptor-emperor.ts.net {
+        import paths
+      }
+
+      burmudar.dev {
+        tls internal
+      }
+      '';
+    };
   };
 
   services.avahi = {
