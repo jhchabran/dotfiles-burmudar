@@ -13,11 +13,11 @@
 
   fileSystems = {
     "/mnt/storage1" = {
-      device = "/dev/sda2";
+      device = "/dev/disk/by-partuuid/e0d8361c-edc1-4310-b7b0-6ab79b801d34";
       fsType = "ntfs";
     };
     "/mnt/storage2" = {
-      device = "/dev/sdb2";
+      device = "/dev/disk/by-partuuid/bcdbd6f3-a33f-41f4-a713-d6333752acef";
       fsType = "ntfs";
     };
   };
@@ -31,15 +31,25 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.interfaces.enp42s0.ipv4 = {
-    addresses = [
-      {
-        address = "192.168.1.101";
-        prefixLength = 32;
-      }
-    ];
-  };
-  networking.firewall.interfaces.enp42s0.allowTCPPorts = [ 80 443 ];
+
+  # defining a static route fails on first boot for some reasonn
+  # networking.nameservers = [
+  #   "192.168.1.1"
+  # ];
+  # networking.interfaces.enp42s0 = {
+  #   wakeOnLan.enable = true;
+  #   ipv4 = {
+  #     addresses = [
+  #       {
+  #         address = "192.168.1.101";
+  #         prefixLength = 32;
+  #       }
+  #     ];
+  #     routes = [ { address = "192.168.1.1"; prefixLength = 32; via = "192.168.1.1"; } ];
+  #   };
+  # };
+
+  networking.firewall.interfaces.enp42s0.allowedTCPPorts = [ 80 443 ];
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";
@@ -76,21 +86,21 @@
     #     '';
     #   };
     # };
-    xfce = {
-      enable = true;
-      enableScreensaver = true;
+      pantheon = {
+        enable = true;
+
+      };
     };
     displayManager = {
       autoLogin = {
         user = "william";
         enable = true;
       };
-      defaultSession = "xfce";
       lightdm = {
         enable = true;
-      };
+        };
     };
-	};
+  };
 
 
   # Enable sound with pipewire.
@@ -165,10 +175,7 @@
   ];
 
   programs.zsh.enable = true;
-  # programs.thunar.plugins = with pkgs.xfce; [
-  #   thunar-archive-plugin
-  #   thunar-volman
-  # ];
+  programs.pantheon-tweaks.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -223,14 +230,14 @@
           handle @sync-seedbox {
             uri strip_prefix seedbox
             reverse_proxy localhost:10200 {
-              header_up Host localhost
+              #header_up Host localhost
             }
           }
 
           handle @sync-local {
             uri strip_prefix local
             reverse_proxy localhost:8384 {
-              header_up Host localhost
+              #header_up Host localhost
             }
           }
 
@@ -240,7 +247,7 @@
             }
           }
 
-          handle /* {
+          handle /ok {
             respond "Ok this works"
           }
         '';
@@ -278,6 +285,7 @@
 
   services.syncthing = {
     enable = true;
+    overrideFolders = true;
     extraOptions = {
       options = {
         listenAddresses = [
