@@ -54,7 +54,7 @@ rec {
   home.packages = with pkgs; [
     cheat
     delta
-    dog
+    dogdns
     fd
     gping
     jq

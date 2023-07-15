@@ -39,6 +39,7 @@
       }
     ];
   };
+  networking.firewall.interfaces.enp42s0.allowTCPPorts = [ 80 443 ];
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";
@@ -61,25 +62,30 @@
 
     desktopManager = {
       xterm.enable = false;
-      gnome = {
-      	enable = true;
-        # Override GNOME defaults to disable GNOME tour and disable suspend
-        extraGSettingsOverrides = ''
-          [org.gnome.shell]
-          welcome-dialog-last-shown-version='9999999999'
-          [org.gnome.desktop.session]
-          idle-delay=0
-          [org.gnome.settings-daemon.plugins.power]
-          sleep-inactive-ac-type='nothing'
-          sleep-inactive-battery-type='nothing'
-        '';
-      };
+    #   gnome = {
+    #   	enable = true;
+    #     # Override GNOME defaults to disable GNOME tour and disable suspend
+    #     extraGSettingsOverrides = ''
+    #       [org.gnome.shell]
+    #       welcome-dialog-last-shown-version='9999999999'
+    #       [org.gnome.desktop.session]
+    #       idle-delay=0
+    #       [org.gnome.settings-daemon.plugins.power]
+    #       sleep-inactive-ac-type='nothing'
+    #       sleep-inactive-battery-type='nothing'
+    #     '';
+    #   };
+    # };
+    xfce = {
+      enable = true;
+      enableScreensaver = true;
     };
     displayManager = {
-        autoLogin = {
-          user = "william";
-          enable = true;
-        };
+      autoLogin = {
+        user = "william";
+        enable = true;
+      };
+      defaultSession = "xfce";
       lightdm = {
         enable = true;
       };
@@ -159,6 +165,10 @@
   ];
 
   programs.zsh.enable = true;
+  # programs.thunar.plugins = with pkgs.xfce; [
+  #   thunar-archive-plugin
+  #   thunar-volman
+  # ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
