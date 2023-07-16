@@ -180,7 +180,13 @@
     (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
   ];
 
-  services.caddy = {
+
+  services.caddy = let
+    domains = [
+      "raptor-emperor.ts.net"
+      "local"
+    ];
+  in with builtins; {
     enable = true;
     package = pkgs.cloudflare-caddy;
     globalConfig = ''
@@ -190,20 +196,24 @@
       output stdout
     '';
     virtualHosts = {
-        "*.media-pc.raptor-emperor.ts.net" = {
-          serverAliases = [ "*.media-pc.local" ];
+        "*.media-pc.${head domains}" = {
+          serverAliases = map (domain: "*.media-pc." + domain) (tail domains);
         extraConfig = ''
           @sync-seedbox {
-            host sync.media-pc.local sync.media-pc.raptor-emperor.ts.net
+            host ${toString (map (domain: "sync.media-pc." + domain) domains)}
             path /seedbox/*
           }
           @sync-local {
-            host sync.media-pc.local sync.media-pc.raptor-emperor.ts.net
+            host ${toString (map (domain: "sync.media-pc." + domain) domains)}
             path /local/*
           }
 
           @nzb {
-            host nzb.media-pc.local nzb.media-pc.raptor-emperor.ts.net
+            host ${toString (map (domain: "nzb.media-pc." + domain) domains)}
+          }
+
+          @jellyfin {
+
           }
 
           handle @sync-seedbox {
