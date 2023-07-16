@@ -72,33 +72,16 @@
 
     desktopManager = {
       xterm.enable = false;
-    #   gnome = {
-    #   	enable = true;
-    #     # Override GNOME defaults to disable GNOME tour and disable suspend
-    #     extraGSettingsOverrides = ''
-    #       [org.gnome.shell]
-    #       welcome-dialog-last-shown-version='9999999999'
-    #       [org.gnome.desktop.session]
-    #       idle-delay=0
-    #       [org.gnome.settings-daemon.plugins.power]
-    #       sleep-inactive-ac-type='nothing'
-    #       sleep-inactive-battery-type='nothing'
-    #     '';
-    #   };
-    # };
-      pantheon = {
-        enable = true;
-
-      };
+      pantheon.enable = true;
     };
     displayManager = {
       autoLogin = {
         user = "william";
         enable = true;
       };
-      lightdm = {
-        enable = true;
-        };
+      defaultSession = "pantheon";
+      lightdm.enable = true;
+      lightdm.greeters.pantheon.enable = true;
     };
   };
 
@@ -207,44 +190,38 @@
       output stdout
     '';
     virtualHosts = {
-      "*.media-pc.raptor-emperor.ts.net" = {
-        serverAliases = [
-          "*.media-pc.local"
-          "media-pc.local"
-        ];
+        "*.media-pc.raptor-emperor.ts.net" = {
+          serverAliases = [ "*.media-pc.local" ];
         extraConfig = ''
-          tls internal
-
           @sync-seedbox {
-            host sync.{host}
+            host sync.media-pc.local sync.media-pc.raptor-emperor.ts.net
             path /seedbox/*
           }
           @sync-local {
-            host sync.{host}
+            host sync.media-pc.local sync.media-pc.raptor-emperor.ts.net
             path /local/*
           }
-          @nzb-local {
-            host nzb.{host}
+
+          @nzb {
+            host nzb.media-pc.local nzb.media-pc.raptor-emperor.ts.net
           }
 
           handle @sync-seedbox {
-            uri strip_prefix seedbox
-            reverse_proxy localhost:10200 {
-              #header_up Host localhost
+            uri strip_prefix /seedbox
+            reverse_proxy http://127.0.0.1:10200 {
+              header_up Host {upstream_hostport}
             }
           }
 
           handle @sync-local {
-            uri strip_prefix local
-            reverse_proxy localhost:8384 {
-              #header_up Host localhost
+            uri strip_prefix /local
+            reverse_proxy http://127.0.0.1:8384 {
+                header_up Host {upstream_hostport}
             }
           }
 
-          handle @nzb-local {
-            reverse_proxy seedbox.raptor-emperor.ts.net:10100 {
-              header_up Host seedbox.raptor-emperor.ts.net
-            }
+          reverse_proxy @nzb http://seedbox.raptor-emperor.ts.net:10100 {
+                header_up Host {upstream_hostport}
           }
 
           handle /ok {
