@@ -72,19 +72,27 @@
 
     desktopManager = {
       xterm.enable = false;
-      pantheon.enable = true;
+      plasma5.enable = true;
     };
     displayManager = {
       autoLogin = {
         user = "william";
         enable = true;
       };
-      defaultSession = "pantheon";
-      lightdm.enable = true;
-      lightdm.greeters.pantheon.enable = true;
+      sddm.enable = true;
     };
   };
 
+  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    gwenview
+    okular
+    oxygen
+    khelpcenter
+    konsole
+    plasma-browser-integration
+    print-manager
+  ];
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
