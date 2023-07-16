@@ -194,12 +194,17 @@
       "raptor-emperor.ts.net"
       "local"
     ];
+    allowRanges = [
+      "100.64.0.0/10" # tailscale
+      "169.0.0.0/15" # afrihost
+      "192.168.0.0/16"
+      "172.16.0.0/12"
+      "10.0.0.0/8"
+      "127.0.0.1/8"
+    ];
   in with builtins; {
     enable = true;
     package = pkgs.cloudflare-caddy;
-    globalConfig = ''
-      debug
-    '';
     logFormat = ''
       output stdout
     '';
@@ -223,6 +228,12 @@
           @jellyfin {
 
           }
+
+          @denied {
+            not remote_ip ${toString allowRanges}
+          }
+
+          abort @denied
 
           handle @sync-seedbox {
             uri strip_prefix /seedbox
