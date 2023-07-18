@@ -225,8 +225,20 @@
             host ${toString (map (domain: "nzb.media-pc." + domain) domains)}
           }
 
-          @jellyfin {
+          @sonar {
+            host ${toString (map (domain: "sonar.media-pc." + domain) domains)}
+          }
 
+          @radar {
+            host ${toString (map (domain: "radar.media-pc." + domain) domains)}
+          }
+
+          @jacket {
+            host ${toString (map (domain: "jacket.media-pc." + domain) domains)}
+          }
+
+          @jellyfin {
+            host ${toString (map (domain: "jellyfin.media-pc." + domain) domains)}
           }
 
           @denied {
@@ -250,6 +262,22 @@
           }
 
           reverse_proxy @nzb http://seedbox.raptor-emperor.ts.net:10100 {
+                header_up Host {upstream_hostport}
+          }
+
+          reverse_proxy @jellyfin http://127.0.0.1:8096 {
+                header_up Host {upstream_hostport}
+          }
+
+          reverse_proxy @jacket http://127.0.0.1:9117 {
+                header_up Host {upstream_hostport}
+          }
+
+          reverse_proxy @sonar http://127.0.0.1:8989 {
+                header_up Host {upstream_hostport}
+          }
+
+          reverse_proxy @radar http://127.0.0.1:7878 {
                 header_up Host {upstream_hostport}
           }
 
@@ -286,6 +314,22 @@
   };
 
   services.tailscale = {
+    enable = true;
+  };
+
+  services.sonarr = {
+    enable = true;
+  };
+
+  services.jellyfin = {
+    enable = true;
+  };
+
+  services.jackett = {
+    enable = true;
+  };
+
+  services.radarr = {
     enable = true;
   };
 
