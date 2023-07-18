@@ -180,6 +180,7 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('harpoon')
 require('telescope').load_extension('live_grep_args')
+require('telescope').load_extension('zk')
 
 
 --- Luasnip
@@ -294,6 +295,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
     opts("[W]orkspace [S]ymbols"))
 
+  vim.keymap.set('n', ',c', '<cmd>CodyChat<cr>', opts("Cody chat"))
+  vim.keymap.set('n', ',e', '<cmd>CodyExplain<cr>', opts("Cody chat"))
+  vim.keymap.set('n', ',h', '<cmd>CodyHistory<cr>', opts("Cody chat [H]istory"))
+  vim.keymap.set('n', ',t', '<cmd>CodyToggle<cr>', opts("Toggle Cody [C]chat"))
+
   if client.server_capabilities.documentHighlightProvider then
     vim.cmd [[
             augroup lsp_document_highlight
@@ -394,6 +400,8 @@ for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup(c)
 end
 
+require("sg").setup()
+
 -- null-ls
 -- DISABLED: incurs a performance hit
 -- require('null-ls').setup({
@@ -441,7 +449,7 @@ vim.diagnostic.config({
 
 -- Notes
 vim.env.ZK_NOTEBOOK_DIR = vim.fs.normalize("~/code/notes")
---- require("zk").setup()
+require("zk").setup()
 
 -- Neorg
 require('neorg').setup {

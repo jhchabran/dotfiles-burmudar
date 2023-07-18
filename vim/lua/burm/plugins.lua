@@ -55,11 +55,12 @@ require('packer').startup(function(use)
   use 'theHamsta/nvim-dap-virtual-text'
   use 'JellyApple102/easyread.nvim'
   use 'ThePrimeagen/harpoon'
-  use 'mickael-menu/zk-nvim'
   use { 'stevearc/dressing.nvim' }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use { 'ethanholz/nvim-lastplace' }
-  use { "nvim-neorg/neorg", run = ":Neorg sync-parsers", requires = "nvim-lua/plenary.nvim" }
+  use 'mickael-menu/zk-nvim'
+  -- use { "nvim-neorg/neorg", run = ":Neorg sync-parsers", requires = "nvim-lua/plenary.nvim" }
+  use { "sourcegraph/sg.nvim", run = "nvim -l build/init.lua", branch = "cody-agent" }
   if is_bootstrap then
     require('packer').sync()
   end
