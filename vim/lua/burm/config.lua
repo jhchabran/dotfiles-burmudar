@@ -233,7 +233,6 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
-    { name = 'neorg' },
     { name = 'buffer' },
   }, {
     { name = 'buffer' },
@@ -296,7 +295,7 @@ local on_attach = function(client, bufnr)
     opts("[W]orkspace [S]ymbols"))
 
   vim.keymap.set('n', ',c', '<cmd>CodyChat<cr>', opts("Cody chat"))
-  vim.keymap.set('n', ',e', '<cmd>CodyExplain<cr>', opts("Cody chat"))
+  vim.keymap.set('n', ',e', '<cmd>CodyExplain<cr>', opts("Cody explain"))
   vim.keymap.set('n', ',h', '<cmd>CodyHistory<cr>', opts("Cody chat [H]istory"))
   vim.keymap.set('n', ',t', '<cmd>CodyToggle<cr>', opts("Toggle Cody [C]chat"))
 
@@ -452,19 +451,19 @@ vim.env.ZK_NOTEBOOK_DIR = vim.fs.normalize("~/code/notes")
 require("zk").setup()
 
 -- Neorg
-require('neorg').setup {
-  load = {
-    ["core.defaults"] = {}, -- Loads default behaviour
-    ["core.concealer"] = {}, -- Adds pretty icons to your documents
-    ["core.dirman"] = { -- Manages Neorg workspaces
-      config = {
-        workspaces = {
-          notes = "~/code/notes",
-        },
-      },
-    },
-  },
-}
+-- require('neorg').setup {
+--   load = {
+--     ["core.defaults"] = {}, -- Loads default behaviour
+--     ["core.concealer"] = {}, -- Adds pretty icons to your documents
+--     ["core.dirman"] = { -- Manages Neorg workspaces
+--       config = {
+--         workspaces = {
+--           notes = "~/code/notes",
+--         },
+--       },
+--     },
+--   },
+-- }
 -- Remember the last position my cursor was at
 require("nvim-lastplace").setup({
   lastplace_ignore_buftype = { "quickfix", "nofile", "help" },

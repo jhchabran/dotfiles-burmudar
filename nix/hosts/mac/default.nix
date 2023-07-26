@@ -24,19 +24,21 @@
 
   environment.systemPackages = with pkgs; [
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
-    cloud-sql-proxy
+    age
+    racket
     alacritty
+    cloud-sql-proxy
     home-manager
-    kitty
     (nerdfonts.override { fonts = [
       "JetBrainsMono"
       "Hack"
       "FiraCode"
       "Noto"
     ]; })
+    kitty
+    passage
     nil
     nixpkgs-fmt
-    # racket -- broken
     zig
     zk
   ];
