@@ -29,12 +29,14 @@
     alacritty
     cloud-sql-proxy
     home-manager
-    (nerdfonts.override { fonts = [
-      "JetBrainsMono"
-      "Hack"
-      "FiraCode"
-      "Noto"
-    ]; })
+    (nerdfonts.override {
+      fonts = [
+        "JetBrainsMono"
+        "Hack"
+        "FiraCode"
+        "Noto"
+      ];
+    })
     kitty
     passage
     nil

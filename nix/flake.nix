@@ -27,11 +27,11 @@
       #   aarch64-darwin = <nixpkgs>;
       # }
       pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
-      	pkgs = import inputs.nixpkgs {
+        pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [ neovim-nightly-overlay.overlay cloudflare-caddy.overlay.default ];
           config = { allowUnfree = true; };
-	};
+        };
       })).pkgs;
     in
     {

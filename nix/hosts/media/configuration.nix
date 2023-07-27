@@ -1,7 +1,8 @@
 { pkgs, config, ... }:
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -66,7 +67,7 @@
 
   # Enable the X11 windowing system.
   services.xserver = {
-  	enable = true;
+    enable = true;
 
     videoDrivers = [ "nvidia" ];
 
@@ -120,7 +121,7 @@
       description = "William Bezuidenhout";
       extraGroups = [ "networkmanager" "wheel" "docker" ];
       hashedPassword = "$6$Rz1GnmAfbEsmPZ52$Ze2ue2JtgVxwT5x1AA7k.KL0rY4.HTmHn8yn3IjjwAbflFqf3hUELMA/W/nADGoHZa0nxuFKBcIALl4kOCcEP/";
-      openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com"];
+      openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com" ];
     };
   };
 
@@ -128,41 +129,41 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  aspell
-  aspellDicts.en
-  aspellDicts.en-computers
-  aspellDicts.en-science
-  autossh
-  bash
-  btrfs-progs
-  cloudflare-caddy
-  curl
-  fd
-  firefox
-  flameshot
-  gcc
-  git
-  gnumake
-  go
-  htop
-  jq
-  kitty
-  lua
-  man-pages
-  man-pages-posix
-  mkpasswd
-  neovim
-  nmap
-  nss
-  pavucontrol
-  pipewire
-  python3
-  spotify
-  tmux
-  unzip
-  vlc
-  wget
-  xclip
+    aspell
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
+    autossh
+    bash
+    btrfs-progs
+    cloudflare-caddy
+    curl
+    fd
+    firefox
+    flameshot
+    gcc
+    git
+    gnumake
+    go
+    htop
+    jq
+    kitty
+    lua
+    man-pages
+    man-pages-posix
+    mkpasswd
+    neovim
+    nmap
+    nss
+    pavucontrol
+    pipewire
+    python3
+    spotify
+    tmux
+    unzip
+    vlc
+    wget
+    xclip
   ];
 
   programs.zsh.enable = true;
@@ -173,127 +174,129 @@
   programs.mtr.enable = true;
 
   nix = {
-      settings.experimental-features = [ "nix-command" "flakes" ];
-      settings.trusted-users = [ "root" "william" ];
-      gc.automatic = true;
-      optimise.automatic = true;
+    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.trusted-users = [ "root" "william" ];
+    gc.automatic = true;
+    optimise.automatic = true;
   };
 
   environment.shells = with pkgs; [ zsh ];
 
   fonts.fonts = with pkgs; [
-  	noto-fonts
+    noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
     (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
   ];
 
 
-  services.caddy = let
-    domains = [
-      "raptor-emperor.ts.net"
-      "local"
-    ];
-    allowRanges = [
-      "100.64.0.0/10" # tailscale
-      "169.0.0.0/15" # afrihost
-      "192.168.0.0/16"
-      "172.16.0.0/12"
-      "10.0.0.0/8"
-      "127.0.0.1/8"
-    ];
-  in with builtins; {
-    enable = true;
-    package = pkgs.cloudflare-caddy;
-    logFormat = ''
-      output stdout
-    '';
-    virtualHosts = {
+  services.caddy =
+    let
+      domains = [
+        "raptor-emperor.ts.net"
+        "local"
+      ];
+      allowRanges = [
+        "100.64.0.0/10" # tailscale
+        "169.0.0.0/15" # afrihost
+        "192.168.0.0/16"
+        "172.16.0.0/12"
+        "10.0.0.0/8"
+        "127.0.0.1/8"
+      ];
+    in
+    with builtins; {
+      enable = true;
+      package = pkgs.cloudflare-caddy;
+      logFormat = ''
+        output stdout
+      '';
+      virtualHosts = {
         "*.media-pc.${head domains}" = {
           serverAliases = map (domain: "*.media-pc." + domain) (tail domains);
-        extraConfig = ''
-          @sync-seedbox {
-            host ${toString (map (domain: "sync.media-pc." + domain) domains)}
-            path /seedbox/*
-          }
-          @sync-local {
-            host ${toString (map (domain: "sync.media-pc." + domain) domains)}
-            path /local/*
-          }
-
-          @nzb {
-            host ${toString (map (domain: "nzb.media-pc." + domain) domains)}
-          }
-
-          @sonar {
-            host ${toString (map (domain: "sonar.media-pc." + domain) domains)}
-          }
-
-          @radar {
-            host ${toString (map (domain: "radar.media-pc." + domain) domains)}
-          }
-
-          @jacket {
-            host ${toString (map (domain: "jacket.media-pc." + domain) domains)}
-          }
-
-          @jellyfin {
-            host ${toString (map (domain: "jellyfin.media-pc." + domain) domains)}
-          }
-
-          @denied {
-            not remote_ip ${toString allowRanges}
-          }
-
-          abort @denied
-
-          handle @sync-seedbox {
-            uri strip_prefix /seedbox
-            reverse_proxy http://127.0.0.1:10200 {
-              header_up Host {upstream_hostport}
+          extraConfig = ''
+            @sync-seedbox {
+              host ${toString (map (domain: "sync.media-pc." + domain) domains)}
+              path /seedbox/*
             }
-          }
-
-          handle @sync-local {
-            uri strip_prefix /local
-            reverse_proxy http://127.0.0.1:8384 {
-                header_up Host {upstream_hostport}
+            @sync-local {
+              host ${toString (map (domain: "sync.media-pc." + domain) domains)}
+              path /local/*
             }
-          }
 
-          reverse_proxy @nzb http://seedbox.raptor-emperor.ts.net:10100 {
+            @nzb {
+              host ${toString (map (domain: "nzb.media-pc." + domain) domains)}
+            }
+
+            @sonar {
+              host ${toString (map (domain: "sonar.media-pc." + domain) domains)}
+            }
+
+            @radar {
+              host ${toString (map (domain: "radar.media-pc." + domain) domains)}
+            }
+
+            @jacket {
+              host ${toString (map (domain: "jacket.media-pc." + domain) domains)}
+            }
+
+            @jellyfin {
+              host ${toString (map (domain: "jellyfin.media-pc." + domain) domains)}
+            }
+
+            @denied {
+              not remote_ip ${toString allowRanges}
+            }
+
+            abort @denied
+
+            handle @sync-seedbox {
+              uri strip_prefix /seedbox
+              reverse_proxy http://127.0.0.1:10200 {
                 header_up Host {upstream_hostport}
-          }
+              }
+            }
 
-          reverse_proxy @jellyfin http://127.0.0.1:8096 {
-                header_up Host {upstream_hostport}
-          }
+            handle @sync-local {
+              uri strip_prefix /local
+              reverse_proxy http://127.0.0.1:8384 {
+                  header_up Host {upstream_hostport}
+              }
+            }
 
-          reverse_proxy @jacket http://127.0.0.1:9117 {
-                header_up Host {upstream_hostport}
-          }
+            reverse_proxy @nzb http://seedbox.raptor-emperor.ts.net:10100 {
+                  header_up Host {upstream_hostport}
+            }
 
-          reverse_proxy @sonar http://127.0.0.1:8989 {
-                header_up Host {upstream_hostport}
-          }
+            reverse_proxy @jellyfin http://127.0.0.1:8096 {
+                  header_up Host {upstream_hostport}
+            }
 
-          reverse_proxy @radar http://127.0.0.1:7878 {
-                header_up Host {upstream_hostport}
-          }
+            reverse_proxy @jacket http://127.0.0.1:9117 {
+                  header_up Host {upstream_hostport}
+            }
 
-          handle /ok {
-            respond "Ok this works"
-          }
-        '';
+            reverse_proxy @sonar http://127.0.0.1:8989 {
+                  header_up Host {upstream_hostport}
+            }
+
+            reverse_proxy @radar http://127.0.0.1:7878 {
+                  header_up Host {upstream_hostport}
+            }
+
+            handle /ok {
+              respond "Ok this works"
+            }
+          '';
+        };
       };
     };
-  };
 
   # because we're using a custom caddy package
   systemd.services.caddy. serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
 
   services.avahi = {
-  	enable = true;
+    enable = true;
     nssmdns = true;
     publish = {
       addresses = true;
