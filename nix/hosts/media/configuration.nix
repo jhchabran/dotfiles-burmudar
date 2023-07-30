@@ -214,6 +214,7 @@
         "*.media-pc.${head domains}" = {
           serverAliases = map (domain: "*.media-pc." + domain) (tail domains);
           extraConfig = ''
+            tls internal
             @sync-seedbox {
               host ${toString (map (domain: "sync.media-pc." + domain) domains)}
               path /seedbox/*
