@@ -167,7 +167,6 @@
   ];
 
   programs.zsh.enable = true;
-  programs.pantheon-tweaks.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -194,7 +193,7 @@
     let
       domains = [
         "raptor-emperor.ts.net"
-        "local"
+        "lan"
       ];
       allowRanges = [
         "100.64.0.0/10" # tailscale
