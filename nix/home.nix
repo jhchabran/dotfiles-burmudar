@@ -206,7 +206,7 @@ rec {
     ];
     matchBlocks = {
       "media-pc.*" = {
-        hostname = "media-pc.local";
+        hostname = "media-pc.lan";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
@@ -216,7 +216,7 @@ rec {
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "mac" = {
-        hostname = "Williams-MacBook-Pro.local";
+        hostname = "Williams-MacBook-Pro.lan";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
@@ -227,18 +227,13 @@ rec {
       };
       "desktop" = {
         user = "william";
-        hostname = "william-desktop.local";
+        hostname = "william-desktop.lan";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
-      "spotipi.local" = {
+      "spotipi.lan" = {
         user = "pi";
-        hostname = "spotipi.local";
+        hostname = "spotipi.lan";
         identityFile = "~/.ssh//keys/burmkey.pvt";
-      };
-      "spotipi" = {
-        user = "pi";
-        hostname = "spotipi";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "bezuidenhout" = {
         user = "bezuidenhout";

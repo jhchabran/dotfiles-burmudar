@@ -60,7 +60,7 @@ require('packer').startup(function(use)
   use { 'ethanholz/nvim-lastplace' }
   use 'mickael-menu/zk-nvim'
   -- use { "nvim-neorg/neorg", run = ":Neorg sync-parsers", requires = "nvim-lua/plenary.nvim" }
-  use { "sourcegraph/sg.nvim", run = "nvim -l build/init.lua" }
+  use { "sourcegraph/sg.nvim", run = "nvim -l build/init.lua", branch = "auth-via-app" }
   if is_bootstrap then
     require('packer').sync()
   end
