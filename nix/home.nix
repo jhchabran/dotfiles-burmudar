@@ -171,7 +171,7 @@ rec {
     mouse = true;
     shortcut = "b";
     prefix = "C-a";
-    terminal = "xterm-256color";
+    terminal = "tmux-256color";
 
     plugins = with pkgs.tmuxPlugins; [
       yank
@@ -184,6 +184,7 @@ rec {
       set-option -g visual-activity off
       set-option -g visual-bell off
       set-option -g visual-silence off
+      set-option -sa terminal-features ',xterm-256color:RGB'
 
       # keybindings
       bind-key C-s set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
@@ -310,7 +311,8 @@ rec {
     package = pkgs.kitty;
     theme = "Dracula";
     font = {
-      name = "JetBrainsMono";
+      package = with pkgs; (nerdfonts.override { fonts = [ "FiraCode" ]; });
+      name = "FiraCode Nerd Font Mono";
       size = 13.0;
     };
     keybindings = {

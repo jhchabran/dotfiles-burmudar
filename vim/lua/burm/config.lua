@@ -399,7 +399,10 @@ for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup(c)
 end
 
-require("sg").setup()
+require("sg").setup({
+  auth_stategy = "environment-variables"
+})
+
 
 -- null-ls
 -- DISABLED: incurs a performance hit
@@ -451,19 +454,26 @@ vim.env.ZK_NOTEBOOK_DIR = vim.fs.normalize("~/code/notes")
 require("zk").setup()
 
 -- Neorg
--- require('neorg').setup {
---   load = {
---     ["core.defaults"] = {}, -- Loads default behaviour
---     ["core.concealer"] = {}, -- Adds pretty icons to your documents
---     ["core.dirman"] = { -- Manages Neorg workspaces
---       config = {
---         workspaces = {
---           notes = "~/code/notes",
---         },
---       },
---     },
---   },
--- }
+require('neorg').setup {
+  load = {
+    ["core.defaults"] = {},
+    ["core.concealer"] = {},
+    ["core.dirman"] = {
+      config = {
+        workspaces = {
+          notes = "~/code/notes",
+        },
+      },
+    },
+    ["core.journal"] = {
+      config = {
+        folder = "journal",
+        strategy = "flat",
+        workspace = "notes",
+      }
+    }
+  },
+}
 -- Remember the last position my cursor was at
 require("nvim-lastplace").setup({
   lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
