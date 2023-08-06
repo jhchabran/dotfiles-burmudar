@@ -136,7 +136,7 @@ rec {
       export ZK_NOTEBOOK_DIR=~/code/notes
       export LC_ALL=en_US.UTF-8
       export LANG=en_US.UTF-8
-      export TERM=xterm-256color
+      export TERM=screen-256color
 
       export VISUAL="nvim"
       export EDITOR="nvim"
@@ -171,12 +171,13 @@ rec {
     mouse = true;
     shortcut = "b";
     prefix = "C-a";
-    terminal = "tmux-256color";
+    terminal = "screen-256color";
 
     plugins = with pkgs.tmuxPlugins; [
       yank
       vim-tmux-navigator
       vim-tmux-focus-events
+      gruvbox
     ];
 
     extraConfig = ''
@@ -184,7 +185,7 @@ rec {
       set-option -g visual-activity off
       set-option -g visual-bell off
       set-option -g visual-silence off
-      set-option -sa terminal-features ',xterm-256color:RGB'
+      set-option -sa terminal-features ',screen-256color:RGB'
 
       # keybindings
       bind-key C-s set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
