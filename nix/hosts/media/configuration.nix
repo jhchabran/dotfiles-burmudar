@@ -337,6 +337,10 @@
     enable = true;
   };
 
+  services.cloudflare-dns-ip = {
+    enable = true;
+  };
+
   services.syncthing = {
     enable = true;
     overrideFolders = true;

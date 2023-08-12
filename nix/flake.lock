@@ -20,6 +20,26 @@
         "type": "github"
       }
     },
+    "cloudflare-dns-ip": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1691829701,
+        "narHash": "sha256-oeTMb70zdA9rvI87RIV+3Xuq1pvvdg2AiP2FybnE9OQ=",
+        "owner": "burmudar",
+        "repo": "cloudflare-dns-ip",
+        "rev": "10c111fc1ad63a83ecdb95b57dd1d0d1ce29e6ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "burmudar",
+        "repo": "cloudflare-dns-ip",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -139,6 +159,7 @@
     "root": {
       "inputs": {
         "cloudflare-caddy": "cloudflare-caddy",
+        "cloudflare-dns-ip": "cloudflare-dns-ip",
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",

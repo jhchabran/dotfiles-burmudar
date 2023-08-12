@@ -17,9 +17,12 @@
 
     cloudflare-caddy.url = "github:burmudar/nix-cloudflare-caddy";
     cloudflare-caddy.inputs.nixpkgs.follows = "nixpkgs";
+
+    cloudflare-dns-ip.url = "github:burmudar/cloudflare-dns-ip";
+    cloudflare-dns-ip.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay, cloudflare-caddy }@inputs:
+  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay, cloudflare-caddy, cloudflare-dns-ip }@inputs:
     let
       # generate pkgs for each subsystem ie. this results in the following set:
       # pkgs {
@@ -53,6 +56,7 @@
         specialArgs = { pkgs = pkgs.x86_64-linux; };
         modules = [
           ./hosts/media/configuration.nix
+          inputs.cloudflare-dns-ip.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

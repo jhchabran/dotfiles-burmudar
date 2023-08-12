@@ -40,7 +40,7 @@ hs.hotkey.bind({ "cmd" }, "2", function()
 end)
 
 hs.hotkey.bind({ "cmd" }, "3", showFn("slack"))
-hs.hotkey.bind({ "cmd" }, "4", showFn("qutebrowser"))
+hs.hotkey.bind({ "cmd" }, "4", showFn({ "Firefox", "qutebrowser" }))
 
 hs.hotkey.bind({ "cmd", "shift" }, "1", moveWindow(1))
 hs.hotkey.bind({ "cmd", "shift" }, "2", moveWindow(2))
