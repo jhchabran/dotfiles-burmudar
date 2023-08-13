@@ -32,7 +32,7 @@ rec {
 
   home.shellAliases =
     let
-      systemCmd = if pkgs.stdenv.isDarwin then "./nix/result/sw/bin/darwin-rebuild switch --flake nix/." else "sudo nixos-rebuild switch --flake nix/.";
+      systemCmd = if pkgs.stdenv.isDarwin then "darwin-rebuild switch --flake nix/." else "sudo nixos-rebuild switch --flake nix/.";
     in
     {
       pass = "gopass";

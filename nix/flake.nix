@@ -78,6 +78,14 @@
           }
         ];
       };
+      nixosConfigurations.vm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { pkgs = pkgs.x86_64-linux; };
+        modules = [
+          ./hosts/vm/configuration.nix
+          inputs.cloudflare-dns-ip.nixosModules.default
+        ];
+      };
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.x86_64-linux;
