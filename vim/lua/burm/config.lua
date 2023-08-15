@@ -294,11 +294,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
     opts("[W]orkspace [S]ymbols"))
 
-  vim.keymap.set('n', ',c', '<cmd>CodyChat<cr>', opts("Cody chat"))
-  vim.keymap.set('n', ',e', '<cmd>CodyExplain<cr>', opts("Cody explain"))
-  vim.keymap.set('n', ',h', '<cmd>CodyHistory<cr>', opts("Cody chat [H]istory"))
-  vim.keymap.set('n', ',t', '<cmd>CodyToggle<cr>', opts("Toggle Cody [C]chat"))
-
   if client.server_capabilities.documentHighlightProvider then
     vim.cmd [[
             augroup lsp_document_highlight

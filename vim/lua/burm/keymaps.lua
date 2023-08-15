@@ -33,10 +33,10 @@ km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
 km("n", "<leader>?", require('telescope.builtin').oldfiles, { desc = "[?] Find recently opened files" })
 km("n", "<leader>/", fuzzyBrowser, { desc = "[/] Fuzzy search in current buffer" })
 km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })
-km("n", "<leader>sf", quickFileBrowser, { desc = "[S]search [F] files" })
+km("n", "<leader>sf", quickFileBrowser, { desc = "[S]earch [F]iles" })
 km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
-km("n", "<leader>sr", require('telescope').extensions.live_grep_args.live_grep_args,
-  { desc = "[S]earch by [R]ip Grep Args" })
+km("n", "<leader>sl", require('telescope').extensions.live_grep_args.live_grep_args,
+  { desc = "[S]earch by [L]ive Grep Args" })
 km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
 km("n", "<leader>sd", function()
   require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
@@ -55,6 +55,13 @@ km("n", "<leader>ss", require('telescope.builtin').lsp_document_symbols, { desc 
 km("n", "<leader>si", require('telescope.builtin').lsp_implementations, { desc = "[S]earch [I]mplementation" })
 km("n", "<leader>m", require('harpoon.mark').add_file, { desc = "[M]ark a file" })
 km("n", "<leader>sm", require('harpoon.ui').toggle_quick_menu, { desc = "[S]how [M]arks" })
+-- Cody bindings
+km('n', ',c', '<cmd>CodyChat<cr>', { desc = "Cody [C]hat" })
+km('v', ',e', '<cmd>CodyExplain<cr>',{ desc =  "Cody [E]xplain" })
+km('n', ',h', '<cmd>CodyHistory<cr>', { desc = "Cody [H]istory" })
+km('n', ',t', '<cmd>CodyToggle<cr>', { desc = "Cody [T]oggle" })
+km('n', ',d', '<cmd>CodyDo', { desc = "Cody [D]o" })
+
 -- Yank into clipboard
 km("v", "<leader>y", "\"+y")
 km("n", "<leader>p", "\"+p")
