@@ -32,7 +32,7 @@
       pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.nixpkgs {
           inherit system;
-          overlays = [ neovim-nightly-overlay.overlay cloudflare-caddy.overlay.default ];
+          overlays = [ neovim-nightly-overlay.overlay cloudflare-caddy.overlay.default cloudflare-dns-ip.overlay.default ];
           config = { allowUnfree = true; };
         };
       })).pkgs;
