@@ -192,8 +192,9 @@
   services.caddy =
     let
       domains = [
+        "burmudar.dev"
         "raptor-emperor.ts.net"
-        "lan"
+        "media.lan"
       ];
       allowRanges = [
         "100.64.0.0/10" # tailscale
@@ -207,41 +208,42 @@
     with builtins; {
       enable = true;
       package = pkgs.cloudflare-caddy;
+      # instead of readFile we should read the token from age or something like that
       logFormat = ''
         output stdout
       '';
       virtualHosts = {
-        "*.media-pc.${head domains}" = {
-          serverAliases = map (domain: "*.media-pc." + domain) (tail domains);
+        "*.${head domains}" = {
+          serverAliases = map (domain: "*." + domain) (tail domains);
           extraConfig = ''
             tls internal
             @sync-seedbox {
-              host ${toString (map (domain: "sync.media-pc." + domain) domains)}
+              host ${toString (map (domain: "sync." + domain) domains)}
               path /seedbox/*
             }
             @sync-local {
-              host ${toString (map (domain: "sync.media-pc." + domain) domains)}
+              host ${toString (map (domain: "sync." + domain) domains)}
               path /local/*
             }
 
             @nzb {
-              host ${toString (map (domain: "nzb.media-pc." + domain) domains)}
+              host ${toString (map (domain: "nzb." + domain) domains)}
             }
 
             @sonar {
-              host ${toString (map (domain: "sonar.media-pc." + domain) domains)}
+              host ${toString (map (domain: "sonar." + domain) domains)}
             }
 
             @radar {
-              host ${toString (map (domain: "radar.media-pc." + domain) domains)}
+              host ${toString (map (domain: "radar." + domain) domains)}
             }
 
             @jacket {
-              host ${toString (map (domain: "jacket.media-pc." + domain) domains)}
+              host ${toString (map (domain: "jacket." + domain) domains)}
             }
 
             @jellyfin {
-              host ${toString (map (domain: "jellyfin.media-pc." + domain) domains)}
+              host ${toString (map (domain: (if domain != "burmudar.dev" then "jellyfin." else "media.") + domain) domains)}
             }
 
             @denied {
@@ -339,6 +341,8 @@
 
   services.cloudflare-dns-ip = {
     enable = true;
+    zone = "burmudar.dev";
+    record = "media";
   };
 
   services.syncthing = {

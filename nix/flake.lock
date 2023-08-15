@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1689711930,
-        "narHash": "sha256-Pxh+lWYNKsDuwzQiLmK0WUK1o0mEuWK/b7vxuu6dvMw=",
+        "lastModified": 1692124400,
+        "narHash": "sha256-2/ajrhDlEL4UyE1mnbFQsOnLYUI5naBbPO/Kk8ZrgVo=",
         "owner": "burmudar",
         "repo": "nix-cloudflare-caddy",
-        "rev": "2d9940ca0f52aae26a35c1cadc0f9bfc0235a12d",
+        "rev": "a09f7f8ba4d26fb70858729abca41e60163bcd7e",
         "type": "github"
       },
       "original": {
@@ -27,11 +27,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1692123658,
-        "narHash": "sha256-/YEZ0ZcC2ru0i8/C9dhCrkJU7c+bZbXsgrOVTjakNpc=",
+        "lastModified": 1692126718,
+        "narHash": "sha256-RFMaQTseAZNRYm5bClTg03ujDZlsa4Y+D4CbFMj5QMA=",
         "owner": "burmudar",
         "repo": "cloudflare-dns-ip",
-        "rev": "30d80468ef2f2dd86b02c6d04c44ac1f92316f37",
+        "rev": "fc70ec9c564e96a1451b17edc060f27157c406c2",
         "type": "github"
       },
       "original": {
