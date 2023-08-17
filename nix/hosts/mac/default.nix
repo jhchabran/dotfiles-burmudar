@@ -19,7 +19,6 @@
 
   services.tailscale = {
     enable = true;
-    magicDNS.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
