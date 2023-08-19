@@ -1,6 +1,5 @@
 local BurmFuncs = require('burm.funcs')
 
-
 require("harpoon").setup({})
 -- highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -11,7 +10,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-require "fidget".setup {} --- Do all the plugin setup here
+require "fidget".setup {}
 require('gitsigns').setup({
   numhl = true,
   word_diff = true,
@@ -475,3 +474,5 @@ require("nvim-lastplace").setup({
   lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
   lastplace_open_folds = true
 })
+
+require('burm.custom.luasnips').configure_snippets()

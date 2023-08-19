@@ -191,11 +191,6 @@
 
   services.caddy =
     let
-      domains = [
-        "burmudar.dev"
-        "raptor-emperor.ts.net"
-        "media.lan"
-      ];
       allowRanges = [
         "100.64.0.0/10" # tailscale
         "169.0.0.0/15" # afrihost
@@ -204,8 +199,74 @@
         "10.0.0.0/8"
         "127.0.0.1/8"
       ];
+      genHandleFragment = { directive, path, address }: ''
+        handle ${directive} {
+          uri strip_prefix /${path}
+          reverse_proxy ${address} {
+            header_up Host {upstream_hostport}
+          }
+        }
+      '';
+      cfgGen = { host, tls }: ''
+        tls ${tls}
+        @host {
+          host ${host}
+        }
+        @sync-seedbox {
+          @host
+          path /sync/seedbox/*
+        }
+        @sync-local {
+          @host
+          path /sync/local/*
+        }
+
+        @nzb {
+          @host
+          path /nzb/*
+        }
+
+        @sonar {
+          @host
+          path /sonar/*
+        }
+
+        @radar {
+          @host
+          path /radar/*
+        }
+
+        @jacket {
+          @host
+          path /jacket/*
+        }
+
+        @jellyfin {
+          @host
+          path /jellyfin/*
+        }
+
+        @denied {
+          not @host
+          not remote_ip ${toString allowRanges}
+        }
+
+        abort @denied
+
+        ${genHandleFragment "@sync-seedbox" "/sync/seedbox" ":10200"}
+        ${genHandleFragment "@sync-local" "/sync/local" ":10200"}
+        ${genHandleFragment "@nzb" "nzb" "http://seedbox.raptor-emperor.ts.net:10100"}
+        ${genHandleFragment "@jellyfin" "jellyfin" ":8096"}
+        ${genHandleFragment "@jacket" "jacket" ":9117"}
+        ${genHandleFragment "@sonar" "sonar" ":8989"}
+        ${genHandleFragment "@radar" "radar" ":7878"}
+
+        handle /ok {
+          respond "Ok this works"
+        }
+      '';
     in
-    with builtins; {
+    {
       enable = true;
       package = pkgs.cloudflare-caddy;
       # instead of readFile we should read the token from age or something like that
@@ -213,83 +274,14 @@
         output stdout
       '';
       virtualHosts = {
-        "*.${head domains}" = {
-          serverAliases = map (domain: "*." + domain) (tail domains);
-          extraConfig = ''
-            tls internal
-            @sync-seedbox {
-              host ${toString (map (domain: "sync." + domain) domains)}
-              path /seedbox/*
-            }
-            @sync-local {
-              host ${toString (map (domain: "sync." + domain) domains)}
-              path /local/*
-            }
-
-            @nzb {
-              host ${toString (map (domain: "nzb." + domain) domains)}
-            }
-
-            @sonar {
-              host ${toString (map (domain: "sonar." + domain) domains)}
-            }
-
-            @radar {
-              host ${toString (map (domain: "radar." + domain) domains)}
-            }
-
-            @jacket {
-              host ${toString (map (domain: "jacket." + domain) domains)}
-            }
-
-            @jellyfin {
-              host ${toString (map (domain: (if domain != "burmudar.dev" then "jellyfin." else "media.") + domain) domains)}
-            }
-
-            @denied {
-              not remote_ip ${toString allowRanges}
-            }
-
-            abort @denied
-
-            handle @sync-seedbox {
-              uri strip_prefix /seedbox
-              reverse_proxy http://127.0.0.1:10200 {
-                header_up Host {upstream_hostport}
-              }
-            }
-
-            handle @sync-local {
-              uri strip_prefix /local
-              reverse_proxy http://127.0.0.1:8384 {
-                  header_up Host {upstream_hostport}
-              }
-            }
-
-            reverse_proxy @nzb http://seedbox.raptor-emperor.ts.net:10100 {
-                  header_up Host {upstream_hostport}
-            }
-
-            reverse_proxy @jellyfin http://127.0.0.1:8096 {
-                  header_up Host {upstream_hostport}
-            }
-
-            reverse_proxy @jacket http://127.0.0.1:9117 {
-                  header_up Host {upstream_hostport}
-            }
-
-            reverse_proxy @sonar http://127.0.0.1:8989 {
-                  header_up Host {upstream_hostport}
-            }
-
-            reverse_proxy @radar http://127.0.0.1:7878 {
-                  header_up Host {upstream_hostport}
-            }
-
-            handle /ok {
-              respond "Ok this works"
-            }
-          '';
+        "media.burmudar.dev" = {
+          extraConfig = cfgGen "media.burmudar.dev" "internal";
+        };
+        "media.raptor-emperor.ts.net" = {
+          extraConfig = cfgGen "media.raptor-emperor.ts.net" "internal";
+        };
+        "media.internal" = {
+          extraConfig = cfgGen "media.internal" "internal";
         };
       };
     };

@@ -57,7 +57,7 @@ km("n", "<leader>m", require('harpoon.mark').add_file, { desc = "[M]ark a file" 
 km("n", "<leader>sm", require('harpoon.ui').toggle_quick_menu, { desc = "[S]how [M]arks" })
 -- Cody bindings
 km('n', ',c', '<cmd>CodyChat<cr>', { desc = "Cody [C]hat" })
-km('v', ',e', '<cmd>CodyExplain<cr>',{ desc =  "Cody [E]xplain" })
+km('v', ',e', '<cmd>CodyExplain<cr>', { desc = "Cody [E]xplain" })
 km('n', ',h', '<cmd>CodyHistory<cr>', { desc = "Cody [H]istory" })
 km('n', ',t', '<cmd>CodyToggle<cr>', { desc = "Cody [T]oggle" })
 km('n', ',d', '<cmd>CodyDo', { desc = "Cody [D]o" })
