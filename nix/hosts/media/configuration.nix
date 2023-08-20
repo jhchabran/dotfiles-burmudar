@@ -199,68 +199,54 @@
         "10.0.0.0/8"
         "127.0.0.1/8"
       ];
-      genHandleFragment = { directive, path, address }: ''
-        handle ${directive} {
-          uri strip_prefix /${path}
-          reverse_proxy ${address} {
+      genHandleFragment = { host, proxy, ... }@vars:
+        let
+          hasPath = if builtins.hasAttr "path" vars then true else false;
+          suffix =
+            if hasPath then
+              "-${pkgs.lib.removePrefix "/" vars.path}"
+            else
+              "";
+          sub = (builtins.elemAt (builtins.split "\\." host) 0);
+          matcher = "${sub}${suffix}";
+        in
+        ''
+          ${if hasPath then "redir ${vars.path} ${vars.path}/" else "" }
+          @${matcher} {
+            host ${host}
+          }
+          ${if hasPath then
+          ''
+          handle_path ${vars.path}* {
+            reverse_proxy ${proxy} {
+              header_up Host {upstream_hostport}
+            }
+          }
+          '' else ''
+          reverse_proxy @${matcher} ${proxy} {
             header_up Host {upstream_hostport}
           }
-        }
-      '';
-      cfgGen = { host, tls }: ''
-        tls ${tls}
-        @host {
-          host ${host}
-        }
-        @sync-seedbox {
-          @host
-          path /sync/seedbox/*
-        }
-        @sync-local {
-          @host
-          path /sync/local/*
-        }
-
-        @nzb {
-          @host
-          path /nzb/*
-        }
-
-        @sonar {
-          @host
-          path /sonar/*
-        }
-
-        @radar {
-          @host
-          path /radar/*
-        }
-
-        @jacket {
-          @host
-          path /jacket/*
-        }
-
-        @jellyfin {
-          @host
-          path /jellyfin/*
-        }
-
+          ''}
+        '';
+      preambleFragment = host: ''
         @denied {
-          not @host
+          not host ${host}
           not remote_ip ${toString allowRanges}
         }
 
         abort @denied
 
-        ${genHandleFragment "@sync-seedbox" "/sync/seedbox" ":10200"}
-        ${genHandleFragment "@sync-local" "/sync/local" ":10200"}
-        ${genHandleFragment "@nzb" "nzb" "http://seedbox.raptor-emperor.ts.net:10100"}
-        ${genHandleFragment "@jellyfin" "jellyfin" ":8096"}
-        ${genHandleFragment "@jacket" "jacket" ":9117"}
-        ${genHandleFragment "@sonar" "sonar" ":8989"}
-        ${genHandleFragment "@radar" "radar" ":7878"}
-
+      '';
+      cfgGen = host: tls: ''
+        ${if tls == "" then "" else"tls ${tls}"}
+        ${preambleFragment host}
+        ${genHandleFragment { host = "sync.${host}"; proxy = "http://localhost:10200"; path = "/seedbox"; }}
+        ${genHandleFragment { host = "sync.${host}"; proxy = "http://localhost:10200"; path = "/local"; }}
+        ${genHandleFragment { host = "nzb.${host}"; proxy = "http://seedbox.raptor-emperor.ts.net:10100"; }}
+        ${genHandleFragment { host = "jellyfin.${host}"; proxy = "http://localhost:8096"; }}
+        ${genHandleFragment { host = "jacket.${host}"; proxy = "http://localhost:9117"; }}
+        ${genHandleFragment { host = "sonar.${host}"; proxy = "http://localhost:8989"; }}
+        ${genHandleFragment { host = "radar.${host}"; proxy = "http://localhost:7878"; }}
         handle /ok {
           respond "Ok this works"
         }
@@ -271,23 +257,31 @@
       package = pkgs.cloudflare-caddy;
       # instead of readFile we should read the token from age or something like that
       logFormat = ''
-        output stdout
+        output file /var/lib/caddy/caddy.log
+        level DEBUG
       '';
       virtualHosts = {
         "media.burmudar.dev" = {
-          extraConfig = cfgGen "media.burmudar.dev" "internal";
+          extraConfig = ''
+            tls { dns cloudflare lxFSfDdBPtoGQoGgF4UuwCgcTvgpc7XuaQtMW2zY }
+            ${preambleFragment "media.burmudar.dev"}
+            reverse_proxy http://localhost:8096
+          '';
         };
         "media.raptor-emperor.ts.net" = {
-          extraConfig = cfgGen "media.raptor-emperor.ts.net" "internal";
+          extraConfig = ''
+            ${preambleFragment "media.raptor-emperor.ts.net"}
+            reverse_proxy http://localhost:8096
+          '';
         };
-        "media.internal" = {
+        "*.media.internal" = {
           extraConfig = cfgGen "media.internal" "internal";
         };
       };
     };
 
   # because we're using a custom caddy package
-  systemd.services.caddy. serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+  systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
 
   services.avahi = {
     enable = true;
@@ -312,6 +306,7 @@
 
   services.tailscale = {
     enable = true;
+    permitCertUid = "caddy";
   };
 
   services.sonarr = {
