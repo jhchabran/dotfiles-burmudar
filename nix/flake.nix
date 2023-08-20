@@ -20,6 +20,9 @@
 
     cloudflare-dns-ip.url = "github:burmudar/cloudflare-dns-ip";
     cloudflare-dns-ip.inputs.nixpkgs.follows = "nixpkgs";
+
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay, cloudflare-caddy, cloudflare-dns-ip }@inputs:
@@ -32,7 +35,12 @@
       pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.nixpkgs {
           inherit system;
-          overlays = [ neovim-nightly-overlay.overlay cloudflare-caddy.overlay cloudflare-dns-ip.overlay ];
+          overlays = [ 
+          neovim-nightly-overlay.overlay 
+          cloudflare-caddy.overlay.default
+          cloudflare-dns-ip.overlay 
+          rust-overlay.overlays.default
+          ];
           config = { allowUnfree = true; };
         };
       })).pkgs;

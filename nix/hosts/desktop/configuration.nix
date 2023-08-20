@@ -141,24 +141,25 @@ in {
     jq
     kitty
     lua
-    pipewire
     man-pages
     man-pages-posix
     neovim
-    nix-direnv
     nil
+    nix-direnv
     nmap
-    # language servers
     nodePackages.typescript-language-server
-    sumneko-lua-language-server
     os-prober
+    openssl.dev
     pavucontrol
+    pipewire
+    pkgconfig
     python3
+    qmk
     qutebrowser-qt6
     racket
-    # qmk for flashing keyboard
-    qmk
+    rust-bin.stable.latest.default
     spotify
+    sumneko-lua-language-server
     tdesktop # telegram
     tmux
     unzip
