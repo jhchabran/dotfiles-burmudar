@@ -51,7 +51,7 @@
   # };
 
   networking.firewall.interfaces.enp42s0.allowedTCPPorts = [ 80 443 8080];
-  networking.firewall.interfaces.enp42s0.allowedUDP = [ 8080];
+  networking.firewall.interfaces.enp42s0.allowedUDPPorts = [ 8080];
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";
@@ -257,19 +257,19 @@
             respond "Ok this works"
           }
         '';
+        token = (import ./token.nix).value;
       in
       {
         enable = true;
         package = pkgs.cloudflare-caddy;
         # instead of readFile we should read the token from age or something like that
         logFormat = ''
-          output file /var/lib/caddy/caddy.log
-          level DEBUG
+          output stdout
         '';
         virtualHosts = {
           "media.burmudar.dev" = {
             extraConfig = ''
-              tls { dns cloudflare lxFSfDdBPtoGQoGgF4UuwCgcTvgpc7XuaQtMW2zY }
+              tls { dns cloudflare ${token} }
               ${preambleFragment "media.burmudar.dev"}
               reverse_proxy http://localhost:8096
             '';
