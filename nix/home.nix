@@ -207,8 +207,8 @@ rec {
       "~/.ssh/config.d/*"
     ];
     matchBlocks = {
-      "media-pc.*" = {
-        hostname = "media-pc.lan";
+      "media.internal" = {
+        hostname = "media.internal";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
@@ -218,7 +218,7 @@ rec {
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "mac" = {
-        hostname = "Williams-MacBook-Pro.lan";
+        hostname = "Williams-MacBook-Pro.internal";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
@@ -229,12 +229,12 @@ rec {
       };
       "desktop" = {
         user = "william";
-        hostname = "william-desktop.lan";
+        hostname = "william-desktop.internal";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
-      "spotipi.lan" = {
+      "spotipi.internal" = {
         user = "pi";
-        hostname = "spotipi.lan";
+        hostname = "spotipi.internal";
         identityFile = "~/.ssh//keys/burmkey.pvt";
       };
       "bezuidenhout" = {
