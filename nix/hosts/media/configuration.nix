@@ -24,7 +24,7 @@
   };
 
   xdg.autostart.enable = true;
-  environment.etc."xdg/autostart/kodi.desktop" = "" "
+  environment.etc."xdg/autostart/kodi.desktop" = ''
   [Desktop Entry]
   Version=1.0
   Name=Kodi
@@ -35,7 +35,7 @@
   Terminal=false
   Type=Application
   Categories=AudioVideo;Video;Player;TV;
-  " "";
+  '';
 
   networking.hostName = "media"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
