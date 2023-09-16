@@ -222,6 +222,7 @@ cmp.setup({
       mode = "symbol_text",
       menu = {
         nvim_lsp = "[LSP]",
+        cody = "[cody]",
         path = "[path]",
         luasnip = "[snip]",
         buffer = "[buf]",
@@ -230,6 +231,7 @@ cmp.setup({
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'cody' },
     { name = 'luasnip' },
     { name = 'path' },
     { name = 'buffer' },

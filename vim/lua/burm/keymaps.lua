@@ -30,6 +30,10 @@ km("n", "]p", ":cnext<cr>")
 km("n", "[p", ":cprev<cr>")
 km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
 
+km("n", "<leader>gd", require("gitsigns").diffthis, { desc = "[g]it [d]iff this" })
+km("n", "<leader>gD", function() require("gitsigns").diffthis("~") end, { desc = "[g]it [d]iff this with origin" })
+
+km("n", "<leader>t<enter>", require('telescope.builtin').resume, { desc = "[enter] resume last pick" })
 km("n", "<leader>?", require('telescope.builtin').oldfiles, { desc = "[?] Find recently opened files" })
 km("n", "<leader>/", fuzzyBrowser, { desc = "[/] Fuzzy search in current buffer" })
 km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })

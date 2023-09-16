@@ -207,7 +207,12 @@ rec {
       "~/.ssh/config.d/*"
     ];
     matchBlocks = {
-      "media.internal" = {
+      "media.tailscale" = {
+        hostname = "media.raptor-emperor.ts.net";
+        user = "william";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
+      };
+      "media.*" = {
         hostname = "media.internal";
         user = "william";
         identityFile = "~/.ssh/keys/burmkey.pvt";
@@ -215,6 +220,11 @@ rec {
       "github.com" = {
         hostname = "github.com";
         user = "git";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
+      };
+      "mac.tailscale" = {
+        user = "william";
+        hostname = "Williams-MacBook-Pro.raptor-emperor.ts.net";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "mac" = {
@@ -227,12 +237,17 @@ rec {
         hostname = "192.168.1.1";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
+      "desktop.tailscale" = {
+        user = "william";
+        hostname = "william-desktop.raptor-emperor.ts.net";
+        identityFile = "~/.ssh/keys/burmkey.pvt";
+      };
       "desktop" = {
         user = "william";
         hostname = "william-desktop.internal";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
-      "spotipi.internal" = {
+      "spotipi" = {
         user = "pi";
         hostname = "spotipi.internal";
         identityFile = "~/.ssh//keys/burmkey.pvt";

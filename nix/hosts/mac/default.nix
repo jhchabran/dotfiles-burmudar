@@ -72,7 +72,6 @@
       "intellij-idea-ce"
       "loom"
       "mark-text"
-      "orbstack"
       "p4v"
       "perforce"
       "postico"
@@ -84,6 +83,7 @@
       "sublime-merge"
       "tailscale"
       "telegram-desktop"
+      "tuple"
       "vlc"
       "zoom"
     ];
