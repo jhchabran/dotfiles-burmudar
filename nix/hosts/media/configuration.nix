@@ -24,7 +24,7 @@
   };
 
   xdg.autostart.enable = true;
-  environment.etc."xdg/autostart/kodi.desktop" = ''
+  environment.etc."xdg/autostart/kodi.desktop".text = ''
   [Desktop Entry]
   Version=1.0
   Name=Kodi
