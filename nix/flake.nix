@@ -25,7 +25,18 @@
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, flake-utils, neovim-nightly-overlay, cloudflare-caddy, cloudflare-dns-ip }@inputs:
+  outputs =
+    { self
+    , cloudflare-caddy
+    , cloudflare-dns-ip
+    , darwin
+    , flake-utils
+    , home-manager
+    , neovim-nightly-overlay
+    , nixpkgs
+    , rust-overlay
+    ,
+    }@inputs:
     let
       # generate pkgs for each subsystem ie. this results in the following set:
       # pkgs {
@@ -35,11 +46,11 @@
       pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.nixpkgs {
           inherit system;
-          overlays = [ 
-          neovim-nightly-overlay.overlay 
-          cloudflare-caddy.overlay.default
-          cloudflare-dns-ip.overlay 
-          rust-overlay.overlays.default
+          overlays = [
+            cloudflare-caddy.overlay
+            cloudflare-dns-ip.overlay
+            neovim-nightly-overlay.overlay
+            rust-overlay.overlays.default
           ];
           config = { allowUnfree = true; };
         };

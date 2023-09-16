@@ -137,49 +137,51 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = let
-    kodiCustom = pkgs.kodi.withPackages (ps: with ps; [
-      jellyfin
-    ]);
-  in with pkgs; [
-    aspell
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.en-science
-    autossh
-    bash
-    btrfs-progs
-    cloudflare-caddy
-    curl
-    fd
-    firefox
-    flameshot
-    gcc
-    git
-    gnumake
-    go
-    htop
-    jq
-    kitty
-    kodiCustom
-    lua
-    man-pages
-    man-pages-posix
-    mkpasswd
-    neovim
-    nmap
-    nss
-    pavucontrol
-    pipewire
-    python3
-    spotify
-    tmux
-    unzip
-    unrar
-    vlc
-    wget
-    xclip
-  ];
+  environment.systemPackages =
+    let
+      kodiCustom = pkgs.kodi.withPackages (ps: with ps; [
+        jellyfin
+      ]);
+    in
+    with pkgs; [
+      aspell
+      aspellDicts.en
+      aspellDicts.en-computers
+      aspellDicts.en-science
+      autossh
+      bash
+      btrfs-progs
+      cloudflare-caddy
+      curl
+      fd
+      firefox
+      flameshot
+      gcc
+      git
+      gnumake
+      go
+      htop
+      jq
+      kitty
+      kodiCustom
+      lua
+      man-pages
+      man-pages-posix
+      mkpasswd
+      neovim
+      nmap
+      nss
+      pavucontrol
+      pipewire
+      python3
+      spotify
+      tmux
+      unzip
+      unrar
+      vlc
+      wget
+      xclip
+    ];
 
   programs.zsh.enable = true;
 
