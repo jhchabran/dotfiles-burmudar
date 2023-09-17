@@ -22,9 +22,8 @@ in {
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
-  boot.loader.grub.version = 2;
 
-  networking.hostName = "william-desktop"; # Define your hostname.
+  networking.hostName = "fort-kickass"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary

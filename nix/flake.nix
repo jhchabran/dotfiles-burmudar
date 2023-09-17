@@ -57,7 +57,7 @@
       })).pkgs;
     in
     {
-      nixosConfigurations.william-desktop = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { pkgs = pkgs.x86_64-linux; };
         modules = [
@@ -70,7 +70,7 @@
           }
         ];
       };
-      nixosConfigurations.media-pc = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.media = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { pkgs = pkgs.x86_64-linux; };
         modules = [

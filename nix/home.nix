@@ -241,12 +241,12 @@ rec {
       };
       "desktop.tailscale" = {
         user = "william";
-        hostname = "william-desktop.raptor-emperor.ts.net";
+        hostname = "fort-kickass.raptor-emperor.ts.net";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "desktop" = {
         user = "william";
-        hostname = "william-desktop.internal";
+        hostname = "fort-kickass.internal";
         identityFile = "~/.ssh/keys/burmkey.pvt";
       };
       "spotipi" = {
