@@ -274,9 +274,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
   -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
   vim.keymap.set('n', '<leader>d', function()
-    P("showing diagnostics")
-    vim.diagnostic.open_float({ focusable = false })
-  end,
+      P("showing diagnostics")
+      vim.diagnostic.open_float({ focusable = false })
+    end,
     opts("Show [d]iagnostics"))
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
@@ -395,9 +395,21 @@ for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup(c)
 end
 
-require("sg").setup({
-  auth_stategy = "environment-variables"
-})
+local tokenPath = BurmFuncs.relative_home_dir("sg.token")
+local init_sg = BurmFuncs.env_for_key("SRC_ACCESS_TOKEN", "") ~= ""
+if not init_sg and BurmFuncs.file_exists(tokenPath) then
+  P("init..sg" .. tostring(init_sg))
+  BurmFuncs.env_set("SRC_ENDPOINT", "https://sourcegraph.com")
+  BurmFuncs.env_set("SRC_ACCESS_TOKEN", BurmFuncs.read_full(tokenPath))
+  init_sg = true
+end
+
+if init_sg then
+  P("init..sg - " .. tostring(init_sg))
+  require("sg").setup({
+    auth_stategy = "environment-variables"
+  })
+end
 
 
 -- null-ls

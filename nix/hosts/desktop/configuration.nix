@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, config, ... }:
+{ pkgs, config, ... }@inputs:
 let
 in {
   imports =
@@ -142,11 +142,12 @@ in {
     lua
     man-pages
     man-pages-posix
-    neovim
+    neovim-nightly
     nil
     nix-direnv
     nmap
     nodePackages.typescript-language-server
+    nodejs_20
     os-prober
     openssl.dev
     pavucontrol
@@ -154,7 +155,7 @@ in {
     pkgconfig
     python3
     qmk
-    qutebrowser-qt6
+    inputs.unstable.qutebrowser
     racket
     rust-bin.stable.latest.default
     spotify
@@ -162,6 +163,7 @@ in {
     tdesktop # telegram
     tmux
     unzip
+    vlc
     wget
     xclip
     zk

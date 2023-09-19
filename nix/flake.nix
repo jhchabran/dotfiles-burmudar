@@ -2,7 +2,7 @@
   description = "William Flake config for his machines";
 
   inputs = {
-    #nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -11,9 +11,9 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
     flake-utils.url = "github:numtide/flake-utils";
     # see: https://github.com/nix-community/neovim-nightly-overlay/issues/176
-    neovim-nightly-overlay = { url = "github:neovim/neovim?dir=contrib"; inputs.nixpkgs.follows = "nixpkgs"; };
-    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    # neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-overlay = { url = "github:neovim/neovim?dir=contrib"; inputs.nixpkgs.follows = "nixpkgs"; };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
     cloudflare-caddy.url = "github:burmudar/nix-cloudflare-caddy";
     cloudflare-caddy.inputs.nixpkgs.follows = "nixpkgs";
@@ -32,8 +32,10 @@
     , darwin
     , flake-utils
     , home-manager
+    , neovim-overlay
     , neovim-nightly-overlay
     , nixpkgs
+    , nixpkgs-unstable
     , rust-overlay
     ,
     }@inputs:
@@ -49,9 +51,16 @@
           overlays = [
             cloudflare-caddy.overlay
             cloudflare-dns-ip.overlay
+            neovim-overlay.overlay
             neovim-nightly-overlay.overlay
             rust-overlay.overlays.default
           ];
+          config = { allowUnfree = true; };
+        };
+      })).pkgs;
+      unstable = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
+        pkgs = import inputs.nixpkgs-unstable {
+          inherit system;
           config = { allowUnfree = true; };
         };
       })).pkgs;
@@ -59,7 +68,7 @@
     {
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { pkgs = pkgs.x86_64-linux; };
+        specialArgs = { pkgs = pkgs.x86_64-linux; unstable =  unstable.x86_64-linux; };
         modules = [
           ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager

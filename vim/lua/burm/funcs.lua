@@ -69,6 +69,11 @@ M.relative_src_dir = function(path)
   return pathlib.joinpath(p, path).filename
 end
 
+M.relative_home_dir = function(path)
+  local p = pathlib:new(vim.env.HOME)
+  return pathlib.joinpath(p, path).filename
+end
+
 M.reload_current = function()
   local current_file = M.current_file()
   local _, e_idx = current_file:find("lua%p", 0)
@@ -102,6 +107,14 @@ setmetatable(Highlighter, {
     end,
   }
 })
+
+M.env_set = function(key, value)
+  vim.env[key] = value
+end
+
+M.file_exists = function(path)
+  return vim.fn.filereadable(path) == 1
+end
 
 M.read_full = function(path)
   local fp = io.open(path, "r")
