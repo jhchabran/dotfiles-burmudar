@@ -66,7 +66,7 @@
       })).pkgs;
     in
     {
-      nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { pkgs = pkgs.x86_64-linux; unstable =  unstable.x86_64-linux; };
         modules = [
@@ -76,6 +76,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
+            home-manager.extraSpecialArgs = specialArgs;
           }
         ];
       };

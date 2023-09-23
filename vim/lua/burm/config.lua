@@ -261,39 +261,9 @@ cmp.setup.cmdline(':', {
 
 --- LSP setup
 -- LSPConfig setup
+local bk = require("burm.keymaps")
 local on_attach = function(client, bufnr)
-  local opts = function(desc)
-    return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
-  end
-
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts("[G]oto [D]efinition"))
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts("[H]over Documentation"))
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts("[G]oto [i]mplementation"))
-  vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts("[G]oto [r]eferences"))
-  vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
-  -- vim.keymap.set('n', '<leader>h', BurmFuncs.toggle_highlight, opts("[h]ighlight"))
-  vim.keymap.set('n', '<leader>d', function()
-      P("showing diagnostics")
-      vim.diagnostic.open_float({ focusable = false })
-    end,
-    opts("Show [d]iagnostics"))
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
-  vim.keymap.set('n', '<space>re', vim.lsp.buf.rename, opts("[R][e]name"))
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
-  vim.keymap.set('v', '<space>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
-  vim.keymap.set('n', '<space>ci', vim.lsp.buf.incoming_calls, opts("[I]ncoming [c]alls"))
-  vim.keymap.set('n', '<space>co', vim.lsp.buf.outgoing_calls, opts("[O]utgoing [c]alls"))
-  vim.keymap.set('n', '<space>l', vim.diagnostic.setloclist, opts("Diagnostics to Loc List"))
-  vim.keymap.set('n', '<space>q', vim.diagnostic.setqflist, opts("Diagnostics to QuickFix List"))
-  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts("Format"))
-  vim.keymap.set('n', '<leader>wl', function() P(vim.lsp.buf.list_workspace_folders()) end,
-    opts("List Workspace Folders"))
-  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [A]dd folder"))
-  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [R]emove folder"))
-  vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
-    opts("[W]orkspace [S]ymbols"))
+  bk.lsp(bufnr)
 
   if client.server_capabilities.documentHighlightProvider then
     vim.cmd [[
@@ -303,14 +273,6 @@ local on_attach = function(client, bufnr)
                 autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
             augroup END
         ]]
-  end
-
-  local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
-  if filetype == "go" then
-    vim.keymap.set('n', '<leader>ws', function()
-      require('telescope.builtin').lsp_workspace_symbols { query = vim.fn.input("Query: ") }
-    end, opts("[W]orkspace [S]ymbols"))
   end
 end
 

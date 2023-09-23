@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }@inputs:
 rec {
   programs.home-manager.enable = true;
 
@@ -18,7 +18,7 @@ rec {
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
         "code/.keep".source = builtins.toFile ".keep" "";
         ".ssh/config.d/.keep".source = builtins.toFile ".keep" "";
-        "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
+        "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../qutebrowser/userscripts;
         "${config.xdg.configHome}/zk/config.toml".source = ../zk/config.toml;
         "${config.xdg.configHome}/zk/templates".source = ../zk/templates;
       };
@@ -107,11 +107,11 @@ rec {
     enable = true;
   };
 
-  # commented out: qutebrowser has a broken dependency aka python310.readability-lxml
-  # programs.qutebrowser = {
-  #   enable = true;
-  #   extraConfig = (builtins.readFile ../qutebrowser/config.py);
-  # };
+  programs.qutebrowser = {
+    enable = true;
+    package = inputs.unstable.qutebrowser;
+    extraConfig = (builtins.readFile ../qutebrowser/config.py);
+  };
 
 
 
