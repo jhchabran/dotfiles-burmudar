@@ -352,6 +352,7 @@
   services.syncthing = {
     enable = true;
     overrideFolders = true;
+    guiAddress = "localhost:10100";
     extraOptions = {
       options = {
         listenAddresses = [
