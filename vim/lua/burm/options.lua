@@ -40,7 +40,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 vim.opt.list = true
-vim.opt.listchars = "tab:»·,eol:↲,nbsp:␣"
+vim.opt.listchars = "tab:▎ ,lead:·,trail:·,eol:↲,nbsp:␣"
 
 vim.opt.updatetime = 50
 vim.opt.syntax = "enable"

@@ -4,9 +4,6 @@ export GPG_TTY=$(tty)
 export FZF_DEFAULT_COMMAND="fdfind -t f"
 
 export SSH_KEY_FOLDER="$HOME/.ssh/keys"
-export PYENV_ROOT="$HOME/.pyenv"
-
-# correct locale
 
 
 function cond_source() {
@@ -30,10 +27,6 @@ function cond_eval() {
     fi
 }
 
-export SDKMAN_DIR="$HOME/.sdkman"
-cond_source $HOME/.sdkman/bin/sdkman-init.sh
-
-cond_eval "pyenv" "pyenv init --path"
 # enable vim mode
 bindkey -v
 

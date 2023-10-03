@@ -12,8 +12,6 @@ rec {
     let
       configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
       files = {
-        ".config/nvim/init.lua".source = config.lib.file.mkOutOfStoreSymlink ../vim/init.lua;
-        ".config/nvim/lua".source = config.lib.file.mkOutOfStoreSymlink ../vim/lua;
         ".zwilliam".source = ../zsh/zwilliam;
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
         "code/.keep".source = builtins.toFile ".keep" "";
