@@ -14,9 +14,6 @@ if [[ $OSTYPE == "darwin"* ]]; then
 
   zplug load
   PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
-  # The next line enables shell command completion for gcloud.
-  source "$HOME/google-cloud-sdk/completion.zsh.inc"
-  source /opt/homebrew/opt/asdf/libexec/asdf.sh
 fi
 
 export HISTFILE=~/.histfile

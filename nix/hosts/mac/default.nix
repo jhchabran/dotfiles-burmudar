@@ -36,6 +36,12 @@
         "Noto"
       ];
     })
+    go
+    gopls
+    jq
+    nodejs_18
+    nodePackages.pnpm
+    fd
     kitty
     passage
     nil
@@ -48,11 +54,18 @@
     enable = true;
     onActivation.autoUpdate = true;
 
+    taps = [
+      {
+        name = "withgraphite/tap";
+      }
+    ];
+
     brews = [
       "ibazel"
       "bazelisk"
       "rustup"
       "graphviz"
+      "withgraphite/tap/graphite"
     ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
