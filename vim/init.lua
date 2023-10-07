@@ -19,7 +19,7 @@ require("lazy").setup({
   "tpope/vim-sensible",
   "tpope/vim-surround",
   "tpope/vim-fugitive",
-  { "nvim-lualine/lualine.nvim",                opts = { theme = "tokyonight" } },
+  { "nvim-lualine/lualine.nvim",                opts = { theme = "gruvbox" } },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ':TSUpdate',
@@ -33,9 +33,15 @@ require("lazy").setup({
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
-      vim.cmd([[colorscheme tokyonight-storm]])
+      -- vim.cmd([[colorscheme tokyonight-storm]])
     end,
   },
+  { "ellisonleao/gruvbox.nvim", priority = 1000 , config = function()
+      vim.o.background = "dark"
+      vim.cmd([[colorscheme gruvbox]])
+  end, opts = {
+    invert_selection = false
+  }},
   {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim',

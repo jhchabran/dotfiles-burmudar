@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, ... }@inputs:
 {
   imports =
     [
@@ -46,23 +46,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # defining a static route fails on first boot for some reasonn
-  # networking.nameservers = [
-  #   "192.168.1.1"
-  # ];
-  # networking.interfaces.enp42s0 = {
-  #   wakeOnLan.enable = true;
-  #   ipv4 = {
-  #     addresses = [
-  #       {
-  #         address = "192.168.1.101";
-  #         prefixLength = 32;
-  #       }
-  #     ];
-  #     routes = [ { address = "192.168.1.1"; prefixLength = 32; via = "192.168.1.1"; } ];
-  #   };
-  # };
 
   networking.firewall.interfaces.enp42s0.allowedTCPPorts = [ 80 443 8080 ];
   networking.firewall.interfaces.enp42s0.allowedUDPPorts = [ 8080 ];
@@ -168,7 +151,8 @@
       man-pages
       man-pages-posix
       mkpasswd
-      neovim
+      neovim-nightly
+      nodejs_20
       nmap
       nss
       pavucontrol
@@ -176,8 +160,8 @@
       python3
       spotify
       tmux
-      unzip
       unrar
+      unzip
       vlc
       wget
       xclip
