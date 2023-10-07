@@ -158,6 +158,7 @@
       pavucontrol
       pipewire
       python3
+      shairplay
       spotify
       tmux
       unrar
