@@ -1,6 +1,4 @@
 local BurmFuncs = require('burm.funcs')
-
-require("harpoon").setup({})
 -- highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -10,136 +8,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-require "fidget".setup {}
-require('gitsigns').setup({
-  numhl = true,
-  word_diff = true,
-  current_line_blame = true,
-})
 
-require 'nvim-web-devicons'.setup {
-  default = true
-}
+require("nvim-web-devicons").setup({ default = true })
 
---- ident-blankline
-require('ibl').setup()
-
---- comment.nvim
-
---[[ Mappings for Comment
-`gcc` - Toggles the current line using linewise comment
-`gbc` - Toggles the current line using blockwise comment
-`[count]gcc` - Toggles the number of line given as a prefix-count
-`gc[count]{motion}` - (Op-pending) Toggles the region using linewise comment
-`gb[count]{motion}` - (Op-pending) Toggles the region using linewise comment
-
-VISUAL Mode
-`gc` - Toggles the region using linewise comment
-`gb` - Toggles the region using blockwise comment
-
-NORMAL Mode
-`gco` - Insert comment to the next line and enters INSERT mode
-`gcO` - Insert comment to the previous line and enters INSERT mode
-`gcA` - Insert comment to end of the current line and enters INSERT mode
-
-]]
---
 require('Comment').setup {}
-
---- Lualine setup
-require('lualine').setup {
-  options = { theme = 'gruvbox' },
-  sections = { lualine_c = { BurmFuncs.current_file } }
-}
-
 
 --- Treesitter config
 require('nvim-treesitter.configs').setup {
   ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
     "rust", "lua_ls", "nix", "norg" },
+  auto_install = true,
   ignore_install = {},
   highlight = {
     enable = true,
-    ident = true,
-    --- Disable tree sitter on large files
-    disable = function(lang, buf)
-      local max_filesize = 100 * 1024 -- 100 KB
-      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-      if ok and stats and stats.size > max_filesize then
-        return true
-      end
-    end,
+    additional_vim_regex_highlighting = false
   },
-  playground = {
-    enable = true
-  },
-  autopairs = {
-    enable = true
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<space>',
-      node_incremental = '<space>',
-      node_decremental = '<backspace>',
-      scope_incremental = '<tab>',
-    }
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      }
-    },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.outer',
-      }
-    },
-  },
+  indent = { enable = true },
 }
-
-require('treesitter-context').setup({
-  enable = true
-})
-
-require('nvim-tree').setup({
-  update_focused_file = {
-    enable = true
-  },
-  diagnostics = {
-    enable = true
-  },
-})
 
 --- Telescope setup
 local lga_actions = require("telescope-live-grep-args.actions")
@@ -177,7 +62,6 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('harpoon')
 require('telescope').load_extension('live_grep_args')
-require('telescope').load_extension('zk')
 
 
 --- Luasnip
@@ -263,15 +147,15 @@ local bk = require("burm.keymaps")
 local on_attach = function(client, bufnr)
   bk.lsp(bufnr)
 
-  if client.server_capabilities.documentHighlightProvider then
-    vim.cmd [[
-            augroup lsp_document_highlight
-                autocmd! * <buffer>
-                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-        ]]
-  end
+  -- if client.server_capabilities.documentHighlightProvider then
+  --   vim.cmd [[
+  --           augroup lsp_document_highlight
+  --               autocmd! * <buffer>
+  --               autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+  --               autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+  --           augroup END
+  --       ]]
+  -- end
 end
 
 local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls" }
@@ -306,7 +190,8 @@ local configs = {
           globals = { 'vim', 'hs' },
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true)
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false
         },
         -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = {
@@ -372,19 +257,6 @@ if init_sg then
 end
 
 
--- null-ls
--- DISABLED: incurs a performance hit
--- require('null-ls').setup({
---     sources = {
---         require('null-ls').builtins.diagnostics.golangci_lint,
---     }
--- })
-
-
---- Highlights
---- vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828]]
--- Black background white foreground
---- vim.cmd [[highlight LspReferenceText cterm=reverse ctermfg=0 ctermbg=255 gui=reverse guifg=#000000 guibg=#ffffff]]
 
 -- Trouble
 require('trouble').setup({})
@@ -416,10 +288,6 @@ vim.diagnostic.config({
   virtual_text = true,
   signs = true,
 })
-
--- Notes
-vim.env.ZK_NOTEBOOK_DIR = vim.fs.normalize("~/code/notes")
-require("zk").setup()
 
 -- Neorg
 require('neorg').setup {

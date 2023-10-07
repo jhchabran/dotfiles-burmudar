@@ -18,8 +18,6 @@ end
 local km = vim.keymap.set
 
 local function general()
-  km("n", "zj", require('burm.custom.zk').new_journal)
-
   km("n", "<leader>n", ":nohlsearch<CR>")
   km("n", "n", "nzzzv", { noremap = true, desc = "center on next result in search" })
   km("n", "N", "Nzzzv", { noremap = true, desc = "center on previous result in search" })
@@ -73,8 +71,8 @@ local function general()
   km("v", "<leader>y", "\"+y")
   km("n", "<leader>p", "\"+p")
   -- Nvim Tree Lua
-  km("n", "<C-n>", ":NvimTreeToggle<cr>")
-  km("n", "<leader>r", ":NvimTreeRefresh<cr>")
+
+  km("n", "<leader>ns", "<cmd>Neotree toggle<cr>", { desc = "Neo[T]ree [S]how" })
 
   km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
   km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
@@ -142,9 +140,11 @@ local function lsp(bufnr)
 end
 
 local M = {
-  setup = function(cbs)
-    for _, cb in ipairs(cbs) do
-      cb()
+  setup = function(callbacks)
+    if not callbacks == nil then
+      for _, cb in ipairs(callbacks) do
+        cb()
+      end
     end
     general()
   end,

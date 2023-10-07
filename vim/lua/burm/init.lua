@@ -1,1 +1,0 @@
---- possibly put global stuff here ? this would make them accesible with require('burm')
