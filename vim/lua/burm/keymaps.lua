@@ -72,7 +72,7 @@ local function general()
   km("n", "<leader>p", "\"+p")
   -- Nvim Tree Lua
 
-  km("n", "<leader>ns", "<cmd>Neotree toggle<cr>", { desc = "Neo[T]ree [S]how" })
+  km("n", "<leader>nn", "<cmd>Neotree toggle<cr>", { desc = "NeoTree Toggle" })
 
   km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
   km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })

@@ -329,7 +329,7 @@ rec {
     theme = "Dracula";
     font = {
       package = with pkgs; (nerdfonts.override { fonts = [ "FiraCode" ]; });
-      name = "FiraCode Nerd Font Mono";
+      name = "FiraCode Nerd Font";
       size = 13.0;
     };
     keybindings = {

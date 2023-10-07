@@ -29,19 +29,24 @@ require("lazy").setup({
   "vim-pandoc/vim-pandoc",
   {
     "folke/tokyonight.nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
       -- vim.cmd([[colorscheme tokyonight-storm]])
     end,
   },
-  { "ellisonleao/gruvbox.nvim", priority = 1000 , config = function()
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    config = function()
       vim.o.background = "dark"
       vim.cmd([[colorscheme gruvbox]])
-  end, opts = {
-    invert_selection = false
-  }},
+    end,
+    opts = {
+      invert_selection = false
+    }
+  },
   {
     'nvim-telescope/telescope.nvim',
     dependencies = { 'nvim-lua/plenary.nvim',
@@ -85,7 +90,18 @@ require("lazy").setup({
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     config = function()
-      require("neo-tree").setup()
+      require("neo-tree").setup({
+        default_component_configs = {
+          name = {
+            use_git_status_colors = true,
+          },
+          git_status = {
+            symbols = {
+              unstaged = ""
+            },
+          },
+        }
+      })
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
