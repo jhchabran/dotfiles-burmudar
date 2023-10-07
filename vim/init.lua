@@ -29,11 +29,11 @@ require("lazy").setup({
   "vim-pandoc/vim-pandoc",
   {
     "folke/tokyonight.nvim",
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
-      vim.cmd([[colorscheme tokyonight]])
+      vim.cmd([[colorscheme tokyonight-storm]])
     end,
   },
   {
@@ -72,7 +72,7 @@ require("lazy").setup({
   },
   {
     "L3MON4D3/LuaSnip",
-    branch = "v2.x",
+    branch = "v2.0.0",
     dependencies = { "saadparwaiz1/cmp_luasnip" }
   },
   {

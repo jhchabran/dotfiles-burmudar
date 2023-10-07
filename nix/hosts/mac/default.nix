@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }@inputs:
 {
   users.users.william = {
     home = /Users/william;

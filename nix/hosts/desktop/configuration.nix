@@ -142,7 +142,7 @@ in {
     lua
     man-pages
     man-pages-posix
-    neovim-nightly
+    # neovim-nightly
     nil
     nix-direnv
     nmap

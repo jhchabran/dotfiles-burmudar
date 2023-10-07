@@ -114,6 +114,7 @@ rec {
 
 
   programs.neovim = {
+    package = inputs.unstable.neovim-nightly;
     enable = true;
     viAlias = true;
     vimAlias = true;

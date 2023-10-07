@@ -12,7 +12,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     # see: https://github.com/nix-community/neovim-nightly-overlay/issues/176
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly-overlay.inputs.nixpkgs.follows = "unstable-nixpkgs";
 
     cloudflare-caddy.url = "github:burmudar/nix-cloudflare-caddy";
     cloudflare-caddy.inputs.nixpkgs.follows = "nixpkgs";
@@ -58,6 +58,9 @@
       unstable-pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.unstable-nixpkgs {
           inherit system;
+          overlays = [
+              neovim-nightly-overlay.overlay
+          ];
           config = { allowUnfree = true; };
         };
       })).pkgs;
