@@ -19,7 +19,9 @@ require("lazy").setup({
   "tpope/vim-sensible",
   "tpope/vim-surround",
   "tpope/vim-fugitive",
-  { "nvim-lualine/lualine.nvim",                opts = { theme = "gruvbox" } },
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = { theme = "gruvbox" } },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ':TSUpdate',
@@ -114,10 +116,16 @@ require("lazy").setup({
   "folke/trouble.nvim",
   "ray-x/lsp_signature.nvim",
   "stevearc/dressing.nvim",
-  { "sindrets/diffview.nvim",              dependencies = "nvim-lua/plenary.nvim" },
+  {
+    "sindrets/diffview.nvim",
+    dependencies = "nvim-lua/plenary.nvim"
+  },
   "ethanholz/nvim-lastplace",
   "ThePrimeagen/harpoon",
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl"
+  },
   "numToStr/comment.nvim",
   "rust-lang/rust.vim",
   "ziglang/zig.vim",
