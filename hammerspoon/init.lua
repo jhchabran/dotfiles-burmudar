@@ -8,7 +8,7 @@ local function showFn(hint)
   return function()
     for _, name in ipairs(names) do
       local app = hs.application.find(name)
-      if app then
+      if app and not app:isFrontmost() then
         app:activate()
         return
       end

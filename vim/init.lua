@@ -35,7 +35,8 @@ require("lazy").setup({
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
-      -- vim.cmd([[colorscheme tokyonight-storm]])
+      vim.o.background = "dark"
+      vim.cmd([[colorscheme tokyonight-storm]])
     end,
   },
   {
@@ -43,8 +44,8 @@ require("lazy").setup({
     lazy = false,
     priority = 1000,
     config = function()
-      vim.o.background = "dark"
-      vim.cmd([[colorscheme gruvbox]])
+      -- vim.o.background = "dark"
+      -- vim.cmd([[colorscheme gruvbox]])
     end,
     opts = {
       invert_selection = false
@@ -138,6 +139,10 @@ require("lazy").setup({
     "nvim-neorg/neorg",
     build = ":Neorg sync-parsers",
     dependencies = { "nvim-lua/plenary.nvim" }
+  },
+  {
+    "sourcegraph/sg.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
 })
 require("burm.keymaps").setup()
