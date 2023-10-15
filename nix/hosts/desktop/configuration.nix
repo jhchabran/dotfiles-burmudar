@@ -139,6 +139,7 @@ in {
     htop
     jq
     kitty
+    krita
     lua
     man-pages
     man-pages-posix
