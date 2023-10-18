@@ -23,7 +23,7 @@ c.fonts.tabs.unselected = '10pt default_family'
 #         # guess it doesn't exist
 
 c.url.searchengines = {
-            "DEFAULT": "https://duckduckgo.com/?q={}",
+            "DEFAULT": "https://kagi.com/search?q={}",
             "s": "https://sourcegraph.sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "ss": "https://sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "g": "https://google.com/search?q={}",
