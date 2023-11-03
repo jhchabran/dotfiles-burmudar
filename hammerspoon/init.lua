@@ -32,10 +32,16 @@ end
 
 hs.hotkey.bind({ "cmd" }, "1", showFn({ "kitty", "alacritty" }))
 hs.hotkey.bind({ "cmd" }, "2", function()
+  local tuple = hs.application.find("Tuple")
+  if tuple then
+    tuple:activate()
+    return
+  end
   local zoom = hs.application.find("zoom")
   if zoom then
     local win = zoom:findWindow("Zoom Meeting")
     win:focus()
+    return
   end
 end)
 

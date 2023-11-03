@@ -38,6 +38,7 @@
     })
     go
     gopls
+    comma
     jq
     nodejs_18
     nodePackages.pnpm
@@ -84,7 +85,6 @@
       "iina"
       "intellij-idea-ce"
       "loom"
-      "mark-text"
       "p4v"
       "perforce"
       "postico"
