@@ -16,7 +16,7 @@ require('Comment').setup {}
 --- Treesitter config
 require('nvim-treesitter.configs').setup {
   ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-    "rust", "lua_ls", "nix", "norg" },
+    "rust", "lua_ls", "nix", "norg", "ocaml" },
   auto_install = true,
   ignore_install = {},
   highlight = {
@@ -165,7 +165,8 @@ local on_attach = function(client, bufnr)
   -- end
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls", "ocamllsp",
+  "ocaml-lsp" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
