@@ -133,8 +133,8 @@ in {
     gcc
     git
     gnumake
-    go
-    gopls
+    inputs.unstable.go
+    inputs.unstable.gopls
     grub2
     htop
     jq

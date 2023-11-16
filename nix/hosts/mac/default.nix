@@ -36,12 +36,13 @@
         "Noto"
       ];
     })
-    go
-    gopls
+    inputs.unstable.go
+    inputs.unstable.gopls
     comma
     jq
-    nodejs_18
+    nodejs_20
     nodePackages.pnpm
+    nodePackages.typescript-language-server
     fd
     kitty
     passage
