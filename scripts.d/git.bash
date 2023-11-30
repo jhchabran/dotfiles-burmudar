@@ -23,10 +23,9 @@ project=$(fd . "${SRC}" -t d -d 1 | awk -F '/' '{ print $5}' | fzf "${FZF_ARGS[@
 
 # gbr - checkout git branch (including remote branches)
 gbr() {
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  branches=$(git for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) ' refs/heads/)
+  branch=$(echo "$branches" |fzf-tmux +m)
+  git checkout $(echo "$branch" | cut -d ' ' -f2)
 }
 
 gnb() {

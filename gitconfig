@@ -24,3 +24,5 @@
   ap = add -p
 [http]
 	version = HTTP/2
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/

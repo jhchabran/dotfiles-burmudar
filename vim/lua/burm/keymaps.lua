@@ -27,6 +27,7 @@ local function general()
   km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
   --- this should probably be a auto command in lua files
   km("n", "<c-m-r>", require('burm.funcs').reload_current)
+  --- QuickFix
   km("n", "]p", ":cnext<cr>")
   km("n", "[p", ":cprev<cr>")
   km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
@@ -45,10 +46,10 @@ local function general()
   km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
   km("n", "<leader>sd", function()
     require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-      {
-        layout_config = { width = 0.80 },
-        bufnr = 0
-      }
+    {
+      layout_config = { width = 0.80 },
+      bufnr = 0
+    }
     )
   end, { desc = "[S]earch [D]iagnostics" })
   km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
@@ -110,8 +111,8 @@ local function lsp(bufnr)
   km('n', 'gr', require('telescope.builtin').lsp_references, opts("[G]oto [r]eferences"))
   km('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
   km('n', '<leader>d', function()
-      vim.diagnostic.open_float({ focusable = false })
-    end,
+    vim.diagnostic.open_float({ focusable = false })
+  end,
     opts("Show [d]iagnostics"))
   km('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
