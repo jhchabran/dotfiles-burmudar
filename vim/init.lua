@@ -21,7 +21,8 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   {
     "nvim-lualine/lualine.nvim",
-    opts = { theme = "gruvbox" } },
+    opts = { theme = "gruvbox" }
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ':TSUpdate',
@@ -31,7 +32,7 @@ require("lazy").setup({
   "vim-pandoc/vim-pandoc",
   {
     "folke/tokyonight.nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
@@ -72,7 +73,7 @@ require("lazy").setup({
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
       'folke/neodev.nvim',
     },
   },
@@ -87,7 +88,7 @@ require("lazy").setup({
   },
   {
     "L3MON4D3/LuaSnip",
-    branch = "v2.0.0",
+    tag = "v2.1.0",
     dependencies = { "saadparwaiz1/cmp_luasnip" }
   },
   {

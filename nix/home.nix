@@ -128,7 +128,7 @@ rec {
     historySubstringSearch = {
       enable = true;
     };
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting = true;
     enableVteIntegration = true;
     enableCompletion = true;
 

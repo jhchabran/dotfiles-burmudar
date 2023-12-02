@@ -153,7 +153,7 @@ in {
     openssl.dev
     pavucontrol
     pipewire
-    pkgconfig
+    pkg-config
     python3
     qmk
     inputs.unstable.qutebrowser
