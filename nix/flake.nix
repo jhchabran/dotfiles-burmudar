@@ -4,8 +4,9 @@
   inputs = {
     unstable-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
     # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
@@ -33,6 +34,7 @@
     , home-manager
     , neovim-nightly-overlay
     , nixpkgs
+    , darwin-nixpkgs
     , unstable-nixpkgs
     , rust-overlay
     ,
@@ -55,20 +57,40 @@
           config = { allowUnfree = true; };
         };
       })).pkgs;
+      darwin-pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
+        pkgs = import inputs.darwin-nixpkgs {
+          inherit system;
+          overlays = [
+            cloudflare-caddy.overlay
+            cloudflare-dns-ip.overlay
+            neovim-nightly-overlay.overlay
+            rust-overlay.overlays.default
+          ];
+          config = { allowUnfree = true; };
+        };
+      })).pkgs;
       unstable-pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.unstable-nixpkgs {
           inherit system;
           overlays = [
-              neovim-nightly-overlay.overlay
+            neovim-nightly-overlay.overlay
           ];
           config = { allowUnfree = true; };
         };
       })).pkgs;
     in
     {
+      nixConfig = {
+        extra-substituters = [
+          "https://colmena.cachix.org"
+        ];
+        extra-trusted-public-keys = [
+          "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+        ];
+      };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux;};
+        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; };
         modules = [
           ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
@@ -82,7 +104,7 @@
       };
       nixosConfigurations.media = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { pkgs = pkgs.x86_64-linux;  unstable = unstable-pkgs.x86_64-linux;};
+        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; };
         modules = [
           ./hosts/media/configuration.nix
           inputs.cloudflare-dns-ip.nixosModules.default
@@ -97,7 +119,7 @@
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
-        specialArgs = { pkgs = pkgs.aarch64-darwin;  unstable = unstable-pkgs.aarch64-darwin;};
+        specialArgs = { pkgs = darwin-pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; };
         modules = [
           ./hosts/mac/default.nix
           inputs.home-manager.darwinModules.home-manager

@@ -1,4 +1,4 @@
-local BurmFuncs = require('burm.funcs')
+local BF = require('burm.funcs')
 -- highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -22,6 +22,7 @@ require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
+    -- disable treesitter on large files
     disable = function(_, buf)
       local max_filesize = 100 * 1024 -- 100 KB
       local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -86,7 +87,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -248,19 +249,21 @@ for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup(c)
 end
 
-local tokenPath = BurmFuncs.relative_home_dir("sg.token")
-local init_sg = BurmFuncs.env_for_key("SRC_ACCESS_TOKEN", "") ~= ""
-if not init_sg and BurmFuncs.file_exists(tokenPath) then
-  P("init..sg" .. tostring(init_sg))
-  BurmFuncs.env_set("SRC_ENDPOINT", "https://sourcegraph.com")
-  BurmFuncs.env_set("SRC_ACCESS_TOKEN", BurmFuncs.read_full(tokenPath))
-  init_sg = true
-end
+-- sg and cody
+local tokenPath = BF.relative_home_dir("sg.token")
+local init_sg = BF.env_for_key("SRC_ACCESS_TOKEN", "") ~= ""
+init_sg = true
+-- if not init_sg and BurmFuncs.file_exists(tokenPath) then
+--   P("init..sg" .. tostring(init_sg))
+--   BurmFuncs.env_set("SRC_ENDPOINT", "https://sourcegraph.com")
+--   BurmFuncs.env_set("SRC_ACCESS_TOKEN", BurmFuncs.read_full(tokenPath))
+--   init_sg = true
+-- end
 
 if init_sg then
-  P("init..sg - " .. tostring(init_sg))
   require("sg").setup({
-    auth_stategy = "environment-variables"
+    -- enable_cody = true,
+    -- auth_stategy = "environment-variables"
   })
 end
 
@@ -301,7 +304,49 @@ vim.diagnostic.config({
 require('neorg').setup {
   load = {
     ["core.defaults"] = {},
-    ["core.concealer"] = {},
+    ["core.concealer"] = {
+      config = {
+        icon_preset = "varied",
+        icons = {
+          delimiter = {
+            horizontal_line = {
+              highlight = "@neorg.delimiters.horizontal_line",
+            },
+          },
+          code_block = {
+            -- If true will only dim the content of the code block (without the
+            -- `@code` and `@end` lines), not the entirety of the code block itself.
+            content_only = true,
+
+            -- The width to use for code block backgrounds.
+            --
+            -- When set to `fullwidth` (the default), will create a background
+            -- that spans the width of the buffer.
+            --
+            -- When set to `content`, will only span as far as the longest line
+            -- within the code block.
+            width = "content",
+
+            -- Additional padding to apply to either the left or the right. Making
+            -- these values negative is considered undefined behaviour (it is
+            -- likely to work, but it's not officially supported).
+            padding = {
+              -- left = 20,
+              -- right = 20,
+            },
+
+            -- If `true` will conceal (hide) the `@code` and `@end` portion of the code
+            -- block.
+            conceal = true,
+
+            nodes = { "ranged_verbatim_tag" },
+            highlight = "CursorLine",
+            -- render = module.public.icon_renderers.render_code_block,
+            insert_enabled = true,
+          },
+        },
+      },
+    },
     ["core.dirman"] = {
       config = {
         workspaces = {

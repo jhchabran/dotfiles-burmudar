@@ -25,16 +25,16 @@
 
   xdg.autostart.enable = true;
   environment.etc."xdg/autostart/kodi.desktop".text = ''
-  [Desktop Entry]
-  Version=1.0
-  Name=Kodi
-  GenericName=Media Center
-  Comment=Manage and view your media
-  Exec=kodi -fs
-  Icon=kodi
-  Terminal=false
-  Type=Application
-  Categories=AudioVideo;Video;Player;TV;
+    [Desktop Entry]
+    Version=1.0
+    Name=Kodi
+    GenericName=Media Center
+    Comment=Manage and view your media
+    Exec=kodi -fs
+    Icon=kodi
+    Terminal=false
+    Type=Application
+    Categories=AudioVideo;Video;Player;TV;
   '';
 
   networking.hostName = "media"; # Define your hostname.

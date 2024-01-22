@@ -24,9 +24,9 @@
   environment.systemPackages = with pkgs; [
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     age
-    racket
     alacritty
-    cloud-sql-proxy
+    comma
+    fd
     home-manager
     (nerdfonts.override {
       fonts = [
@@ -38,16 +38,16 @@
     })
     inputs.unstable.go
     inputs.unstable.gopls
-    comma
     jq
-    nodejs_20
-    nodePackages.pnpm
-    nodePackages.typescript-language-server
-    fd
     kitty
-    passage
     nil
     nixpkgs-fmt
+    nodePackages.pnpm
+    nodePackages.typescript-language-server
+    nodejs_20
+    obsidian
+    passage
+    racket
     zig
     zk
   ];
@@ -55,6 +55,8 @@
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
+    onActivation.upgrade = true;
+
 
     taps = [
       {
@@ -100,6 +102,7 @@
       "tuple"
       "vlc"
       "zoom"
+      "qutebrowser"
     ];
   };
 }

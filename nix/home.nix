@@ -16,6 +16,7 @@ rec {
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
         "code/.keep".source = builtins.toFile ".keep" "";
         ".ssh/config.d/.keep".source = builtins.toFile ".keep" "";
+        "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../qutebrowser/userscripts;
         "${config.xdg.configHome}/zk/config.toml".source = ../zk/config.toml;
         "${config.xdg.configHome}/zk/templates".source = ../zk/templates;
@@ -105,11 +106,12 @@ rec {
     enable = true;
   };
 
-  programs.qutebrowser = {
-    enable = true;
-    package = inputs.unstable.qutebrowser;
-    extraConfig = (builtins.readFile ../qutebrowser/config.py);
-  };
+  # Currently broken
+  # programs.qutebrowser = {
+  #   enable = true;
+  #   package = inputs.pkgs.qutebrowser;
+  #   extraConfig = (builtins.readFile ../qutebrowser/config.py);
+  # };
 
 
 
@@ -154,6 +156,7 @@ rec {
       if pkgs.stdenv.isDarwin then
         ''
           ${base}
+          export PATH=$PATH:/usr/local/bin
           source ~/.cargo/env
         ''
       else
