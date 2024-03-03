@@ -151,6 +151,7 @@ in {
     nodejs_20
     os-prober
     openssl.dev
+    inputs.unstable.obsidian
     pavucontrol
     pipewire
     pkg-config

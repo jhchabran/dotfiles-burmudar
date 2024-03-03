@@ -130,7 +130,9 @@ rec {
     historySubstringSearch = {
       enable = true;
     };
-    syntaxHighlighting = true;
+    syntaxHighlighting = {
+      enable = true;
+    };
     enableVteIntegration = true;
     enableCompletion = true;
 

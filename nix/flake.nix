@@ -54,7 +54,9 @@
             neovim-nightly-overlay.overlay
             rust-overlay.overlays.default
           ];
-          config = { allowUnfree = true; };
+          config = {
+            allowUnfree = true;
+          };
         };
       })).pkgs;
       darwin-pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
@@ -75,7 +77,12 @@
           overlays = [
             neovim-nightly-overlay.overlay
           ];
-          config = { allowUnfree = true; };
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [
+              "electron-25.9.0"
+            ];
+          };
         };
       })).pkgs;
     in
