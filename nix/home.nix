@@ -99,7 +99,6 @@ rec {
 
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
   };
 
   programs.k9s = {
@@ -130,6 +129,7 @@ rec {
     enableZshIntegration = true;
     settings = {
       auto_sync = true;
+      style = "compact";
       sync_frequency = "5m";
       sync_address = "https://api.atuin.sh";
       search_mode = "fuzzy";
