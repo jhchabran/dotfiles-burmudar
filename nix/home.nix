@@ -18,8 +18,8 @@ rec {
         ".ssh/config.d/.keep".source = builtins.toFile ".keep" "";
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../qutebrowser/userscripts;
-        "${config.xdg.configHome}/zk/config.toml".source = ../zk/config.toml;
-        "${config.xdg.configHome}/zk/templates".source = ../zk/templates;
+        "${config.xdg.configHome}/i3/config".source = ../i3/config;
+        "${config.xdg.configHome}/i3/i3lock.sh".source = ../i3/i3lock.sh;
       };
     in
     if pkgs.stdenv.isDarwin then

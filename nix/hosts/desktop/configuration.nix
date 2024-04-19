@@ -59,7 +59,7 @@ in {
       };
     };
     displayManager = {
-      gdm.enable = true;
+      sddm.enable = true;
       defaultSession = "xfce+i3";
     };
 
@@ -75,6 +75,9 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  programs.noisetorch = {
+    enable = true;
+  };
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -192,6 +195,10 @@ in {
 
   programs.neovim.viAlias = true;
   programs.neovim.vimAlias = true;
+
+  programs.steam = {
+    enable = true;
+  };
 
   fonts.fonts = with pkgs; [
     noto-fonts
