@@ -59,13 +59,15 @@ in {
       };
     };
     displayManager = {
-      sddm.enable = true;
+      lightdm = {
+        enable = true;
+      };
       defaultSession = "xfce+i3";
     };
 
     windowManager.i3 = {
       enable = true;
-      extraPackages = with pkgs; [ rofi dmenu i3status i3lock ];
+      extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
     };
   };
 
@@ -88,7 +90,6 @@ in {
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
-
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
@@ -170,6 +171,7 @@ in {
     unzip
     vlc
     wget
+    where-is-my-sddm-theme
     xclip
     zk
   ];
