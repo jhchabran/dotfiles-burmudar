@@ -338,7 +338,7 @@
     enable = true;
     overrideFolders = true;
     guiAddress = "localhost:10100";
-    extraOptions = {
+    settings = {
       options = {
         listenAddresses = [
           "localhost:22000"
@@ -348,27 +348,27 @@
           value = 1;
         };
       };
-    };
-    devices = {
-      "seedbox" = {
-        addresses = [
-          "tcp://localhost:22001"
-        ];
-        id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
+      devices = {
+        "seedbox" = {
+          addresses = [
+            "tcp://localhost:22001"
+          ];
+          id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
+        };
       };
-    };
-    folders = {
-      "NZB" = {
-        path = "/mnt/storage1/Downloads/nzb";
-        id = "nzb";
-        devices = [ "seedbox" ];
-        type = "sendreceive";
-      };
-      "Torrents" = {
-        path = "/mnt/storage1/Downloads/torrents";
-        id = "torrents";
-        devices = [ "seedbox" ];
-        type = "sendreceive";
+      folders = {
+        "NZB" = {
+          path = "/mnt/storage1/Downloads/nzb";
+          id = "nzb";
+          devices = [ "seedbox" ];
+          type = "sendreceive";
+        };
+        "Torrents" = {
+          path = "/mnt/storage1/Downloads/torrents";
+          id = "torrents";
+          devices = [ "seedbox" ];
+          type = "sendreceive";
+        };
       };
     };
 
