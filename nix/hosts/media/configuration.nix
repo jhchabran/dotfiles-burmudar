@@ -117,6 +117,21 @@
     };
   };
 
+  hardware.xpadneo.enable = true;
+  hardware.enableAllFirmware = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      LE = {
+        MinConnectionInterval = 7;
+        MaxConnectionInterval = 8;
+        ConnectionLatency =0;
+      };
+    };
+  };
+  services.blueman.enable = true;
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -169,6 +184,9 @@
     ];
 
   programs.zsh.enable = true;
+  programs.steam = {
+    enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -272,6 +290,10 @@
         };
         "media.raptor-emperor.ts.net" = {
           extraConfig = ''
+            tls { 
+              dns cloudflare ${token}
+              get_certificate tailscale
+            }
             ${preambleFragment "media.raptor-emperor.ts.net"}
             reverse_proxy http://localhost:8096
           '';
