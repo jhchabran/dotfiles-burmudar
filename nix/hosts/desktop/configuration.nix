@@ -39,6 +39,13 @@ in {
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
+  # bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+  services.blueman.enable = true;
+
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.nvidiaSettings = true;
