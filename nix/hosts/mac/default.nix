@@ -24,7 +24,6 @@
   environment.systemPackages = with pkgs; [
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     age
-    alacritty
     comma
     fd
     home-manager
@@ -36,6 +35,7 @@
         "Noto"
       ];
     })
+    hledger
     inputs.unstable.go
     inputs.unstable.gopls
     jq
@@ -68,7 +68,6 @@
       "ibazel"
       "bazelisk"
       "rustup"
-      "graphviz"
       "withgraphite/tap/graphite"
     ];
     # updates homebrew packages on activation,
@@ -88,6 +87,9 @@
       "iina"
       "intellij-idea-ce"
       "loom"
+      "notion"
+      "notion-calendar"
+      "obsidian"
       "p4v"
       "perforce"
       "postico"
@@ -101,8 +103,8 @@
       "telegram-desktop"
       "tuple"
       "vlc"
+      "zed"
       "zoom"
-      "qutebrowser"
     ];
   };
 }

@@ -296,7 +296,7 @@ rec {
       ca = "commit --amend";
       nb = "switch -c";
       ps = "push";
-      psf = "push --force";
+      psf = "push --force-with-lease";
       psu = "push -u";
       pl = "pull";
       plr = "pull --rebase";
@@ -305,6 +305,7 @@ rec {
     };
     extraConfig = {
       push.autoSetupRemote = true;
+      rerere.enabled = true;
     };
 
     delta = {
