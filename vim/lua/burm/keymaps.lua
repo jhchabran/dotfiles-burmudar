@@ -32,8 +32,8 @@ local function general()
   km("n", "[p", ":cprev<cr>")
   km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
 
-  -- km("n", "<leader>.d", require("gitsigns").diffthis, { desc = "[g]it [d]iff this" })
-  -- km("n", "<leader>.D", function() require("gitsigns").diffthis("~") end, { desc = "[g]it [d]iff this with origin" })
+  km("n", "<leader>.d", require("gitsigns").diffthis, { desc = "[g]it [d]iff this" })
+  km("n", "<leader>.D", function() require("gitsigns").diffthis("~") end, { desc = "[g]it [d]iff this with origin" })
 
   km("n", "<leader>t<enter>", require('telescope.builtin').resume, { desc = "[enter] resume last pick" })
   km("n", "<leader>?", require('telescope.builtin').oldfiles, { desc = "[?] Find recently opened files" })
