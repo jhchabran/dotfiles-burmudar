@@ -154,7 +154,7 @@ in {
     lua
     man-pages
     man-pages-posix
-    neovim-nightly
+    inputs.unstable.neovim
     nil
     nix-direnv
     nmap

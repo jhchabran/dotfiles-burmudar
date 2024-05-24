@@ -58,15 +58,15 @@ require("lazy").setup({
       'nvim-telescope/telescope-live-grep-args.nvim' }
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-  {
-    'lewis6991/gitsigns.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = {
-      numhl = true,
-      word_diff = true,
-      current_line_blame = true,
-    }
-  },
+  -- {
+  --   'lewis6991/gitsigns.nvim',
+  --   dependencies = { 'nvim-lua/plenary.nvim' },
+  --   opts = {
+  --     numhl = true,
+  --     word_diff = true,
+  --     current_line_blame = true,
+  --   }
+  -- },
   "onsails/lspkind-nvim",
   {
     "neovim/nvim-lspconfig",

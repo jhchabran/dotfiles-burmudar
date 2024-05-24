@@ -166,7 +166,7 @@
       man-pages
       man-pages-posix
       mkpasswd
-      neovim-nightly
+      inputs.unstable.neovim
       nodejs_20
       nmap
       nss
@@ -290,7 +290,7 @@
         };
         "media.raptor-emperor.ts.net" = {
           extraConfig = ''
-            tls { 
+            tls {
               dns cloudflare ${token}
               get_certificate tailscale
             }
