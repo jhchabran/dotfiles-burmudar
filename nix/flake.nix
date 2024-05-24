@@ -51,7 +51,7 @@
           overlays = [
             cloudflare-caddy.overlay
             cloudflare-dns-ip.overlay
-            neovim-nightly-overlay.overlay
+            neovim-nightly-overlay.overlays.default
             rust-overlay.overlays.default
           ];
           config = {
@@ -65,7 +65,7 @@
           overlays = [
             cloudflare-caddy.overlay
             cloudflare-dns-ip.overlay
-            neovim-nightly-overlay.overlay
+            neovim-nightly-overlay.overlays.default
             rust-overlay.overlays.default
           ];
           config = { allowUnfree = true; };
@@ -75,7 +75,7 @@
         pkgs = import inputs.unstable-nixpkgs {
           inherit system;
           overlays = [
-            neovim-nightly-overlay.overlay
+            neovim-nightly-overlay.overlays.default
           ];
           config = {
             allowUnfree = true;

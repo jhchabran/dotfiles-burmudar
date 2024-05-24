@@ -87,7 +87,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -154,20 +154,9 @@ cmp.setup.cmdline(':', {
 local bk = require("burm.keymaps")
 local on_attach = function(client, bufnr)
   bk.lsp(bufnr)
-
-  -- if client.server_capabilities.documentHighlightProvider then
-  --   vim.cmd [[
-  --           augroup lsp_document_highlight
-  --               autocmd! * <buffer>
-  --               autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-  --               autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-  --           augroup END
-  --       ]]
-  -- end
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "rust_analyzer", "lua_ls", "nil_ls", "ocamllsp",
-  "ocaml-lsp" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "lua_ls", "nil_ls" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -272,8 +261,9 @@ end
 -- Trouble
 require('trouble').setup({})
 
+-- DISABLED: conflicts with rust stuff
 -- Mason, use :Mason to open up the window
-require("mason").setup()
+--require("mason").setup()
 
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv

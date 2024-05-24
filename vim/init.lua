@@ -71,11 +71,18 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim',       opts = {} },
+      --{ 'williamboman/mason.nvim', config = true },
+      --'williamboman/mason-lspconfig.nvim',
+      { 'j-hui/fidget.nvim', opts = {} },
       'folke/neodev.nvim',
     },
+    -- opts = {
+    --   setup = {
+    --     rust_analyzer = function()
+    --       return true
+    --     end,
+    --   },
+    -- },
   },
   {
     "hrsh7th/nvim-cmp",
@@ -134,7 +141,10 @@ require("lazy").setup({
   "ziglang/zig.vim",
   "mfussenegger/nvim-dap",
   "leoluz/nvim-dap-go",
-  "rcarriga/nvim-dap-ui",
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "nvim-neotest/nvim-nio" },
+  },
   "theHamsta/nvim-dap-virtual-text",
   {
     "nvim-neorg/neorg",
@@ -145,6 +155,11 @@ require("lazy").setup({
     "sourcegraph/sg.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4',
+    lazy = false,
+  }
 })
 require("burm.keymaps").setup()
 require("burm.autocmd")
