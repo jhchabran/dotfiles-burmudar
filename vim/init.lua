@@ -71,9 +71,9 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      --{ 'williamboman/mason.nvim', config = true },
-      --'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'williamboman/mason.nvim', config = true },
+      'williamboman/mason-lspconfig.nvim',
+      { 'j-hui/fidget.nvim',       opts = {} },
       'folke/neodev.nvim',
     },
     -- opts = {
@@ -155,11 +155,11 @@ require("lazy").setup({
     "sourcegraph/sg.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^4',
-    lazy = false,
-  }
+  -- {
+  --   'mrcjkb/rustaceanvim',
+  --   version = '^4',
+  --   lazy = false,
+  -- }
 })
 require("burm.keymaps").setup()
 require("burm.autocmd")

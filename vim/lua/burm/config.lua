@@ -156,7 +156,7 @@ local on_attach = function(client, bufnr)
   bk.lsp(bufnr)
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "lua_ls", "nil_ls" }
+local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "lua_ls", "nil_ls", "rust_analyzer" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -261,9 +261,8 @@ end
 -- Trouble
 require('trouble').setup({})
 
--- DISABLED: conflicts with rust stuff
 -- Mason, use :Mason to open up the window
---require("mason").setup()
+require("mason").setup()
 
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv
