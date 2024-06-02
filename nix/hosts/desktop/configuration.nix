@@ -53,7 +53,9 @@ in {
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    layout = "za";
+    xkb = {
+      layout = "za";
+    };
 
     videoDrivers = [ "nvidia" ];
 
@@ -65,17 +67,18 @@ in {
         enableXfwm = false;
       };
     };
-    displayManager = {
-      lightdm = {
-        enable = true;
-      };
-      defaultSession = "xfce+i3";
-    };
 
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
     };
+  };
+
+  services.displayManager = {
+      lightdm = {
+        enable = true;
+      };
+      defaultSession = "xfce+i3";
   };
 
 
@@ -209,7 +212,7 @@ in {
     enable = true;
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
@@ -218,7 +221,7 @@ in {
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     publish = {
       addresses = true;
       domain = true;
