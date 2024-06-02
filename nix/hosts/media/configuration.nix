@@ -47,7 +47,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  networking.firewall.interfaces.enp42s0.allowedTCPPorts = [ 80 443 8080 ];
+  networking.firewall.interfaces.enp42s0.allowedTCPPorts = [ 80 443 8080 8123 ];
   networking.firewall.interfaces.enp42s0.allowedUDPPorts = [ 8080 ];
 
   # Set your time zone.
