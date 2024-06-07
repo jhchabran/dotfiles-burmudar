@@ -11,15 +11,15 @@ rec {
   home.file =
     let
       configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
-      keepFile = pkgs.writeTextFile {
-        name = ".keep";
+      keepFile = name: pkgs.writeTextFile {
+        name = "${name}";
         text = "# keep me";
       };
       files = {
         ".zwilliam".source = ../zsh/zwilliam;
-        ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
-        "code/.keep".source = keepFile;
-        ".ssh/config.d/.keep".source = keepFile;
+        ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else keepFile ".zwork";
+        "code/.keep".source = keepFile ".keep";
+        ".ssh/config.d/.keep".source = keepFile ".keep";
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../qutebrowser/userscripts;
         "${config.xdg.configHome}/i3/config".source = ../i3/config;
@@ -386,5 +386,7 @@ rec {
     enableZshIntegration = true;
 
     defaultCacheTtl = 3600 * 4;
+
+    pinentryPackage = pkgs.pinentry-curses;
   };
 }

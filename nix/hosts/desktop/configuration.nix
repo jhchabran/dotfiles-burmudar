@@ -72,13 +72,13 @@ in {
       enable = true;
       extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
     };
-  };
 
-  services.displayManager = {
+    displayManager = {
       lightdm = {
         enable = true;
       };
       defaultSession = "xfce+i3";
+    };
   };
 
 

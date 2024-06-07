@@ -126,7 +126,7 @@
       LE = {
         MinConnectionInterval = 7;
         MaxConnectionInterval = 8;
-        ConnectionLatency =0;
+        ConnectionLatency = 0;
       };
     };
   };
