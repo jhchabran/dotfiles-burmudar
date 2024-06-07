@@ -239,6 +239,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+d exec rofi -show run  -theme ~/.config/rofi/themes/Arc.rasi -show-icons -font 'JetBrainsMonoMedium Nerd Font Mono 12'
+bindsym $mod+Shift+p exec gopass ls --flat | rofi -dmenu -p "password" -theme ~/.config/rofi/themes/Arc.rasi -font 'JetBrainsMonoMedium Nerd Font Mono 12' | xargs --no-run-if-empty gopass show -c
 bindsym $mod+m exec --no-startup-id rofimoji --skin-tone light --action clipboard --clipboarder xclip --selector-args '-theme ~/.config/rofi/themes/Arc.rasi'
 
 exec --no-startup-id spotify
