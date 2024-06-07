@@ -11,11 +11,15 @@ rec {
   home.file =
     let
       configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
+      keepFile = pkgs.writeTextFile {
+        name = ".keep";
+        text = "# keep me";
+      };
       files = {
         ".zwilliam".source = ../zsh/zwilliam;
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else builtins.toFile ".zwork" "# Purposely empty";
-        "code/.keep".source = builtins.toFile ".keep" "";
-        ".ssh/config.d/.keep".source = builtins.toFile ".keep" "";
+        "code/.keep".source = keepFile;
+        ".ssh/config.d/.keep".source = keepFile;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../qutebrowser/userscripts;
         "${config.xdg.configHome}/i3/config".source = ../i3/config;
@@ -302,6 +306,7 @@ rec {
       plr = "pull --rebase";
       f = "fetch";
       ap = "add -p";
+      log-me = "log --author=\"${programs.git.userName}\" --pretty=format:\"%ad %h %s\" --date=short";
     };
     extraConfig = {
       push.autoSetupRemote = true;

@@ -101,7 +101,6 @@
       "sublime-merge"
       "tailscale"
       "telegram-desktop"
-      "tuple"
       "vlc"
       "zed"
       "zoom"
