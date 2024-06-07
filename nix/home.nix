@@ -53,7 +53,6 @@ rec {
       bc = "bazel configure";
       hsw = "cd $SRC/dotfiles && home-manager switch --flake 'nix/#mac'; cd -";
       ssw = "cd $SRC/dotfiles && ${systemCmd}; cd -";
-      zj = "zk new --no-input -g journal";
     };
 
   home.packages = with pkgs; [
@@ -151,7 +150,6 @@ rec {
 
     envExtra = ''
       export SRC=~/code
-      export ZK_NOTEBOOK_DIR=~/code/notes
       export LC_ALL=en_US.UTF-8
       export LANG=en_US.UTF-8
       export TERM=screen-256color
