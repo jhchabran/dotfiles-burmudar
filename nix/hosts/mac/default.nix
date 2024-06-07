@@ -45,7 +45,6 @@
     nodePackages.pnpm
     nodePackages.typescript-language-server
     nodejs_20
-    obsidian
     passage
     racket
     zig
@@ -101,6 +100,7 @@
       "sublime-merge"
       "tailscale"
       "telegram-desktop"
+      "qutebrowser"
       "vlc"
       "zed"
       "zoom"
