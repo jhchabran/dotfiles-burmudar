@@ -298,6 +298,18 @@
             reverse_proxy http://localhost:8096
           '';
         };
+        "files.burmudar.dev" = {
+          extraConfig = ''
+          tls { dns cloudflare ${token} }
+          basic_auth {
+            christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
+          }
+          file_server {
+            root /mnt/storage1/
+            browse
+          }
+          '';
+        };
         "*.media.internal" = {
           extraConfig = cfgGen "media.internal" "internal";
         };

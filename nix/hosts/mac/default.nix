@@ -86,6 +86,7 @@
       "iina"
       "intellij-idea-ce"
       "loom"
+      "linear-linear"
       "notion"
       "notion-calendar"
       "obsidian"
