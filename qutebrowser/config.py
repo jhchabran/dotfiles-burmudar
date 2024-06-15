@@ -16,7 +16,7 @@ def kagi_search():
     params = ["q={}"]
     if token != "":
         params.insert(0, f"token={token}")
-    return f"https://kagi.com/search?{"&".join(params)}"
+    return f"https://kagi.com/search?{'&'.join(params)}"
 
 KAGI_SEARCH = kagi_search()
 
