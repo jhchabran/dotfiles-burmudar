@@ -6,28 +6,13 @@ local s = ls.snippet
 M = {}
 
 M.configure_snippets = function()
-  ls.add_snippets("norg", {
-    s("tt",
-      fmt(
-        [[
-** <>
-*** Major
-- ( ) <>
-*** Minor
-- ( ) <>
-]]       ,
-        { i(1, os.date("%Y-%m-%d")), i(2), i(3) },
-        { delimiters = "<>" }
-      )
-    )
-  })
   ls.add_snippets("go", {
     s("err", fmt(
       [[
 if err != nil {
   return <>
 }
-]]     ,
+]],
       { i(1) },
       { delimiters = "<>" }
     )
@@ -41,8 +26,8 @@ M.expand_or_jump = function()
   end
 end
 M.jump_back = function()
-  if ls.jumpable(-1) then
-    ls.jump(-1)
+  if ls.jumpable( -1) then
+    ls.jump( -1)
   end
 end
 

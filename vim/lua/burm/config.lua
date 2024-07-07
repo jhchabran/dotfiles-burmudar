@@ -16,7 +16,7 @@ require('Comment').setup {}
 --- Treesitter config
 require('nvim-treesitter.configs').setup {
   ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-    "rust", "lua_ls", "nix", "norg", "ocaml" },
+    "rust", "lua_ls", "nix", "ocaml" },
   auto_install = true,
   ignore_install = {},
   highlight = {
@@ -87,7 +87,7 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-u>'] = cmp.mapping.scroll_docs(4),
     ['<tab>'] = cmp.config.disable,
     ['<C-y>'] = cmp.mapping.confirm {
@@ -289,69 +289,6 @@ vim.diagnostic.config({
   signs = true,
 })
 
--- Neorg
-require('neorg').setup {
-  load = {
-    ["core.defaults"] = {},
-    ["core.concealer"] = {
-      config = {
-        icon_preset = "varied",
-        icons = {
-          delimiter = {
-            horizontal_line = {
-              highlight = "@neorg.delimiters.horizontal_line",
-            },
-          },
-          code_block = {
-            -- If true will only dim the content of the code block (without the
-            -- `@code` and `@end` lines), not the entirety of the code block itself.
-            content_only = true,
-
-            -- The width to use for code block backgrounds.
-            --
-            -- When set to `fullwidth` (the default), will create a background
-            -- that spans the width of the buffer.
-            --
-            -- When set to `content`, will only span as far as the longest line
-            -- within the code block.
-            width = "content",
-
-            -- Additional padding to apply to either the left or the right. Making
-            -- these values negative is considered undefined behaviour (it is
-            -- likely to work, but it's not officially supported).
-            padding = {
-              -- left = 20,
-              -- right = 20,
-            },
-
-            -- If `true` will conceal (hide) the `@code` and `@end` portion of the code
-            -- block.
-            conceal = true,
-
-            nodes = { "ranged_verbatim_tag" },
-            highlight = "CursorLine",
-            -- render = module.public.icon_renderers.render_code_block,
-            insert_enabled = true,
-          },
-        },
-      },
-    },
-    ["core.dirman"] = {
-      config = {
-        workspaces = {
-          notes = "~/code/notes",
-        },
-      },
-    },
-    ["core.journal"] = {
-      config = {
-        folder = "journal",
-        strategy = "flat",
-        workspace = "notes",
-      }
-    }
-  },
-}
 -- Remember the last position my cursor was at
 require("nvim-lastplace").setup({
   lastplace_ignore_buftype = { "quickfix", "nofile", "help" },

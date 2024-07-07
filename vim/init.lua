@@ -32,7 +32,7 @@ require("lazy").setup({
   "vim-pandoc/vim-pandoc",
   {
     "folke/tokyonight.nvim",
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
@@ -146,11 +146,6 @@ require("lazy").setup({
     dependencies = { "nvim-neotest/nvim-nio" },
   },
   "theHamsta/nvim-dap-virtual-text",
-  {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    dependencies = { "nvim-lua/plenary.nvim" }
-  },
   {
     "sourcegraph/sg.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
