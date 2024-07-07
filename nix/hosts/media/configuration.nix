@@ -153,6 +153,7 @@
       curl
       fd
       firefox
+      chromium
       flameshot
       gcc
       git
@@ -301,7 +302,7 @@
         "files.burmudar.dev" = {
           extraConfig = ''
           tls { dns cloudflare ${token} }
-          basic_auth {
+          basicauth {
             christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
           }
           file_server {
@@ -365,7 +366,7 @@
   services.cloudflare-dns-ip = {
     enable = true;
     zone = "burmudar.dev";
-    record = "media";
+    record = "media,files";
   };
 
   services.syncthing = {
