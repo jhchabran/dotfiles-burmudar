@@ -1,5 +1,5 @@
 window:
-  decorations: "none"
+  decorations: "none" # foobar
   padding:
     x: 10
     y: 10
